@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Planes Runia Web | Runia Web</title>
+    <meta name="description" content="Planes comerciales de Runia Web para lanzar tu web y hacer crecer tu presencia digital." />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#f7f4ef" />
+    <link rel="icon" type="image/png" href="https://www.runia.ar/images/logo-runia-ico.png" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../tools.css" />
+    <style>
+      .catalog-title .accent {
+        font-size: 1.14em;
+      }
+
+      .catalog-grid > [hidden] {
+        display: none !important;
+      }
+
+      .catalog-grid > .tool-card {
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+        padding: 1.55rem;
+      }
+
+      .catalog-grid > .tool-card .catalog-list {
+        flex: 1;
+        margin-top: 1.45rem;
+      }
+
+      .catalog-grid > .tool-card .tool-label {
+        margin: 0;
+        color: rgba(27, 25, 22, 0.48);
+      }
+
+      .catalog-grid > .tool-card h3 {
+        max-width: 9.5em;
+        margin-top: 0.45rem;
+        color: var(--ink);
+        font-size: clamp(1.9rem, 3vw, 3.05rem);
+        line-height: 0.94;
+        font-weight: 410;
+      }
+
+      .catalog-grid > .tool-card > p:not(.tool-label):not(.catalog-price) {
+        max-width: 28rem;
+        margin-top: 1.05rem;
+        color: rgba(27, 25, 22, 0.6);
+        font-size: 1.02rem;
+        line-height: 1.55;
+      }
+
+      .catalog-grid > .tool-card .catalog-list li {
+        padding: 0.72rem 0;
+        color: rgba(27, 25, 22, 0.64);
+        font-size: 0.96rem;
+        line-height: 1.4;
+      }
+
+      .catalog-grid > .tool-card .catalog-price {
+        min-height: 6.35rem;
+        margin: auto -1.55rem -1.55rem;
+        padding: 1.18rem 1.55rem 1.3rem;
+        display: grid;
+        align-content: center;
+        gap: 0.46rem;
+        border-top: 1px solid rgba(27, 25, 22, 0.1);
+        background: rgba(255, 253, 249, 0.38);
+      }
+
+      .catalog-grid > .tool-card .catalog-price span {
+        color: rgba(27, 25, 22, 0.44);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .catalog-grid > .tool-card .catalog-price strong {
+        color: var(--ink);
+        font-size: clamp(1.72rem, 2.65vw, 2.55rem);
+        line-height: 1;
+        font-weight: 390;
+        letter-spacing: 0;
+      }
+    </style>
+  </head>
+  <body class="tool-page">
+    <header class="header">
+      <nav class="nav container" aria-label="Principal">
+        <a href="../" class="brand" aria-label="RUNIA Web">
+          <img src="https://www.runia.ar/images/runialogo.png" alt="Runia" />
+          <span>Web</span>
+        </a>
+        <div class="nav-links">
+          <a href="../cotizador/">Cotizador</a>
+          <a href="../#contacto">Contacto</a>
+        </div>
+        <a class="button button-dark nav-button" href="../cotizador/">Cotizar</a>
+      </nav>
+    </header>
+
+    <main class="tool-main">
+      <section class="tool-hero">
+        <div class="container tool-hero-grid">
+          <div>
+            <p class="eyebrow"><span></span> Catálogo comercial</p>
+            <h1 class="tool-title catalog-title">
+              <span>Planes</span>
+              <span class="muted">Runia</span>
+              <span class="accent">Web.</span>
+            </h1>
+            <p class="tool-lead">
+              Elegí el punto de partida ideal para lanzar tu web y hacer crecer tu presencia digital.
+            </p>
+          </div>
+          <aside class="tool-status-card">
+            <p class="tool-label">Entrada comercial</p>
+            <strong>48hs</strong>
+            <p>Webs modernas, comerciales y preparadas para que tu negocio se vea profesional desde el primer día.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="tool-section">
+        <div class="container">
+          <div class="tool-actions">
+            <button class="button button-dark" type="button" data-catalog-filter="all">Todo</button>
+            <button class="button button-soft" type="button" data-catalog-filter="web">Webs</button>
+            <button class="button button-soft" type="button" data-catalog-filter="system">Sistema</button>
+            <button class="button button-soft" type="button" data-catalog-filter="extra">Extras</button>
+          </div>
+
+          <div class="catalog-grid" style="margin-top: 2rem;">
+            <article class="tool-card" data-catalog-card="web">
+              <p class="tool-label">01 · Web</p>
+              <h3>Web 48hs</h3>
+              <p>Para empresas que necesitan salir online rápido.</p>
+              <ul class="catalog-list">
+                <li>Landing one page</li>
+                <li>Diseño responsive</li>
+                <li>WhatsApp integrado</li>
+                <li>Formulario simple</li>
+                <li>CTA principal</li>
+                <li>Estructura comercial base</li>
+                <li>Entrega express 48hs</li>
+              </ul>
+              <p class="catalog-price"><span>Inversión</span><strong>USD 450</strong></p>
+            </article>
+            <article class="tool-card featured-tool-card" data-catalog-card="web">
+              <p class="tool-label">02 · Web</p>
+              <h3>Web Comercial</h3>
+              <p>Para empresas que quieren captar más consultas y vender mejor.</p>
+              <ul class="catalog-list">
+                <li>Web con estructura comercial</li>
+                <li>Secciones estratégicas</li>
+                <li>Copy base</li>
+                <li>WhatsApp y formularios</li>
+                <li>Optimización mobile</li>
+                <li>Base lista para campañas</li>
+                <li>Mejor jerarquía visual y recorrido comercial</li>
+              </ul>
+              <p class="catalog-price"><span>Inversión</span><strong>USD 850</strong></p>
+            </article>
+            <article class="tool-card" data-catalog-card="system">
+              <p class="tool-label">03 · Sistema</p>
+              <h3>Web + Sistema</h3>
+              <p>Para empresas que quieren conectar su web con automatización o seguimiento.</p>
+              <ul class="catalog-list">
+                <li>Web comercial</li>
+                <li>CRM o pipeline simple</li>
+                <li>Automatización inicial</li>
+                <li>Seguimiento de consultas</li>
+                <li>Dashboards básicos</li>
+                <li>Integración futura con Runia</li>
+              </ul>
+              <p class="catalog-price"><span>Inversión</span><strong>Desde USD 1.500</strong></p>
+            </article>
+            <article class="tool-card" data-catalog-card="extra">
+              <p class="tool-label">04 · Extra</p>
+              <h3>Branding básico</h3>
+              <p>Para ordenar la base visual mínima antes de publicar.</p>
+              <ul class="catalog-list">
+                <li>Logo simple</li>
+                <li>Paleta de colores</li>
+                <li>Tipografías sugeridas</li>
+                <li>Decisiones visuales básicas</li>
+                <li>Mini guía de uso</li>
+              </ul>
+              <p class="catalog-price"><span>Inversión</span><strong>USD 250</strong></p>
+            </article>
+            <article class="tool-card" data-catalog-card="extra">
+              <p class="tool-label">05 · Extra</p>
+              <h3>Branding pro</h3>
+              <p>Para empresas que necesitan una identidad más completa.</p>
+              <ul class="catalog-list">
+                <li>Logo principal</li>
+                <li>Variantes de logo</li>
+                <li>Paleta de colores</li>
+                <li>Tipografías</li>
+                <li>Sistema visual básico</li>
+                <li>Mini manual de marca</li>
+                <li>Aplicaciones simples</li>
+              </ul>
+              <p class="catalog-price"><span>Inversión</span><strong>USD 650</strong></p>
+            </article>
+            <article class="tool-card" data-catalog-card="extra">
+              <p class="tool-label">06 · Extras</p>
+              <h3>Extras comerciales</h3>
+              <p>Ampliaciones oficiales para sumar alcance al proyecto.</p>
+              <ul class="catalog-list">
+                <li>Copywriting avanzado · USD 250</li>
+                <li>Carga de productos o servicios · desde USD 150</li>
+                <li>Mantenimiento mensual · desde USD 80/mes</li>
+                <li>Automatización / IA · a cotizar</li>
+              </ul>
+              <p class="catalog-price"><span>Inversión</span><strong>Según alcance</strong></p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="tool-section runia-portfolio runia-portfolio-compact" aria-labelledby="catalog-portfolio-title">
+        <div class="container runia-portfolio-inner">
+          <div class="runia-portfolio-copy">
+            <p class="eyebrow"><span></span> Trabajos realizados</p>
+            <h2 class="split-title" id="catalog-portfolio-title"><span class="title-main">Ejemplos que muestran</span><span class="title-muted">el <span class="title-mark">resultado.</span></span></h2>
+            <p>Cada proyecto parte de una estructura clara y se adapta al negocio, la marca y el objetivo comercial.</p>
+          </div>
+
+          <div class="runia-portfolio-carousel-wrap" aria-label="Ejemplos de webs realizadas">
+            <div class="runia-portfolio-carousel">
+              <!-- Reemplazar estas imágenes en ../assets/ manteniendo nombres o actualizando src. -->
+              <article class="runia-portfolio-face">
+                <img src="../assets/runia-web.webp" alt="RUNIA WEB" loading="eager" />
+                <span class="runia-portfolio-fallback">Proyecto Runia Web</span>
+                <p>RUNIA WEB</p>
+              </article>
+              <article class="runia-portfolio-face">
+                <img src="../assets/arenas-alzua.webp" alt="Arenas Alzua" loading="eager" />
+                <span class="runia-portfolio-fallback">Proyecto Runia Web</span>
+                <p>Arenas Alzua</p>
+              </article>
+              <article class="runia-portfolio-face">
+                <img src="../assets/lombardo.webp" alt="Lombardo Mercato" loading="eager" />
+                <span class="runia-portfolio-fallback">Proyecto Runia Web</span>
+                <p>Lombardo Mercato</p>
+              </article>
+              <article class="runia-portfolio-face">
+                <img src="../assets/tidi.webp" alt="TIDI" loading="eager" />
+                <span class="runia-portfolio-fallback">Proyecto Runia Web</span>
+                <p>TIDI</p>
+              </article>
+              <article class="runia-portfolio-face">
+                <img src="../assets/runiaa.png" alt="Runia" loading="eager" />
+                <span class="runia-portfolio-fallback">Proyecto Runia Web</span>
+                <p>Runia</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="tool-section dark">
+        <div class="container final-panel">
+          <h2 class="split-title"><span class="title-main">Elegí cómo querés empezar.</span></h2>
+          <p>Si necesitás salir rápido, empezá por Web 48hs. Si querés captar más consultas, Web Comercial. Si querés conectar procesos y automatización, Web + Sistema.</p>
+          <a class="button button-light" href="../cotizador/">Cotizar mi web</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <a href="../" class="brand" aria-label="RUNIA Web">
+          <img src="https://www.runia.ar/images/runialogo.png" alt="Runia" />
+          <span>Web</span>
+        </a>
+        <div class="footer-links">
+          <a href="../">Runia Web</a>
+          <a href="../cotizador/">Cotizador</a>
+          <a href="../#contacto">Contacto</a>
+        </div>
+        <p>Planes claros para pedir una web comercial sin procesos eternos.</p>
+      </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script src="../tools.js"></script>
+  </body>
+</html>

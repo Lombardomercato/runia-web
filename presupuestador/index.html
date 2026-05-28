@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Presupuestador | Runia Web</title>
+    <meta name="description" content="Presupuestador interno de Runia Web para crear propuestas comerciales y exportar PDF." />
+    <meta name="theme-color" content="#f7f4ef" />
+    <link rel="icon" type="image/png" href="https://www.runia.ar/images/logo-runia-ico.png" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../tools.css?v=partner-budget-3" />
+  </head>
+  <body class="tool-page budget-page">
+    <header class="header">
+      <nav class="nav container" aria-label="Principal">
+        <a href="../" class="brand" aria-label="RUNIA Web">
+          <img src="https://www.runia.ar/images/runialogo.png" alt="Runia" />
+          <span>Web</span>
+        </a>
+        <div class="nav-links">
+          <a href="#presupuestador">Acceso interno</a>
+          <a href="../">Volver a Runia Web</a>
+        </div>
+        <a class="button button-dark nav-button" href="../">Volver</a>
+      </nav>
+    </header>
+
+    <main class="tool-main">
+      <section class="tool-hero">
+        <div class="container tool-hero-grid">
+          <div>
+            <p class="eyebrow"><span></span> Herramienta interna</p>
+            <h1 class="tool-title">
+              <span>Presupuestos</span>
+              <span class="muted">claros, rápidos</span>
+              <span class="accent">y listos para PDF.</span>
+            </h1>
+            <p class="tool-lead">
+              Genera propuestas profesionales para Runia o partners con precio protegido, resumen interno y PDF premium.
+            </p>
+          </div>
+          <aside class="tool-status-card">
+            <p class="tool-label">Uso interno</p>
+            <strong>Partner ready</strong>
+            <p>El cliente final solo ve la propuesta comercial. Costos, margen y precio mínimo quedan dentro de la herramienta.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="tool-section" id="presupuestador">
+        <div class="container tool-grid">
+          <form class="tool-panel tool-form quote-form-panel" data-budget-form>
+            <fieldset class="tool-fieldset budget-mode-box">
+              <legend>Modo de presupuesto</legend>
+              <div class="budget-mode-options">
+                <label class="tool-option"><input type="radio" name="budgetMode" value="runia" checked /> Runia Web</label>
+                <label class="tool-option"><input type="radio" name="budgetMode" value="partner" /> Partner</label>
+              </div>
+            </fieldset>
+
+            <p class="tool-label">Datos del cliente</p>
+            <div class="tool-options">
+              <label class="tool-field"><span>Cliente</span><input name="client" placeholder="Nombre del cliente" /></label>
+              <label class="tool-field"><span>Empresa</span><input name="company" placeholder="Empresa / marca" /></label>
+            </div>
+            <div class="tool-options">
+              <label class="tool-field"><span>Rubro</span><input name="industry" placeholder="Rubro del cliente" /></label>
+              <label class="tool-field"><span>Vendedor / partner</span><input name="seller" placeholder="Nombre del vendedor" /></label>
+            </div>
+
+            <p class="tool-label">Propuesta</p>
+            <div class="tool-options">
+              <label class="tool-field">
+                <span>Tipo de web</span>
+                <select name="webType">
+                  <option value="web48">Web 48hs - mínimo USD 450</option>
+                  <option value="comercial" selected>Web Comercial - mínimo USD 850</option>
+                  <option value="sistema">Web + Sistema - mínimo USD 1.500</option>
+                </select>
+              </label>
+              <label class="tool-field"><span>Precio cliente USD</span><input name="basePrice" type="number" min="0" value="850" /></label>
+            </div>
+
+            <div class="partner-budget-fields" data-partner-fields hidden>
+              <p class="tool-label">Datos internos partner</p>
+              <div class="tool-options">
+                <label class="tool-field"><span>Nombre partner</span><input name="partnerName" placeholder="Nombre del partner" /></label>
+                <label class="tool-field"><span>Logo partner</span><input name="partnerLogo" type="file" accept="image/*" /></label>
+              </div>
+              <div class="tool-options">
+                <label class="tool-field"><span>Precio costo interno Runia</span><input name="internalCost" type="number" min="0" value="850" /></label>
+                <label class="tool-field"><span>Precio final cliente</span><input name="finalClientPrice" type="number" min="0" value="850" /></label>
+              </div>
+              <p class="pricing-warning" data-pricing-warning hidden>El precio ingresado está por debajo del mínimo recomendado Runia.</p>
+            </div>
+
+            <fieldset class="tool-fieldset">
+              <legend>Extras</legend>
+              <div class="tool-options">
+                <label class="tool-option"><input type="checkbox" name="budgetExtras" value="brandingBasic" /> Branding básico - USD 250</label>
+                <label class="tool-option"><input type="checkbox" name="budgetExtras" value="brandingPro" /> Branding pro - USD 650</label>
+                <label class="tool-option"><input type="checkbox" name="budgetExtras" value="copywriting" /> Copywriting avanzado - USD 250</label>
+                <label class="tool-option"><input type="checkbox" name="budgetExtras" value="productsLoad" /> Carga de productos o servicios - desde USD 150</label>
+                <label class="tool-option"><input type="checkbox" name="budgetExtras" value="maintenance" /> Mantenimiento mensual - desde USD 80/mes</label>
+                <label class="tool-option"><input type="checkbox" name="budgetExtras" value="automationAI" /> Automatización / IA - a cotizar</label>
+              </div>
+            </fieldset>
+
+            <div class="tool-options">
+              <label class="tool-field"><span>Descuento USD</span><input name="discount" type="number" min="0" value="0" /></label>
+              <label class="tool-field"><span>Comisión partner %</span><input name="commission" type="number" min="0" max="100" value="20" /></label>
+            </div>
+            <div class="tool-options">
+              <label class="tool-field"><span>Tiempo estimado</span><input name="time" value="Desde 48hs según alcance" /></label>
+              <label class="tool-field"><span>Validez del presupuesto</span><input name="validity" value="7 días" /></label>
+            </div>
+            <div class="tool-options">
+              <label class="tool-field"><span>Dólar referencia</span><input name="rate" type="number" min="1" value="1300" /></label>
+              <label class="tool-field"><span>Fecha</span><input name="date" type="date" /></label>
+            </div>
+            <label class="tool-field"><span>Condiciones</span><textarea name="terms">50% para comenzar. Entrega según alcance acordado.</textarea></label>
+
+            <p class="tool-form-note">El PDF no se previsualiza completo en pantalla. Se genera desde el resumen comercial de la derecha.</p>
+          </form>
+
+          <aside class="tool-result budget-result" aria-live="polite">
+            <p class="result-kicker">Resumen comercial</p>
+            <h2 data-total-usd>USD 0</h2>
+            <p class="catalog-price" data-total-ars>$ 0</p>
+            <div class="budget-summary" data-budget-summary></div>
+            <div class="tool-actions budget-actions">
+              <button class="button button-dark" type="button" data-export-pdf>Descargar propuesta PDF</button>
+              <a class="button button-light" data-budget-whatsapp href="#" target="_blank" rel="noopener noreferrer">Enviar por WhatsApp</a>
+            </div>
+            <div class="proposal-export-source" data-proposal-preview aria-hidden="true"></div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <a href="../" class="brand" aria-label="RUNIA Web">
+          <img src="https://www.runia.ar/images/runialogo.png" alt="Runia" />
+          <span>Web</span>
+        </a>
+        <div class="footer-links">
+          <a href="#presupuestador">Acceso interno</a>
+          <a href="../">Volver a Runia Web</a>
+        </div>
+        <p>Herramienta interna para propuestas Runia Web.</p>
+      </div>
+    </footer>
+
+    <script src="../vendor/html2canvas.min.js"></script>
+    <script src="../vendor/jspdf.umd.min.js"></script>
+    <script src="../script.js"></script>
+    <script src="../tools.js?v=partner-budget-3"></script>
+  </body>
+</html>

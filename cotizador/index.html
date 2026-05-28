@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Cotizador | Runia Web</title>
+    <meta name="description" content="Cotizador público de Runia Web para estimar el punto de partida ideal." />
+    <meta name="theme-color" content="#f7f4ef" />
+    <link rel="icon" type="image/png" href="https://www.runia.ar/images/logo-runia-ico.png" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../tools.css?v=commercial-flow-1" />
+  </head>
+  <body class="tool-page quote-page">
+    <header class="header">
+      <nav class="nav container" aria-label="Principal">
+        <a href="../" class="brand" aria-label="RUNIA Web">
+          <img src="https://www.runia.ar/images/runialogo.png" alt="Runia" />
+          <span>Web</span>
+        </a>
+        <div class="nav-links">
+          <a href="../catalogo/">Catálogo</a>
+          <a href="../#contacto">Contacto</a>
+        </div>
+        <a class="button button-dark nav-button" href="../#contacto">Contacto</a>
+      </nav>
+    </header>
+
+    <main class="tool-main">
+      <section class="tool-hero">
+        <div class="container tool-hero-grid">
+          <div>
+            <p class="eyebrow"><span></span> Cotizador público</p>
+            <h1 class="tool-title">
+              <span>Calculá tu web</span>
+              <span class="muted">en</span>
+              <span class="accent">1 minuto.</span>
+            </h1>
+            <p class="tool-lead">
+              Respondé algunas preguntas y te mostramos qué plan se adapta mejor a tu negocio.
+            </p>
+          </div>
+          <aside class="tool-status-card">
+            <p class="tool-label">Cotización rápida</p>
+            <strong>3 planes</strong>
+            <p>Elegimos el punto de partida más lógico para tu empresa y te dejamos el contacto listo.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="tool-section" id="cotizador">
+        <div class="container tool-grid">
+          <form class="tool-panel tool-form quote-form-panel" data-quote-form>
+            <label class="tool-field">
+              <span>Nombre</span>
+              <input name="name" placeholder="Tu nombre" />
+            </label>
+
+            <label class="tool-field">
+              <span>Empresa</span>
+              <input name="business" placeholder="Ej: Clínica Norte" />
+            </label>
+
+            <label class="tool-field">
+              <span>Rubro</span>
+              <input name="industry" placeholder="Ej: salud, real estate, educación" />
+            </label>
+
+            <label class="tool-field">
+              <span>WhatsApp</span>
+              <input name="whatsapp" inputmode="tel" placeholder="Ej: +54 9 11 0000 0000" />
+            </label>
+
+            <label class="tool-field">
+              <span>Email opcional</span>
+              <input name="email" type="email" placeholder="tu@email.com" />
+            </label>
+
+            <fieldset class="tool-fieldset">
+              <legend>¿Qué necesitás?</legend>
+              <div class="tool-options">
+                <label class="tool-option"><input type="radio" name="need" value="rapido" checked /> <span>Salir online rápido</span></label>
+                <label class="tool-option"><input type="radio" name="need" value="imagen" /> <span>Mejorar la imagen de mi empresa</span></label>
+                <label class="tool-option"><input type="radio" name="need" value="consultas" /> <span>Conseguir más consultas</span></label>
+                <label class="tool-option"><input type="radio" name="need" value="productos" /> <span>Mostrar servicios o productos</span></label>
+                <label class="tool-option wide-option"><input type="radio" name="need" value="sistema" /> <span>Conectar la web con un sistema más adelante</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="tool-fieldset">
+              <legend>Materiales</legend>
+              <div class="tool-options">
+                <label class="tool-option"><input type="checkbox" name="assets" value="logo" /> <span>Tengo logo</span></label>
+                <label class="tool-option"><input type="checkbox" name="assets" value="textos" /> <span>Tengo textos</span></label>
+                <label class="tool-option"><input type="checkbox" name="assets" value="fotos" /> <span>Tengo fotos</span></label>
+                <label class="tool-option"><input type="checkbox" name="assets" value="ayuda" /> <span>No tengo nada, necesito ayuda</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="tool-fieldset">
+              <legend>Funcionalidades</legend>
+              <div class="tool-options">
+                <label class="tool-option"><input type="checkbox" name="features" value="whatsapp" /> <span>WhatsApp integrado</span></label>
+                <label class="tool-option"><input type="checkbox" name="features" value="formulario" /> <span>Formulario de contacto</span></label>
+                <label class="tool-option"><input type="checkbox" name="features" value="mapa" /> <span>Mapa / ubicación</span></label>
+                <label class="tool-option"><input type="checkbox" name="features" value="catalogo" /> <span>Catálogo de servicios o productos</span></label>
+                <label class="tool-option"><input type="checkbox" name="features" value="secciones" /> <span>Secciones comerciales</span></label>
+                <label class="tool-option"><input type="checkbox" name="features" value="automatizacion" /> <span>Automatización futura</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="tool-fieldset">
+              <legend>Extras opcionales</legend>
+              <div class="tool-options">
+                <label class="tool-option"><input type="checkbox" name="extras" value="brandingBasic" /> <span>Branding básico · USD 250</span></label>
+                <label class="tool-option"><input type="checkbox" name="extras" value="brandingPro" /> <span>Branding pro · USD 650</span></label>
+                <label class="tool-option"><input type="checkbox" name="extras" value="copywriting" /> <span>Copywriting avanzado · USD 250</span></label>
+                <label class="tool-option"><input type="checkbox" name="extras" value="productsLoad" /> <span>Carga de productos/servicios · desde USD 150</span></label>
+                <label class="tool-option"><input type="checkbox" name="extras" value="maintenance" /> <span>Mantenimiento mensual · desde USD 80/mes</span></label>
+              </div>
+            </fieldset>
+          </form>
+
+          <aside class="tool-result quote-result" aria-live="polite">
+            <p class="result-kicker">Resultado</p>
+            <h2 data-quote-name>Web Comercial</h2>
+            <p class="catalog-price" data-quote-range>Precio: USD 850</p>
+            <p data-quote-text></p>
+            <h3 class="result-subtitle">Incluye</h3>
+            <ul class="tool-result-list" data-quote-list></ul>
+            <div class="quote-extras" data-quote-extras></div>
+            <div class="quote-next-card">
+              <p class="tool-label">Proximo paso</p>
+              <strong>EnviÃ¡ el resultado y te respondemos con el alcance recomendado.</strong>
+              <div class="quote-next-steps">
+                <span>01 WhatsApp</span>
+                <span>02 Propuesta</span>
+                <span>03 Inicio</span>
+              </div>
+              <p data-quote-lead-status>Listo para enviar. Al tocar WhatsApp guardamos el lead y abrimos la conversaciÃ³n.</p>
+            </div>
+            <div class="tool-actions">
+              <a class="button button-light" data-quote-whatsapp data-quote-action="Enviar resultado por WhatsApp" href="#" target="_blank" rel="noopener noreferrer">Enviar resultado por WhatsApp</a>
+              <a class="button button-soft quote-secondary" data-quote-whatsapp data-quote-action="Hablar con Runia Web" href="#" target="_blank" rel="noopener noreferrer">Hablar con Runia Web</a>
+              <a class="button button-soft quote-secondary" data-quote-agenda data-quote-action="Agendar reunion" href="#" target="_blank" rel="noopener noreferrer">Agendar reunion</a>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <a href="../" class="brand" aria-label="RUNIA Web">
+          <img src="https://www.runia.ar/images/runialogo.png" alt="Runia" />
+          <span>Web</span>
+        </a>
+        <div class="footer-links">
+          <a href="../">Runia Web</a>
+          <a href="../catalogo/">Catálogo</a>
+          <a href="../#contacto">Contacto</a>
+        </div>
+        <p>Webs comerciales claras, rápidas y fáciles de pedir.</p>
+      </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script src="../tools.js?v=commercial-flow-1"></script>
+  </body>
+</html>

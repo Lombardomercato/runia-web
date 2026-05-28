@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Brief | Runia Web</title>
+    <meta name="description" content="Brief postventa de Runia Web para ordenar contenido, estética, datos de contacto y materiales." />
+    <meta name="theme-color" content="#f7f4ef" />
+    <link rel="icon" type="image/png" href="https://www.runia.ar/images/logo-runia-ico.png" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../tools.css?v=brief-admin-2" />
+  </head>
+  <body class="tool-page brief-page">
+    <header class="header">
+      <nav class="nav container" aria-label="Principal">
+        <a href="../" class="brand" aria-label="RUNIA Web">
+          <img src="https://www.runia.ar/images/runialogo.png" alt="Runia" />
+          <span>Web</span>
+        </a>
+        <div class="nav-links">
+          <a href="../">Volver a Runia Web</a>
+        </div>
+        <a class="button button-dark nav-button" href="../">Volver</a>
+      </nav>
+    </header>
+
+    <main class="tool-main">
+      <section class="tool-hero">
+        <div class="container tool-hero-grid">
+          <div>
+            <p class="eyebrow"><span></span> Postventa</p>
+            <h1 class="tool-title">
+              <span>Brief</span>
+              <span class="muted">de</span>
+              <span class="accent">armado.</span>
+            </h1>
+            <p class="tool-lead">
+              Completá esta información para que podamos preparar tu web con mayor velocidad y precisión.
+            </p>
+          </div>
+          <aside class="tool-status-card">
+            <p class="tool-label">Importante</p>
+            <strong>Después de avanzar</strong>
+            <p>Este formulario se completa después de avanzar con el proyecto. Nos ayuda a ordenar contenido, estética, datos de contacto y materiales necesarios.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="tool-section" id="brief">
+        <div class="container tool-grid">
+          <form class="tool-panel tool-form quote-form-panel" data-brief-form>
+            <p class="tool-label">1. Datos del negocio</p>
+            <label class="tool-field"><span>Nombre del negocio</span><input name="business" placeholder="Nombre de empresa o marca" /></label>
+            <div class="tool-options">
+              <label class="tool-field"><span>Rubro</span><input name="industry" placeholder="Rubro / industria" /></label>
+              <label class="tool-field"><span>Ubicación</span><input name="location" placeholder="Ciudad / zona" /></label>
+            </div>
+            <div class="tool-options">
+              <label class="tool-field"><span>WhatsApp</span><input name="whatsapp" placeholder="+54 9..." /></label>
+              <label class="tool-field"><span>Email</span><input name="email" type="email" placeholder="hola@empresa.com" /></label>
+            </div>
+            <label class="tool-field"><span>Instagram</span><input name="instagram" placeholder="@empresa" /></label>
+            <label class="tool-field"><span>Web actual si tiene</span><input name="currentWebsite" placeholder="www.empresa.com o link actual" /></label>
+            <label class="tool-field"><span>Dominio si tiene</span><input name="domain" placeholder="www.empresa.com" /></label>
+
+            <p class="tool-label">2. Objetivo de la web</p>
+            <div class="tool-options">
+              <label class="tool-option"><input type="checkbox" name="objective" value="presencia profesional" /> Presencia profesional</label>
+              <label class="tool-option"><input type="checkbox" name="objective" value="captar consultas" /> Captar consultas</label>
+              <label class="tool-option"><input type="checkbox" name="objective" value="mostrar servicios" /> Mostrar servicios</label>
+              <label class="tool-option"><input type="checkbox" name="objective" value="mostrar productos" /> Mostrar productos</label>
+              <label class="tool-option"><input type="checkbox" name="objective" value="vender" /> Vender</label>
+              <label class="tool-option"><input type="checkbox" name="objective" value="otro" /> Otro</label>
+            </div>
+
+            <p class="tool-label">3. Servicios / productos</p>
+            <label class="tool-field"><span>Qué ofrece la empresa</span><textarea name="offer" placeholder="Contanos en simple qué vende o qué servicio presta"></textarea></label>
+            <label class="tool-field"><span>Servicios principales</span><textarea name="services" placeholder="Lista de servicios principales"></textarea></label>
+            <label class="tool-field"><span>Productos principales</span><textarea name="products" placeholder="Lista de productos principales si aplica"></textarea></label>
+            <label class="tool-field"><span>Diferencial del negocio</span><textarea name="differential" placeholder="Por qué deberían elegirte"></textarea></label>
+            <label class="tool-field"><span>Cliente ideal</span><textarea name="audience" placeholder="Quién compra, qué necesita, qué objeciones tiene"></textarea></label>
+            <div class="tool-options">
+              <label class="tool-field"><span>CTA principal</span><input name="primaryCta" placeholder="Ej: Pedir presupuesto, Reservar turno, Consultar por WhatsApp" /></label>
+              <label class="tool-field"><span>Tono de comunicación</span><input name="tone" placeholder="Ej: profesional, cercano, premium, técnico" /></label>
+            </div>
+
+            <p class="tool-label">4. Estética</p>
+            <label class="tool-field"><span>Colores actuales</span><input name="colors" placeholder="Colores de marca o preferidos" /></label>
+            <div class="tool-options">
+              <label class="tool-option"><input type="checkbox" name="brandAssets" value="tiene logo" /> Tiene logo</label>
+              <label class="tool-option"><input type="checkbox" name="brandAssets" value="tiene manual de marca" /> Tiene manual de marca</label>
+            </div>
+            <label class="tool-field"><span>Referencias visuales</span><textarea name="references" placeholder="Sitios, marcas o estilos a mirar"></textarea></label>
+            <label class="tool-field"><span>Estilos que NO quiere</span><textarea name="donts" placeholder="Colores, estilos o recursos a evitar"></textarea></label>
+
+            <p class="tool-label">5. Materiales</p>
+            <label class="tool-field"><span>Links a fotos</span><textarea name="photoLinks" placeholder="Drive, Dropbox, WeTransfer, carpeta compartida..."></textarea></label>
+            <label class="tool-field"><span>Links a logo</span><textarea name="logoLinks" placeholder="Link a archivos de logo"></textarea></label>
+            <label class="tool-field"><span>Textos existentes</span><textarea name="currentTexts" placeholder="Pega textos actuales o indica donde estan"></textarea></label>
+            <label class="tool-field"><span>Videos</span><textarea name="videos" placeholder="Links a videos si aplica"></textarea></label>
+            <label class="tool-field"><span>Redes sociales</span><textarea name="socials" placeholder="Instagram, LinkedIn, TikTok, Facebook..."></textarea></label>
+            <label class="tool-field"><span>Otros archivos</span><textarea name="otherFiles" placeholder="Cualquier otro material útil"></textarea></label>
+
+            <p class="tool-label">6. Funcionalidades</p>
+            <div class="tool-options">
+              <label class="tool-option"><input type="checkbox" name="features" value="WhatsApp" /> WhatsApp</label>
+              <label class="tool-option"><input type="checkbox" name="features" value="formulario" /> Formulario</label>
+              <label class="tool-option"><input type="checkbox" name="features" value="mapa" /> Mapa</label>
+              <label class="tool-option"><input type="checkbox" name="features" value="catálogo" /> Catálogo</label>
+              <label class="tool-option"><input type="checkbox" name="features" value="agenda" /> Agenda</label>
+              <label class="tool-option"><input type="checkbox" name="features" value="newsletter" /> Newsletter</label>
+              <label class="tool-option"><input type="checkbox" name="features" value="automatización futura" /> Automatización futura</label>
+              <label class="tool-option"><input type="checkbox" name="features" value="IA futura" /> IA futura</label>
+            </div>
+
+            <div class="tool-actions">
+              <button class="button button-light" type="submit" data-brief-submit>Enviar brief</button>
+            </div>
+          </form>
+
+          <aside class="tool-result brief-public-card">
+            <p class="result-kicker">Armado de web</p>
+            <h2>Ordenamos la información antes de producir.</h2>
+            <p>Cuanto más claro esté el material, más rápido podemos avanzar con el diseño, los textos y la estructura final.</p>
+            <div class="brief-client-steps" aria-label="Pasos del brief">
+              <span>01 Completar datos</span>
+              <span>02 Enviar información</span>
+              <span>03 Revisamos material</span>
+            </div>
+            <div class="brief-confirmation" data-brief-confirmation hidden>
+              <strong>Perfecto. Recibimos la información para preparar tu web.</strong>
+              <span>El equipo de Runia Web va a revisar el material y continuar con la producción.</span>
+            </div>
+          </aside>
+        </div>
+
+        <div class="container brief-admin-panel" data-brief-admin hidden>
+          <div class="brief-admin-header">
+            <p class="eyebrow"><span></span> Admin mode</p>
+            <h2>Salida interna de producción.</h2>
+            <p>Visible solo con <strong>?admin=true</strong>. El cliente no ve resumen operativo, checklist ni prompt.</p>
+          </div>
+          <div class="brief-admin-grid">
+            <article class="brief-admin-card">
+              <p class="tool-label">Resumen del proyecto</p>
+              <div class="brief-admin-output" data-brief-admin-summary></div>
+            </article>
+            <article class="brief-admin-card">
+              <p class="tool-label">Estructura sugerida</p>
+              <div class="brief-admin-output" data-brief-admin-structure></div>
+            </article>
+            <article class="brief-admin-card">
+              <p class="tool-label">Checklist interno</p>
+              <ul class="brief-admin-checklist" data-brief-admin-checklist></ul>
+            </article>
+          </div>
+          <article class="brief-admin-card brief-prompt-card">
+            <div class="brief-prompt-head">
+              <div>
+                <p class="tool-label">Prompt Runia Web</p>
+                <h3>Prompt maestro para Codex</h3>
+              </div>
+              <button class="button button-light" type="button" data-copy-brief-prompt>Copiar prompt</button>
+            </div>
+            <pre class="brief-prompt-output" data-brief-prompt-output></pre>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <a href="../" class="brand" aria-label="RUNIA Web">
+          <img src="https://www.runia.ar/images/runialogo.png" alt="Runia" />
+          <span>Web</span>
+        </a>
+        <div class="footer-links">
+          <a href="../">Volver a Runia Web</a>
+        </div>
+        <p>Brief postventa de Runia Web.</p>
+      </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script src="../tools.js?v=brief-admin-2"></script>
+  </body>
+</html>
