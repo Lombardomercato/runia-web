@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Admin | Runia Web</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#11110f" />
+    <link rel="icon" type="image/png" href="https://www.runia.ar/images/logo-runia-ico.png" />
+    <link rel="stylesheet" href="./admin.css?v=crm-1" />
+  </head>
+  <body>
+    <main class="admin-shell">
+      <section class="login-view" data-login-view>
+        <div class="login-card">
+          <a class="admin-brand" href="../" aria-label="Runia Web">
+            <img src="https://www.runia.ar/images/runialogo.png" alt="Runia" />
+            <span>Web Admin</span>
+          </a>
+          <div>
+            <p class="eyebrow"><span></span> Acceso interno</p>
+            <h1>Panel de producción.</h1>
+            <p class="muted">Ingresá la contraseña temporal para revisar briefs y preparar la producción.</p>
+          </div>
+          <form class="login-form" data-login-form>
+            <label>
+              <span>Contraseña</span>
+              <input name="password" type="password" autocomplete="current-password" placeholder="Ingresar contraseña" />
+            </label>
+            <button class="button button-light" type="submit">Entrar</button>
+            <p class="form-message" data-login-message></p>
+          </form>
+        </div>
+      </section>
+
+      <section class="dashboard-view" data-dashboard-view hidden>
+        <header class="admin-header">
+          <a class="admin-brand" href="../" aria-label="Runia Web">
+            <img src="https://www.runia.ar/images/runialogo.png" alt="Runia" />
+            <span>Web Admin</span>
+          </a>
+          <div class="admin-header-actions">
+            <button class="button button-soft" type="button" data-refresh>Actualizar</button>
+            <button class="button button-ghost" type="button" data-logout>Cerrar sesión</button>
+          </div>
+        </header>
+
+        <nav class="admin-tabs" aria-label="Secciones internas">
+          <button class="admin-tab is-active" type="button" data-admin-tab="crm">CRM</button>
+          <button class="admin-tab" type="button" data-admin-tab="briefs">Briefs Postventa</button>
+        </nav>
+
+        <section class="admin-section is-active" data-admin-section="crm">
+          <section class="admin-hero">
+            <div>
+              <p class="eyebrow"><span></span> CRM Runia Web</p>
+              <h1>Centro comercial.</h1>
+              <p class="muted">Gestiona leads, notas y oportunidades comerciales desde un pipeline simple.</p>
+            </div>
+            <aside class="connection-card" data-crm-connection-card>
+              <span>CRM Leads</span>
+              <strong data-crm-connection-title>Sin cargar</strong>
+              <p data-crm-connection-message>Los leads se guardan en la hoja CRM Leads.</p>
+            </aside>
+          </section>
+
+          <section class="metric-grid" aria-label="Resumen CRM">
+            <article class="metric-card"><span>Leads totales</span><strong data-crm-metric="total">0</strong></article>
+            <article class="metric-card"><span>Nuevos</span><strong data-crm-metric="nuevo">0</strong></article>
+            <article class="metric-card"><span>Propuestas</span><strong data-crm-metric="propuesta">0</strong></article>
+            <article class="metric-card"><span>Ganados</span><strong data-crm-metric="ganado">0</strong></article>
+            <article class="metric-card"><span>Perdidos</span><strong data-crm-metric="perdido">0</strong></article>
+          </section>
+
+          <section class="brief-table-card">
+            <div class="table-head">
+              <div>
+                <p class="eyebrow"><span></span> Pipeline</p>
+                <h2>CRM comercial</h2>
+              </div>
+              <div class="admin-header-actions">
+                <p data-crm-status>Esperando leads.</p>
+                <button class="button button-light" type="button" data-new-lead>Nuevo Lead</button>
+              </div>
+            </div>
+
+            <form class="crm-form" data-crm-form hidden>
+              <label><span>Nombre</span><input name="name" placeholder="Nombre del contacto" /></label>
+              <label><span>Empresa</span><input name="company" placeholder="Empresa / marca" /></label>
+              <label><span>WhatsApp</span><input name="whatsapp" placeholder="+54 9..." /></label>
+              <label><span>Email</span><input name="email" type="email" placeholder="hola@empresa.com" /></label>
+              <label>
+                <span>Origen</span>
+                <select name="origin" data-origin-select></select>
+              </label>
+              <label><span>Valor estimado</span><input name="estimatedValue" inputmode="decimal" placeholder="Ej: 650" /></label>
+              <label class="wide"><span>Notas</span><textarea name="notes" placeholder="Contexto inicial del lead"></textarea></label>
+              <div class="crm-form-actions">
+                <button class="button button-light" type="submit">Guardar lead</button>
+                <button class="button button-ghost" type="button" data-cancel-lead>Cancelar</button>
+                <p data-crm-form-message></p>
+              </div>
+            </form>
+
+            <div class="empty-state" data-crm-empty>
+              <strong>Sin leads cargados.</strong>
+              <span>Crea un lead nuevo o conecta la hoja CRM Leads desde Apps Script.</span>
+            </div>
+
+            <div class="kanban-board" data-kanban-board></div>
+          </section>
+        </section>
+
+        <section class="admin-section" data-admin-section="briefs">
+
+        <section class="admin-hero">
+          <div>
+            <p class="eyebrow"><span></span> Briefs Runia Web</p>
+            <h1>Producción clara, rápida y ordenada.</h1>
+            <p class="muted">Revisá briefs recibidos desde Google Sheet, detectá faltantes y copiá el prompt operativo para Codex.</p>
+          </div>
+          <aside class="connection-card" data-connection-card>
+            <span>Google Apps Script</span>
+            <strong data-connection-title>Sin configurar</strong>
+            <p data-connection-message>Conectá tu Google Apps Script para ver briefs reales.</p>
+          </aside>
+        </section>
+
+        <section class="metric-grid" aria-label="Resumen de briefs">
+          <article class="metric-card"><span>Total briefs</span><strong data-metric="total">0</strong></article>
+          <article class="metric-card"><span>Nuevos</span><strong data-metric="nuevo">0</strong></article>
+          <article class="metric-card"><span>En producción</span><strong data-metric="produccion">0</strong></article>
+          <article class="metric-card"><span>Entregados</span><strong data-metric="entregado">0</strong></article>
+        </section>
+
+        <section class="brief-table-card">
+          <div class="table-head">
+            <div>
+              <p class="eyebrow"><span></span> Bandeja</p>
+              <h2>Briefs recibidos</h2>
+            </div>
+            <p data-table-status>Esperando configuración.</p>
+          </div>
+          <div class="empty-state" data-empty-state>
+            <strong>Conectá tu Google Apps Script para ver briefs reales.</strong>
+            <span>Configurá <code>ADMIN_API_URL</code> y <code>ADMIN_API_TOKEN</code> en <code>admin.js</code>.</span>
+          </div>
+          <div class="table-wrap" data-table-wrap hidden>
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Empresa</th>
+                  <th>Cliente</th>
+                  <th>Rubro</th>
+                  <th>WhatsApp</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody data-brief-rows></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="brief-detail" data-brief-detail hidden>
+          <div class="detail-head">
+            <div>
+              <p class="eyebrow"><span></span> Brief abierto</p>
+              <h2 data-detail-title>Proyecto</h2>
+              <p data-detail-subtitle></p>
+            </div>
+            <div class="detail-actions">
+              <label class="status-field">
+                <span>Estado</span>
+                <select data-status-select></select>
+              </label>
+              <span class="status-save-message" data-status-message></span>
+              <button class="button button-ghost" type="button" data-close-detail>Cerrar</button>
+            </div>
+          </div>
+
+          <div class="detail-grid">
+            <article class="detail-card">
+              <h3>Datos principales</h3>
+              <div class="field-list" data-main-fields></div>
+            </article>
+            <article class="detail-card">
+              <h3>Resumen operativo</h3>
+              <p data-operative-summary></p>
+            </article>
+            <article class="detail-card">
+              <h3>Nivel de completitud</h3>
+              <div class="signal-card" data-completeness-signal></div>
+            </article>
+            <article class="detail-card">
+              <h3>Riesgo de producción</h3>
+              <div class="signal-card" data-risk-signal></div>
+            </article>
+            <article class="detail-card wide">
+              <div class="prompt-head">
+                <h3>Resumen comercial</h3>
+                <button class="button button-soft small-copy" type="button" data-copy-summary="commercial">Copiar resumen comercial</button>
+              </div>
+              <p data-commercial-summary></p>
+            </article>
+            <article class="detail-card wide">
+              <div class="prompt-head">
+                <h3>Resumen técnico / producción</h3>
+                <button class="button button-soft small-copy" type="button" data-copy-summary="technical">Copiar resumen técnico</button>
+              </div>
+              <p data-technical-summary></p>
+            </article>
+            <article class="detail-card wide">
+              <h3>Contenido del brief</h3>
+              <div class="brief-sections" data-brief-sections></div>
+            </article>
+            <article class="detail-card">
+              <h3>Checklist</h3>
+              <ul class="checklist" data-checklist></ul>
+            </article>
+            <article class="detail-card prompt-card">
+              <div class="prompt-head">
+                <h3>PROMPT RUNIA WEB</h3>
+                <button class="button button-light" type="button" data-copy-prompt>Copiar</button>
+              </div>
+              <pre data-prompt-output></pre>
+            </article>
+          </div>
+        </section>
+        </section>
+      </section>
+    </main>
+    <script src="./admin.js?v=crm-1"></script>
+  </body>
+</html>
