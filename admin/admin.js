@@ -1,5 +1,5 @@
-const ADMIN_PASSWORD = "cambiar-esta-clave";
-const ADMIN_API_URL = "https://script.google.com/macros/s/AKfycbwmM5usQPSdYBwMeE6bK-x69oZfWYGEaiWaQbdt-lTXjsjGPMnHQvDYhPPxlbKORZv7bw/exec";
+const ADMIN_PASSWORD = "RuniaWeb1_.";
+const ADMIN_API_URL = "https://script.google.com/macros/s/AKfycbwPLx1eoiamVc_WR4JL7oUWsMnNFQ7LCFfgTJd8D5ZnKVWTIEtmC2dZXZMzMmvtg6YC8Q/exec";
 const ADMIN_API_TOKEN = "runia_admin_2026";
 
 const SESSION_KEY = "runia_admin_session";
@@ -496,6 +496,14 @@ const loadCrmLeads = async () => {
   renderCrm();
 };
 
+const updateCrmLeadStatus = async (leadId, nextStatus) => {
+  const result = await adminApiGet("updateCrmLeadStatus", { id: leadId, estado: nextStatus });
+  if (!result.success) throw new Error(result.error || "No se pudo actualizar lead");
+  const lead = app.crmLeads.find((item) => item.id === leadId);
+  if (lead) lead.status = nextStatus;
+  renderCrm();
+};
+
 const loadBriefs = async () => {
   $("[data-table-status]").textContent = "Cargando briefs...";
   try {
@@ -596,9 +604,9 @@ const renderCrm = () => {
   board.innerHTML = CRM_STATES.map((state) => {
     const leads = app.crmLeads.filter((lead) => lead.status === state);
     return `
-      <section class="kanban-column">
+      <section class="kanban-column" data-kanban-state="${escapeHtml(state)}">
         <h3>${escapeHtml(state)} <span>${leads.length}</span></h3>
-        <div class="lead-list">
+        <div class="lead-list" data-lead-list>
           ${leads.map(renderLeadCard).join("")}
         </div>
       </section>
@@ -609,7 +617,7 @@ const renderCrm = () => {
 const renderLeadCard = (lead) => {
   const notes = parseNotes(lead.notes);
   return `
-    <article class="lead-card ${lead.status === "Ganado" ? "is-won" : ""}" data-lead-id="${escapeHtml(lead.id)}">
+    <article class="lead-card ${lead.status === "Ganado" ? "is-won" : ""}" data-lead-id="${escapeHtml(lead.id)}" draggable="true">
       <div>
         <strong>${escapeHtml(lead.company || lead.name || "Lead sin nombre")}</strong>
         <p>${escapeHtml(lead.name || "Contacto sin nombre")}</p>
@@ -775,11 +783,7 @@ document.addEventListener("change", async (event) => {
     if (message) message.textContent = "Guardando...";
 
     try {
-      const result = await adminApiGet("updateCrmLeadStatus", { id: leadId, estado: nextStatus });
-      if (!result.success) throw new Error(result.error || "No se pudo actualizar lead");
-      const lead = app.crmLeads.find((item) => item.id === leadId);
-      if (lead) lead.status = nextStatus;
-      renderCrm();
+      await updateCrmLeadStatus(leadId, nextStatus);
     } catch (error) {
       console.error(error);
       if (message) message.textContent = "No se pudo guardar el estado.";
@@ -805,6 +809,65 @@ document.addEventListener("change", async (event) => {
   } catch (error) {
     console.error(error);
     setStatusMessage("No se pudo guardar en Sheet. Quedó guardado localmente.", "error");
+  }
+});
+
+document.addEventListener("dragstart", (event) => {
+  const card = event.target.closest("[data-lead-id]");
+  if (!card) return;
+  if (event.target.closest("select, textarea, button, input")) {
+    event.preventDefault();
+    return;
+  }
+
+  card.classList.add("is-dragging");
+  event.dataTransfer.effectAllowed = "move";
+  event.dataTransfer.setData("text/plain", card.dataset.leadId);
+});
+
+document.addEventListener("dragend", (event) => {
+  const card = event.target.closest("[data-lead-id]");
+  if (card) card.classList.remove("is-dragging");
+  $$(".kanban-column").forEach((column) => column.classList.remove("is-drag-over"));
+});
+
+document.addEventListener("dragover", (event) => {
+  const column = event.target.closest("[data-kanban-state]");
+  if (!column) return;
+  event.preventDefault();
+  column.classList.add("is-drag-over");
+  event.dataTransfer.dropEffect = "move";
+});
+
+document.addEventListener("dragleave", (event) => {
+  const column = event.target.closest("[data-kanban-state]");
+  if (!column || column.contains(event.relatedTarget)) return;
+  column.classList.remove("is-drag-over");
+});
+
+document.addEventListener("drop", async (event) => {
+  const column = event.target.closest("[data-kanban-state]");
+  if (!column) return;
+  event.preventDefault();
+  column.classList.remove("is-drag-over");
+
+  const leadId = event.dataTransfer.getData("text/plain");
+  const nextStatus = column.dataset.kanbanState;
+  const lead = app.crmLeads.find((item) => item.id === leadId);
+  if (!lead || lead.status === nextStatus) return;
+
+  const previousStatus = lead.status;
+  lead.status = nextStatus;
+  renderCrm();
+
+  try {
+    await updateCrmLeadStatus(leadId, nextStatus);
+  } catch (error) {
+    console.error(error);
+    lead.status = previousStatus;
+    renderCrm();
+    const status = $("[data-crm-status]");
+    if (status) status.textContent = "No se pudo guardar el movimiento.";
   }
 });
 

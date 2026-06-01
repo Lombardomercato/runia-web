@@ -465,7 +465,7 @@ h1 {
   color: #df7f24;
   font-size: 1.48em;
   font-weight: 430;
-  line-height: 0.78;
+  line-height: 0.86;
   position: relative;
   display: inline-flex;
   align-items: flex-start;
@@ -492,7 +492,7 @@ h1 {
   max-width: 18rem;
   margin-left: 0.24em;
   padding-top: 0.36em;
-  color: var(--ink);
+  color: var(--muted);
   font-size: 0.38em;
   line-height: 0.96;
   font-weight: 360;
@@ -506,7 +506,7 @@ h1 {
   position: absolute;
   left: 0.04em;
   right: 0.06em;
-  bottom: -0.08em;
+  bottom: -0.16em;
   height: 0.05em;
   min-height: 2px;
   background: linear-gradient(90deg, transparent, rgba(237, 154, 38, 0.72), transparent);
@@ -526,7 +526,7 @@ h1 {
 }
 
 .title-mark::after {
-  bottom: -0.14em;
+  bottom: -0.24em;
   opacity: 0.28;
   animation-duration: 5.6s;
 }
@@ -1413,7 +1413,7 @@ h1 {
 
 .speed-copy p {
   max-width: 620px;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   color: rgba(247, 244, 239, 0.68);
   font-size: clamp(1.08rem, 1.8vw, 1.28rem);
   line-height: 1.65;
@@ -1665,16 +1665,20 @@ h2 {
 }
 
 .delivery-heading .split-title .title-muted {
-  color: rgba(247, 244, 239, 0.52);
+  margin-top: 0.18rem;
+  color: var(--bg);
+  font-size: 1em;
 }
 
 .delivery-heading .split-title .title-mark {
   color: var(--orange);
+  font-size: 1.2em;
+  line-height: 0.92;
 }
 
 .delivery-heading p {
   max-width: 650px;
-  margin-top: 1.2rem;
+  margin-top: 1.75rem;
   font-size: 1.08rem;
   line-height: 1.72;
 }
@@ -1695,7 +1699,7 @@ h2 {
   padding: 1.45rem;
   background: rgba(16, 19, 17, 0.9);
   display: grid;
-  grid-template-rows: 3.25rem 5.35rem 1fr;
+  grid-template-rows: 3.45rem 5.85rem 1fr;
   overflow: hidden;
   transition: background-color 280ms ease, box-shadow 280ms ease;
 }
@@ -1753,9 +1757,9 @@ h2 {
   position: relative;
   z-index: 1;
   align-self: end;
-  min-height: 3.7rem;
+  min-height: 4.05rem;
   font-size: clamp(1.55rem, 2.25vw, 2.15rem);
-  line-height: 1;
+  line-height: 1.06;
   letter-spacing: 0;
   font-weight: 430;
   text-wrap: balance;
@@ -1766,7 +1770,7 @@ h2 {
   z-index: 1;
   align-self: start;
   max-width: 18rem;
-  margin-top: 0.65rem;
+  margin-top: 0.95rem;
   padding-bottom: 1.45rem;
   color: rgba(247, 244, 239, 0.62);
   line-height: 1.62;
@@ -2098,6 +2102,19 @@ h2 {
   overflow: hidden;
 }
 
+.runia-panel::before {
+  content: "";
+  position: absolute;
+  top: clamp(0.25rem, 2vw, 1.75rem);
+  right: clamp(0.75rem, 7vw, 6rem);
+  width: clamp(22rem, 34vw, 34rem);
+  aspect-ratio: 3 / 1;
+  pointer-events: none;
+  opacity: 0.06;
+  background: url("https://www.runia.ar/images/runialogo.png") center / contain no-repeat;
+  filter: invert(1);
+}
+
 .runia-panel::after {
   content: "";
   position: absolute;
@@ -2144,12 +2161,12 @@ h2 {
 
 .runia-tools span {
   min-height: 0;
-  padding: 0.72rem 0.9rem;
+  padding: 0.78rem 1rem;
   border: 1px solid rgba(247, 244, 239, 0.16);
   border-radius: 0;
   background: rgba(247, 244, 239, 0.025);
   color: rgba(247, 244, 239, 0.78);
-  font-size: 0.9rem;
+  font-size: 0.94rem;
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
@@ -2647,16 +2664,26 @@ h2 {
 
 .final-panel h2 {
   max-width: 980px;
+  line-height: 0.98;
 }
 
 .final-panel h2 .title-muted {
   font-size: 0.62em;
+  margin-top: 0.18rem;
 }
 
 .final-panel h2 .final-time {
   font-size: clamp(5.2rem, 9vw, 8rem);
-  line-height: 0.72;
+  line-height: 0.82;
   vertical-align: -0.08em;
+}
+
+.final-panel h2 .final-time::after {
+  display: none;
+}
+
+.final-panel h2 + p {
+  margin-top: 1.55rem;
 }
 
 .final-panel .eyebrow,
@@ -2677,7 +2704,7 @@ h2 {
   align-items: center;
   flex-wrap: wrap;
   gap: 0.85rem;
-  margin-top: 2rem;
+  margin-top: 2.25rem;
 }
 
 .final-actions .button {
@@ -2685,7 +2712,10 @@ h2 {
 }
 
 .final-panel small {
+  max-width: 46rem;
+  line-height: 1.5;
   color: rgba(247, 244, 239, 0.48);
+  font-size: 0.88rem;
 }
 
 .reveal {
@@ -2731,7 +2761,7 @@ h2 {
   display: grid;
   grid-template-columns: 1fr auto minmax(260px, auto);
   gap: 1.5rem;
-  align-items: start;
+  align-items: center;
 }
 
 .footer a,
@@ -2748,6 +2778,7 @@ h2 {
 }
 
 .footer p {
+  margin: 0;
   text-align: right;
 }
 

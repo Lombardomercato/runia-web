@@ -26,15 +26,11 @@ function doGet(e) {
       });
     }
 
-    if (action === "listBriefs") {
+    if (action === "listBriefs" || action === "") {
       return jsonResponse({
         success: true,
         briefs: listBriefsForAdmin_()
       });
-    }
-
-    if (action === "updateBriefStatus") {
-      return updateBriefStatusForAdmin_(params);
     }
 
     if (action === "listCrmLeads") {
@@ -50,6 +46,10 @@ function doGet(e) {
 
     if (action === "updateCrmLeadStatus") {
       return updateCrmLeadStatusForAdmin_(params);
+    }
+
+    if (action === "updateBriefStatus") {
+      return updateBriefStatusForAdmin_(params);
     }
 
     if (action === "addCrmLeadNote") {
@@ -216,6 +216,8 @@ function ensureCrmHeaders_(sheet) {
 }
 
 function listCrmLeadsForAdmin_() {
+  syncCotizadorLeadsToCrm_();
+
   const sheet = getCrmSheetForAdmin_();
   const values = sheet.getDataRange().getValues();
   if (values.length < 2) return [];
@@ -237,6 +239,82 @@ function listCrmLeadsForAdmin_() {
     if (!lead.estado) lead.estado = "Nuevo";
     return lead;
   });
+}
+
+function syncCotizadorLeadsToCrm_() {
+  const spreadsheet = getSpreadsheetForAdmin_();
+  const sourceSheet = spreadsheet.getSheetByName(getCotizadorSheetNameForAdmin_());
+  if (!sourceSheet) return;
+
+  const sourceValues = sourceSheet.getDataRange().getValues();
+  if (sourceValues.length < 2) return;
+
+  const sourceHeaders = sourceValues[0].map(function(header) {
+    return String(header || "").trim();
+  });
+  const crmSheet = getCrmSheetForAdmin_();
+  const crmHeaders = crmSheet.getRange(1, 1, 1, crmSheet.getLastColumn()).getValues()[0].map(function(header) {
+    return String(header || "").trim();
+  });
+  const crmValues = crmSheet.getDataRange().getValues();
+  const existingIds = {};
+  const crmIdIndex = crmHeaders.indexOf("id");
+
+  if (crmIdIndex >= 0) {
+    crmValues.slice(1).forEach(function(row) {
+      const id = String(row[crmIdIndex] || "");
+      if (id) existingIds[id] = true;
+    });
+  }
+
+  sourceValues.slice(1).filter(function(row) {
+    return row.some(function(cell) {
+      return String(cell || "").trim() !== "";
+    });
+  }).forEach(function(row, index) {
+    const lead = {};
+    sourceHeaders.forEach(function(header, columnIndex) {
+      if (!header) return;
+      lead[header] = normalizeAdminCell_(row[columnIndex]);
+    });
+
+    const sourceId = getFirstAdminValue_(lead, ["id", "ID", "uuid", "timestamp", "fecha"]) || "row-" + (index + 2);
+    const crmId = "cotizador-" + sourceId;
+    if (existingIds[crmId]) return;
+
+    const now = new Date();
+    const crmLead = {
+      id: crmId,
+      fecha: getFirstAdminValue_(lead, ["fecha", "date", "createdAt", "timestamp"]) || now,
+      nombre: getFirstAdminValue_(lead, ["nombre", "name", "cliente"]) || "",
+      empresa: getFirstAdminValue_(lead, ["empresa", "business", "negocio"]) || "",
+      whatsapp: getFirstAdminValue_(lead, ["whatsapp", "WhatsApp"]) || "",
+      email: getFirstAdminValue_(lead, ["email", "Email"]) || "",
+      origen: getFirstAdminValue_(lead, ["origen", "origin"]) || "Cotizador",
+      valor_estimado: getFirstAdminValue_(lead, ["precio", "valor_estimado", "presupuesto_generado"]) || "",
+      notas: getFirstAdminValue_(lead, ["mensaje", "seguimiento", "notas"]) || "",
+      estado: "Nuevo",
+      created_at: now,
+      updated_at: now
+    };
+
+    crmSheet.appendRow(crmHeaders.map(function(header) {
+      return crmLead[header] !== undefined ? crmLead[header] : "";
+    }));
+    existingIds[crmId] = true;
+  });
+}
+
+function getCotizadorSheetNameForAdmin_() {
+  try {
+    if (typeof SHEETS !== "undefined" && SHEETS.cotizador) {
+      return SHEETS.cotizador;
+    }
+  } catch (error) {
+    return "Leads Cotizador";
+  }
+
+  return "Leads Cotizador";
 }
 
 function createCrmLeadForAdmin_(params) {

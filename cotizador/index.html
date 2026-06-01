@@ -25,7 +25,7 @@
     <meta name="twitter:description" content="Lo lanzamos en 48hs, o no pagás. Sitios comerciales pensados para generar consultas, mostrar profesionalismo y ayudar a vender más." />
     <meta name="twitter:image" content="https://web.runia.ar/assets/og-runia-web-preview.png" />
     <link rel="stylesheet" href="../styles.css" />
-    <link rel="stylesheet" href="../tools.css?v=commercial-flow-1" />
+    <link rel="stylesheet" href="../tools.css?v=quote-flow-2" />
   </head>
   <body class="tool-page quote-page">
     <header class="header">
@@ -137,6 +137,11 @@
                 <label class="tool-option"><input type="checkbox" name="extras" value="maintenance" /> <span>Mantenimiento mensual · desde USD 80/mes</span></label>
               </div>
             </fieldset>
+
+            <div class="quote-finalize">
+              <button class="button button-light" type="submit" data-quote-finalize>Finalizar presupuesto</button>
+              <p data-quote-form-message>Cuando termines, generamos el resumen y te mostramos las opciones para avanzar.</p>
+            </div>
           </form>
 
           <aside class="tool-result quote-result" aria-live="polite">
@@ -157,10 +162,12 @@
               </div>
               <p data-quote-lead-status>Listo para enviar. Al tocar WhatsApp guardamos el lead y abrimos la conversaciÃ³n.</p>
             </div>
-            <div class="tool-actions">
+            <div class="tool-actions" data-quote-actions hidden>
+              <button class="button button-light" type="button" data-quote-send data-quote-action="Enviar presupuesto a Runia">Enviar a Runia</button>
+              <button class="button button-soft quote-secondary" type="button" data-quote-download>Descargar resumen</button>
               <a class="button button-light" data-quote-whatsapp data-quote-action="Enviar resultado por WhatsApp" href="#" target="_blank" rel="noopener noreferrer">Enviar resultado por WhatsApp</a>
               <a class="button button-soft quote-secondary" data-quote-whatsapp data-quote-action="Hablar con Runia Web" href="#" target="_blank" rel="noopener noreferrer">Hablar con Runia Web</a>
-              <a class="button button-soft quote-secondary" data-quote-agenda data-quote-action="Agendar reunion" href="#" target="_blank" rel="noopener noreferrer">Agendar reunion</a>
+              <a class="button button-soft quote-secondary" data-quote-agenda data-quote-action="Agendar reunion" href="#" target="_blank" rel="noopener noreferrer">Agendar reuniÃ³n</a>
             </div>
           </aside>
         </div>
@@ -183,6 +190,6 @@
     </footer>
 
     <script src="../script.js"></script>
-    <script src="../tools.js?v=commercial-flow-1"></script>
+    <script src="../tools.js?v=quote-flow-2"></script>
   </body>
 </html>
