@@ -1125,7 +1125,7 @@
 }
 
 .proposal-section-title {
-  margin-top: 5.6rem;
+  margin-top: 4.75rem;
 }
 
 .proposal-master-commercial .proposal-section-title::after {
@@ -1133,14 +1133,14 @@
   display: block;
   width: 3.4rem;
   height: 0.12rem;
-  margin-top: 1.85rem;
+  margin-top: 2.05rem;
   background: var(--orange);
 }
 
 .proposal-section-title h2 {
-  max-width: 680px;
-  font-size: 3.2rem;
-  line-height: 1.02;
+  max-width: 760px;
+  font-size: 2.9rem;
+  line-height: 1.08;
 }
 
 .proposal-bullet-grid {
@@ -1300,7 +1300,7 @@
   position: absolute;
   left: 4.6rem;
   right: 4.6rem;
-  bottom: 5.4rem;
+  bottom: 4.65rem;
   padding: 1.55rem 1.75rem;
   background: var(--ink);
   color: var(--bg);
@@ -1319,6 +1319,8 @@
 }
 
 .proposal-master-commercial .proposal-page {
+  height: 1080px;
+  padding: 3.8rem 4.6rem;
   font-family: "Segoe UI", Arial, sans-serif;
   background:
     linear-gradient(rgba(27, 25, 22, 0.008) 1px, transparent 1px),
@@ -1350,10 +1352,18 @@
   border-color: rgba(27, 25, 22, 0.026);
 }
 
+.proposal-master-commercial .proposal-page::after {
+  bottom: 3.25rem;
+}
+
+.proposal-master-commercial .proposal-page-footer {
+  bottom: 4.2rem;
+}
+
 .proposal-pdf-header .proposal-brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.62rem;
+  gap: 0.72rem;
   flex: 1 1 auto;
   min-width: 0;
   max-width: 30rem;
@@ -1372,7 +1382,7 @@
 
 .proposal-pdf-header .proposal-logo-frame img {
   display: block;
-  width: 9.8rem;
+  width: 9.45rem;
   height: auto;
   max-width: none;
   max-height: none;
@@ -1385,15 +1395,15 @@
   display: block;
   min-width: 0;
   overflow: hidden;
-  color: rgba(27, 25, 22, 0.72);
+  color: rgba(27, 25, 22, 0.62);
   font-family: "Instrument Sans", Inter, "Helvetica Neue", Arial, sans-serif;
-  font-size: 0.84rem;
-  font-weight: 560;
+  font-size: 0.92rem;
+  font-weight: 520;
   letter-spacing: 0;
   text-transform: none;
   text-overflow: ellipsis;
   white-space: nowrap;
-  transform: translateY(0.04rem);
+  transform: translateY(0.02rem);
 }
 
 .proposal-pdf-meta {
@@ -1415,8 +1425,24 @@
   gap: 3.2rem;
   align-items: start;
   min-height: 610px;
-  margin-top: 5.2rem;
+  margin-top: 4.7rem;
   padding-top: 0;
+}
+
+.proposal-page-cover .proposal-cover-commercial::after {
+  content: "ALCANCE CLARO   /   CONTACTO VISIBLE   /   ENTREGA ORDENADA";
+  grid-column: 1 / -1;
+  align-self: end;
+  margin-top: 3rem;
+  padding: 1.05rem 1.25rem;
+  border: 1px solid rgba(27, 25, 22, 0.075);
+  border-left: 0.18rem solid var(--orange);
+  background: rgba(255, 253, 249, 0.84);
+  color: rgba(27, 25, 22, 0.58);
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
 }
 
 .proposal-cover-commercial .proposal-page-lead {
@@ -1426,8 +1452,8 @@
 
 .proposal-cover-commercial h2 {
   max-width: 570px;
-  font-size: 3.62rem;
-  line-height: 1.03;
+  font-size: 3.38rem;
+  line-height: 1.06;
 }
 
 .proposal-cover-commercial .proposal-investment-master {
@@ -1509,7 +1535,7 @@
 .proposal-extra-list {
   display: grid;
   gap: 0.8rem;
-  margin-top: 2rem;
+  margin-top: 1.8rem;
   border: 0;
   background: transparent;
 }
@@ -1524,8 +1550,8 @@
 
 .proposal-scope-list div,
 .proposal-extra-list div {
-  min-height: 5.45rem;
-  padding: 1rem 1.05rem 1rem 1.2rem;
+  min-height: 5.2rem;
+  padding: 0.92rem 1.05rem 0.92rem 1.2rem;
   border: 1px solid rgba(27, 25, 22, 0.075);
   border-left: 0.18rem solid rgba(237, 154, 38, 0.58);
   background: rgba(255, 253, 249, 0.94);
@@ -1571,12 +1597,25 @@
 }
 
 .proposal-extra-list.is-empty {
-  grid-template-columns: 1fr;
-  margin-top: 2.35rem;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  margin-top: 1.85rem;
 }
 
 .proposal-extra-list.is-empty div {
-  min-height: 10rem;
+  min-height: 12rem;
+}
+
+.proposal-extra-list.is-empty::after {
+  content: "Mantenimiento\A Branding\A Carga de contenido\A Automatizaciones";
+  white-space: pre-line;
+  min-height: 12rem;
+  padding: 1.05rem 1.15rem;
+  border: 1px solid rgba(27, 25, 22, 0.075);
+  border-left: 0.18rem solid rgba(237, 154, 38, 0.58);
+  background: rgba(255, 253, 249, 0.94);
+  color: rgba(27, 25, 22, 0.68);
+  font-size: 1rem;
+  line-height: 1.75;
 }
 
 .proposal-extra-list.is-empty .proposal-empty-main {
@@ -1614,8 +1653,8 @@
 }
 
 .proposal-extra-suggest {
-  margin-top: 1.15rem;
-  padding: 1.25rem 1.35rem;
+  margin-top: 1rem;
+  padding: 1.45rem 1.5rem;
   border-left: 0.22rem solid var(--orange);
   background: rgba(27, 25, 22, 0.035);
 }
@@ -1674,7 +1713,7 @@
 
 .proposal-master-commercial .proposal-benefits-row {
   gap: 1.35rem;
-  margin-top: 2.55rem;
+  margin-top: 2.2rem;
 }
 
 .proposal-master-commercial .proposal-benefits-row div {
@@ -1694,16 +1733,16 @@
 }
 
 .proposal-page-close .proposal-section-title {
-  margin-top: 4.6rem;
+  margin-top: 4.2rem;
 }
 
 .proposal-page-close .proposal-section-title h2 {
-  max-width: 640px;
-  font-size: 3rem;
+  max-width: 700px;
+  font-size: 2.8rem;
 }
 
 .proposal-master-commercial .proposal-contact-block {
-  padding: 1.6rem 1.8rem;
+  padding: 1.35rem 1.6rem;
   border: 1px solid rgba(237, 154, 38, 0.24);
   border-left: 0.24rem solid var(--orange);
   background:
@@ -1715,7 +1754,7 @@
 
 .proposal-master-commercial .proposal-contact-block strong {
   color: var(--ink);
-  font-size: 1.9rem;
+  font-size: 1.75rem;
 }
 
 .proposal-master-commercial .proposal-contact-block span,
@@ -1726,8 +1765,8 @@
 
 .proposal-terms-summary {
   max-width: none;
-  margin-top: 2.3rem;
-  padding: 1.35rem 1.45rem;
+  margin-top: 1.85rem;
+  padding: 1.15rem 1.3rem;
   border: 1px solid rgba(27, 25, 22, 0.08);
   background: rgba(255, 253, 249, 0.92);
 }
@@ -1782,7 +1821,7 @@
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 0.45rem 1.6rem;
   align-items: center;
-  margin-top: 4rem;
+  margin-top: 3.45rem;
   padding: 1.25rem 1.35rem 1.3rem;
   border: 1px solid rgba(27, 25, 22, 0.08);
   border-left: 0.22rem solid var(--orange);
@@ -1830,7 +1869,7 @@
 .proposal-master-commercial .proposal-invest-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.7rem;
-  margin-top: 1.45rem;
+  margin-top: 1.1rem;
   border: 0;
   background: transparent;
 }
