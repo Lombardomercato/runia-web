@@ -604,7 +604,7 @@ const renderCrm = () => {
   board.innerHTML = CRM_STATES.map((state) => {
     const leads = app.crmLeads.filter((lead) => lead.status === state);
     return `
-      <section class="kanban-column" data-kanban-state="${escapeHtml(state)}">
+      <section class="kanban-column is-${escapeHtml(slugStatus(state))}" data-kanban-state="${escapeHtml(state)}">
         <h3>${escapeHtml(state)} <span>${leads.length}</span></h3>
         <div class="lead-list" data-lead-list>
           ${leads.map(renderLeadCard).join("")}
@@ -617,7 +617,7 @@ const renderCrm = () => {
 const renderLeadCard = (lead) => {
   const notes = parseNotes(lead.notes);
   return `
-    <article class="lead-card ${lead.status === "Ganado" ? "is-won" : ""}" data-lead-id="${escapeHtml(lead.id)}" draggable="true">
+    <article class="lead-card is-${escapeHtml(slugStatus(lead.status || "Nuevo"))} ${lead.status === "Ganado" ? "is-won" : ""}" data-lead-id="${escapeHtml(lead.id)}" draggable="true">
       <div>
         <strong>${escapeHtml(lead.company || lead.name || "Lead sin nombre")}</strong>
         <p>${escapeHtml(lead.name || "Contacto sin nombre")}</p>

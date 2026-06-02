@@ -25,7 +25,7 @@
     <meta name="twitter:description" content="Lo lanzamos en 48hs, o no pagás. Sitios comerciales pensados para generar consultas, mostrar profesionalismo y ayudar a vender más." />
     <meta name="twitter:image" content="https://web.runia.ar/assets/og-runia-web-preview.png" />
     <link rel="stylesheet" href="../styles.css" />
-    <link rel="stylesheet" href="../tools.css?v=partner-budget-3" />
+    <link rel="stylesheet" href="../tools.css?v=partner-budget-11" />
   </head>
   <body class="tool-page budget-page">
     <header class="header">
@@ -113,19 +113,36 @@
 
             <fieldset class="tool-fieldset">
               <legend>Extras</legend>
-              <div class="tool-options">
-                <label class="tool-option"><input type="checkbox" name="budgetExtras" value="brandingBasic" /> Branding básico - USD 250</label>
-                <label class="tool-option"><input type="checkbox" name="budgetExtras" value="brandingPro" /> Branding pro - USD 650</label>
-                <label class="tool-option"><input type="checkbox" name="budgetExtras" value="copywriting" /> Copywriting avanzado - USD 250</label>
-                <label class="tool-option"><input type="checkbox" name="budgetExtras" value="productsLoad" /> Carga de productos o servicios - desde USD 150</label>
-                <label class="tool-option"><input type="checkbox" name="budgetExtras" value="maintenance" /> Mantenimiento mensual - desde USD 80/mes</label>
-                <label class="tool-option"><input type="checkbox" name="budgetExtras" value="automationAI" /> Automatización / IA - a cotizar</label>
+              <div class="budget-extra-editor">
+                <label class="budget-extra-row">
+                  <span><input type="checkbox" name="budgetExtras" value="brandingBasic" /> Branding básico</span>
+                  <input name="extraPrice_brandingBasic" type="number" min="0" value="250" aria-label="Precio branding básico" />
+                </label>
+                <label class="budget-extra-row">
+                  <span><input type="checkbox" name="budgetExtras" value="brandingPro" /> Branding pro</span>
+                  <input name="extraPrice_brandingPro" type="number" min="0" value="650" aria-label="Precio branding pro" />
+                </label>
+                <label class="budget-extra-row">
+                  <span><input type="checkbox" name="budgetExtras" value="copywriting" /> Copywriting avanzado</span>
+                  <input name="extraPrice_copywriting" type="number" min="0" value="250" aria-label="Precio copywriting avanzado" />
+                </label>
+                <label class="budget-extra-row">
+                  <span><input type="checkbox" name="budgetExtras" value="productsLoad" /> Carga de productos o servicios</span>
+                  <input name="extraPrice_productsLoad" type="number" min="0" value="150" aria-label="Precio carga de productos o servicios" />
+                </label>
+                <label class="budget-extra-row">
+                  <span><input type="checkbox" name="budgetExtras" value="maintenance" /> Mantenimiento mensual</span>
+                  <input name="extraPrice_maintenance" type="number" min="0" value="80" aria-label="Precio mantenimiento mensual" />
+                </label>
+                <label class="budget-extra-row">
+                  <span><input type="checkbox" name="budgetExtras" value="automationAI" /> Automatización / IA</span>
+                  <input name="extraPrice_automationAI" type="number" min="0" value="0" aria-label="Precio automatización o IA" />
+                </label>
               </div>
             </fieldset>
 
             <div class="tool-options">
               <label class="tool-field"><span>Descuento USD</span><input name="discount" type="number" min="0" value="0" /></label>
-              <label class="tool-field"><span>Comisión partner %</span><input name="commission" type="number" min="0" max="100" value="20" /></label>
             </div>
             <div class="tool-options">
               <label class="tool-field"><span>Tiempo estimado</span><input name="time" value="Desde 48hs según alcance" /></label>
@@ -138,6 +155,12 @@
             <label class="tool-field"><span>Condiciones</span><textarea name="terms">50% para comenzar. Entrega según alcance acordado.</textarea></label>
 
             <p class="tool-form-note">El PDF no se previsualiza completo en pantalla. Se genera desde el resumen comercial de la derecha.</p>
+            <div class="tool-actions budget-actions budget-form-actions">
+              <button class="button button-dark" type="button" data-save-budget>Guardar presupuesto</button>
+              <button class="button button-light" type="button" data-export-pdf hidden>Descargar propuesta PDF</button>
+              <a class="button button-light" data-budget-whatsapp href="#" target="_blank" rel="noopener noreferrer" hidden>Enviar por WhatsApp</a>
+            </div>
+            <p class="budget-save-status" data-budget-save-status>Guardá el presupuesto para habilitar descarga y envío.</p>
           </form>
 
           <aside class="tool-result budget-result" aria-live="polite">
@@ -145,10 +168,6 @@
             <h2 data-total-usd>USD 0</h2>
             <p class="catalog-price" data-total-ars>$ 0</p>
             <div class="budget-summary" data-budget-summary></div>
-            <div class="tool-actions budget-actions">
-              <button class="button button-dark" type="button" data-export-pdf>Descargar propuesta PDF</button>
-              <a class="button button-light" data-budget-whatsapp href="#" target="_blank" rel="noopener noreferrer">Enviar por WhatsApp</a>
-            </div>
             <div class="proposal-export-source" data-proposal-preview aria-hidden="true"></div>
           </aside>
         </div>
@@ -172,6 +191,6 @@
     <script src="../vendor/html2canvas.min.js"></script>
     <script src="../vendor/jspdf.umd.min.js"></script>
     <script src="../script.js"></script>
-    <script src="../tools.js?v=partner-budget-3"></script>
+    <script src="../tools.js?v=partner-budget-11"></script>
   </body>
 </html>

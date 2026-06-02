@@ -769,9 +769,92 @@
   margin-top: 1.4rem;
 }
 
-.budget-result .budget-actions .button {
+.budget-actions[hidden],
+.budget-actions .button[hidden],
+.budget-actions a[hidden],
+.budget-actions button[hidden] {
+  display: none !important;
+}
+
+.budget-result .budget-actions .button,
+.budget-form-actions .button {
   width: 100%;
   justify-content: center;
+}
+
+.budget-form-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding: 0.25rem 0 0;
+  border: 0;
+  background: transparent;
+}
+
+.budget-form-actions [data-save-budget] {
+  background: rgba(237, 154, 38, 0.08);
+  border-color: rgba(237, 154, 38, 0.72);
+  color: var(--bg);
+  box-shadow: none;
+}
+
+.budget-form-actions [data-save-budget].is-edit-mode {
+  background: var(--ink);
+  border-color: rgba(237, 154, 38, 0.54);
+  color: var(--bg);
+  box-shadow: none;
+}
+
+.budget-form-actions [data-export-pdf].is-revealed,
+.budget-form-actions [data-budget-whatsapp].is-revealed {
+  animation: budgetActionReveal 360ms var(--easing-premium) both;
+}
+
+.budget-form-actions [data-budget-whatsapp] {
+  background: #0c7b4c;
+  border-color: #0c7b4c;
+  color: #f7f4ef;
+}
+
+.budget-form-actions [data-budget-whatsapp]::before {
+  content: "";
+  width: 1.05rem;
+  height: 1.05rem;
+  display: inline-block;
+  margin-right: 0.5rem;
+  vertical-align: -0.18em;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91a9.86 9.86 0 0 0-2.91-7.02ZM12.05 20.2h-.01a8.24 8.24 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.25 8.25 0 0 1-1.27-4.43c0-4.55 3.71-8.26 8.27-8.26a8.2 8.2 0 0 1 5.84 2.42 8.2 8.2 0 0 1 2.42 5.84c0 4.56-3.71 8.29-8.26 8.29Zm4.53-6.2c-.25-.12-1.47-.72-1.7-.8-.23-.09-.39-.13-.56.12-.16.25-.64.8-.78.96-.14.17-.29.19-.54.07-.25-.13-1.05-.39-2-1.24-.74-.66-1.24-1.48-1.38-1.73-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.16-.25.25-.42.08-.17.04-.31-.02-.43-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.14-1.18-.06-.11-.23-.17-.48-.29Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.quote-form-panel.is-budget-locked input,
+.quote-form-panel.is-budget-locked select,
+.quote-form-panel.is-budget-locked textarea {
+  opacity: 0.62;
+  cursor: not-allowed;
+}
+
+.budget-save-status {
+  margin-top: 0.9rem;
+  color: rgba(247, 244, 239, 0.58);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.budget-save-status.is-saved {
+  color: #8ddbb8;
+}
+
+@keyframes budgetActionReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .budget-mode-box {
@@ -794,6 +877,48 @@
     linear-gradient(90deg, rgba(247, 244, 239, 0.04) 1px, transparent 1px),
     rgba(247, 244, 239, 0.035);
   background-size: 44px 44px;
+}
+
+.budget-extra-editor {
+  display: grid;
+  gap: 0.72rem;
+}
+
+.budget-extra-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 7.2rem;
+  gap: 0.85rem;
+  align-items: center;
+  padding: 0.78rem 0.85rem;
+  border: 1px solid rgba(247, 244, 239, 0.12);
+  background: rgba(247, 244, 239, 0.035);
+}
+
+.budget-extra-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.62rem;
+  min-width: 0;
+  color: rgba(247, 244, 239, 0.82);
+  font-size: 0.94rem;
+  line-height: 1.25;
+}
+
+.budget-extra-row input[type="number"] {
+  width: 100%;
+  min-height: 2.55rem;
+  padding: 0 0.7rem;
+  border: 1px solid rgba(247, 244, 239, 0.16);
+  border-radius: 0;
+  background: rgba(6, 8, 7, 0.36);
+  color: var(--bg);
+  font: inherit;
+  text-align: right;
+}
+
+.budget-extra-row input[type="number"]:focus {
+  border-color: rgba(237, 154, 38, 0.72);
+  outline: none;
 }
 
 .pricing-warning {
@@ -1003,6 +1128,15 @@
   margin-top: 5.6rem;
 }
 
+.proposal-master-commercial .proposal-section-title::after {
+  content: "";
+  display: block;
+  width: 3.4rem;
+  height: 0.12rem;
+  margin-top: 1.85rem;
+  background: var(--orange);
+}
+
 .proposal-section-title h2 {
   max-width: 680px;
   font-size: 3.2rem;
@@ -1185,11 +1319,31 @@
 }
 
 .proposal-master-commercial .proposal-page {
+  font-family: "Segoe UI", Arial, sans-serif;
   background:
     linear-gradient(rgba(27, 25, 22, 0.008) 1px, transparent 1px),
     linear-gradient(90deg, rgba(27, 25, 22, 0.008) 1px, transparent 1px),
     #fffdf9;
   background-size: 58px 58px;
+}
+
+.proposal-master-commercial .proposal-page-top,
+.proposal-master-commercial .proposal-page-footer,
+.proposal-master-commercial .proposal-page-kicker,
+.proposal-master-commercial .proposal-section-title p,
+.proposal-master-commercial .proposal-investment-master span,
+.proposal-master-commercial .proposal-money-title > span,
+.proposal-master-commercial .proposal-note span,
+.proposal-master-commercial .proposal-money-grid span,
+.proposal-master-commercial .proposal-extra-list span,
+.proposal-master-commercial .proposal-extra-suggest span,
+.proposal-master-commercial .proposal-ref-line strong,
+.proposal-master-commercial .proposal-benefits-row span,
+.proposal-master-commercial .proposal-timeline-master span,
+.proposal-master-commercial .proposal-cover-facts span,
+.proposal-master-commercial .proposal-payment-strip span {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-weight: 700;
 }
 
 .proposal-master-commercial .proposal-page::before {
@@ -1199,29 +1353,29 @@
 .proposal-pdf-header .proposal-brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.72rem;
+  gap: 0.62rem;
   flex: 1 1 auto;
   min-width: 0;
-  max-width: 24rem;
-  overflow: hidden;
+  max-width: 30rem;
+  overflow: visible;
 }
 
 .proposal-pdf-header .proposal-logo-frame {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  flex: 0 0 8.8rem;
-  width: 8.8rem;
-  height: 2.7rem;
-  overflow: hidden;
+  flex: 0 0 auto;
+  width: auto;
+  height: auto;
+  overflow: visible;
 }
 
 .proposal-pdf-header .proposal-logo-frame img {
   display: block;
-  width: auto;
+  width: 9.8rem;
   height: auto;
-  max-width: 100%;
-  max-height: 100%;
+  max-width: none;
+  max-height: none;
   object-fit: contain;
   object-position: left center;
   filter: none;
@@ -1231,13 +1385,15 @@
   display: block;
   min-width: 0;
   overflow: hidden;
-  color: rgba(27, 25, 22, 0.58);
+  color: rgba(27, 25, 22, 0.72);
   font-family: "Instrument Sans", Inter, "Helvetica Neue", Arial, sans-serif;
-  font-size: 0.92rem;
+  font-size: 0.84rem;
+  font-weight: 560;
   letter-spacing: 0;
   text-transform: none;
   text-overflow: ellipsis;
   white-space: nowrap;
+  transform: translateY(0.04rem);
 }
 
 .proposal-pdf-meta {
@@ -1255,9 +1411,12 @@
 }
 
 .proposal-cover-commercial {
-  grid-template-columns: minmax(0, 1fr) 330px;
-  gap: 3.4rem;
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 3.2rem;
+  align-items: start;
+  min-height: 610px;
+  margin-top: 5.2rem;
+  padding-top: 0;
 }
 
 .proposal-cover-commercial .proposal-page-lead {
@@ -1267,11 +1426,28 @@
 
 .proposal-cover-commercial h2 {
   max-width: 570px;
-  font-size: 4rem;
+  font-size: 3.62rem;
+  line-height: 1.03;
 }
 
 .proposal-cover-commercial .proposal-investment-master {
-  padding: 1.45rem 0 1.45rem 1.7rem;
+  align-self: start;
+  margin-top: 0;
+  padding: 1.05rem 1.25rem 1.3rem;
+  border: 1px solid rgba(27, 25, 22, 0.1);
+  border-left: 0;
+  background:
+    linear-gradient(90deg, var(--orange) 0 0.22rem, transparent 0.22rem),
+    rgba(255, 253, 249, 0.88);
+  box-shadow: none;
+}
+
+.proposal-cover-commercial .proposal-investment-master p span {
+  display: block;
+}
+
+.proposal-cover-commercial .proposal-investment-master p span + span {
+  margin-top: 0.24rem;
 }
 
 .proposal-cover-facts {
@@ -1332,10 +1508,10 @@
 .proposal-scope-list,
 .proposal-extra-list {
   display: grid;
-  gap: 1px;
-  margin-top: 2.35rem;
-  border: 1px solid rgba(27, 25, 22, 0.075);
-  background: rgba(27, 25, 22, 0.075);
+  gap: 0.8rem;
+  margin-top: 2rem;
+  border: 0;
+  background: transparent;
 }
 
 .proposal-extra-list {
@@ -1348,16 +1524,18 @@
 
 .proposal-scope-list div,
 .proposal-extra-list div {
-  min-height: 5.8rem;
-  padding: 1.1rem 1.15rem;
+  min-height: 5.45rem;
+  padding: 1rem 1.05rem 1rem 1.2rem;
+  border: 1px solid rgba(27, 25, 22, 0.075);
+  border-left: 0.18rem solid rgba(237, 154, 38, 0.58);
   background: rgba(255, 253, 249, 0.94);
 }
 
 .proposal-scope-list span {
   display: block;
-  width: 0.42rem;
-  height: 0.42rem;
-  margin-bottom: 0.9rem;
+  width: 1.25rem;
+  height: 0.12rem;
+  margin-bottom: 0.85rem;
   background: var(--orange);
 }
 
@@ -1371,16 +1549,19 @@
 }
 
 .proposal-scope-summary {
-  background: var(--ink) !important;
+  background:
+    linear-gradient(90deg, rgba(237, 154, 38, 0.1), transparent 72%),
+    rgba(255, 253, 249, 0.98) !important;
+  box-shadow: inset 0 0 0 1px rgba(237, 154, 38, 0.22);
 }
 
 .proposal-scope-summary strong {
-  color: var(--bg);
+  color: var(--ink);
 }
 
 .proposal-scope-summary p {
   margin-top: 0.7rem;
-  color: rgba(255, 253, 249, 0.66);
+  color: rgba(27, 25, 22, 0.64);
   font-size: 0.86rem;
   line-height: 1.48;
 }
@@ -1402,16 +1583,19 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: var(--ink);
+  background:
+    linear-gradient(90deg, rgba(237, 154, 38, 0.09), transparent 66%),
+    rgba(255, 253, 249, 0.98);
+  box-shadow: inset 0 0 0 1px rgba(237, 154, 38, 0.22);
 }
 
 .proposal-extra-list.is-empty .proposal-empty-main span,
 .proposal-extra-list.is-empty .proposal-empty-main strong {
-  color: var(--bg);
+  color: var(--ink);
 }
 
 .proposal-extra-list.is-empty .proposal-empty-main p {
-  color: rgba(255, 253, 249, 0.68);
+  color: rgba(27, 25, 22, 0.62);
 }
 
 .proposal-extra-list span {
@@ -1453,13 +1637,18 @@
 }
 
 .proposal-invest-grid div:nth-child(4) {
-  background: var(--ink);
-  box-shadow: inset 0 3px 0 var(--orange);
+  background: rgba(255, 253, 249, 0.98);
+  box-shadow: none;
 }
 
 .proposal-invest-grid div:nth-child(4) span,
 .proposal-invest-grid div:nth-child(4) strong {
-  color: var(--bg);
+  color: var(--orange);
+}
+
+.proposal-invest-grid div:nth-child(4) strong {
+  font-size: 2rem;
+  line-height: 1;
 }
 
 .proposal-next-steps {
@@ -1483,6 +1672,27 @@
   line-height: 1.16;
 }
 
+.proposal-master-commercial .proposal-benefits-row {
+  gap: 1.35rem;
+  margin-top: 2.55rem;
+}
+
+.proposal-master-commercial .proposal-benefits-row div {
+  position: relative;
+  padding-top: 1.35rem;
+  border-top: 1px solid rgba(27, 25, 22, 0.08);
+}
+
+.proposal-master-commercial .proposal-benefits-row div::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 2rem;
+  height: 0.12rem;
+  background: var(--orange);
+}
+
 .proposal-page-close .proposal-section-title {
   margin-top: 4.6rem;
 }
@@ -1490,6 +1700,28 @@
 .proposal-page-close .proposal-section-title h2 {
   max-width: 640px;
   font-size: 3rem;
+}
+
+.proposal-master-commercial .proposal-contact-block {
+  padding: 1.6rem 1.8rem;
+  border: 1px solid rgba(237, 154, 38, 0.24);
+  border-left: 0.24rem solid var(--orange);
+  background:
+    linear-gradient(90deg, rgba(237, 154, 38, 0.075), transparent 58%),
+    rgba(255, 253, 249, 0.96);
+  color: var(--ink);
+  box-shadow: none;
+}
+
+.proposal-master-commercial .proposal-contact-block strong {
+  color: var(--ink);
+  font-size: 1.9rem;
+}
+
+.proposal-master-commercial .proposal-contact-block span,
+.proposal-master-commercial .proposal-contact-block p {
+  color: rgba(27, 25, 22, 0.62);
+  max-width: 42rem;
 }
 
 .proposal-terms-summary {
@@ -1511,7 +1743,7 @@
 .proposal-terms-summary ul {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.65rem 1.4rem;
+  gap: 0.82rem 1.55rem;
   margin: 0.95rem 0 0;
   padding: 0;
   list-style: none;
@@ -1519,20 +1751,21 @@
 
 .proposal-terms-summary li {
   position: relative;
-  padding-left: 0.95rem;
+  padding-left: 1.15rem;
   color: rgba(27, 25, 22, 0.62);
   font-size: 0.82rem;
   line-height: 1.42;
 }
 
 .proposal-terms-summary li::before {
-  content: "";
+  content: "→";
   position: absolute;
   left: 0;
-  top: 0.55em;
-  width: 0.32rem;
-  height: 0.32rem;
-  background: var(--orange);
+  top: -0.02rem;
+  color: var(--orange);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  background: transparent;
 }
 
 .proposal-terms-summary p {
@@ -1546,34 +1779,74 @@
 
 .proposal-master-commercial .proposal-money-title {
   display: grid;
-  gap: 0.55rem;
-  margin-top: 4.35rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.45rem 1.6rem;
+  align-items: center;
+  margin-top: 4rem;
+  padding: 1.25rem 1.35rem 1.3rem;
+  border: 1px solid rgba(27, 25, 22, 0.08);
+  border-left: 0.22rem solid var(--orange);
+  background: rgba(255, 253, 249, 0.96);
+  color: var(--ink);
 }
 
 .proposal-master-commercial .proposal-money-title p,
-.proposal-master-commercial .proposal-money-title > span,
-.proposal-master-commercial .proposal-money-title h2 {
+.proposal-master-commercial .proposal-money-title h2,
+.proposal-master-commercial .proposal-money-title small {
   margin-top: 0;
+}
+
+.proposal-master-commercial .proposal-money-title p {
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .proposal-master-commercial .proposal-money-title > span {
   position: relative;
   z-index: 2;
+  width: max-content;
+  grid-column: 1;
+  grid-row: 2;
+  margin-top: 0.55rem;
+  margin-bottom: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--orange);
+  font-size: 0.72rem;
 }
 
 .proposal-master-commercial .proposal-money-title h2 {
+  grid-column: 2;
+  grid-row: 1 / span 3;
   max-width: none;
+  color: var(--ink);
   font-size: 4.7rem;
-  line-height: 1;
+  line-height: 0.94;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .proposal-master-commercial .proposal-invest-grid {
-  margin-top: 1.8rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin-top: 1.45rem;
+  border: 0;
+  background: transparent;
+}
+
+.proposal-master-commercial .proposal-invest-grid div {
+  min-height: 7rem;
+  border: 1px solid rgba(27, 25, 22, 0.075);
+  border-top: 0.16rem solid rgba(237, 154, 38, 0.46);
+  background: rgba(255, 253, 249, 0.96);
 }
 
 .proposal-money-title small {
-  max-width: 28rem;
-  color: rgba(27, 25, 22, 0.52);
+  grid-column: 1;
+  grid-row: 3;
+  max-width: 34rem;
+  color: rgba(27, 25, 22, 0.54);
   font-family: "Instrument Sans", Inter, "Helvetica Neue", Arial, sans-serif;
   font-size: 0.95rem;
   line-height: 1.45;
@@ -1581,17 +1854,26 @@
   text-transform: none;
 }
 
+.proposal-page-investment .proposal-money-title::after {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: 1.55rem;
+  opacity: 0.85;
+}
+
 .proposal-payment-strip {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
+  gap: 0.7rem;
   margin-top: 1.2rem;
-  border: 1px solid rgba(27, 25, 22, 0.075);
-  background: rgba(27, 25, 22, 0.075);
+  border: 0;
+  background: transparent;
 }
 
 .proposal-payment-strip div {
   padding: 1rem 1.1rem;
+  border: 1px solid rgba(27, 25, 22, 0.075);
+  border-left: 0.18rem solid rgba(237, 154, 38, 0.56);
   background: rgba(255, 253, 249, 0.94);
 }
 
@@ -3001,6 +3283,15 @@
   .quote-next-steps,
   .budget-summary-grid {
     grid-template-columns: 1fr;
+  }
+
+  .budget-extra-row {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .budget-extra-row input[type="number"] {
+    text-align: left;
   }
 
   .quote-next-steps {

@@ -7,41 +7,41 @@ const PACKS = {
     name: "Web 48hs",
     price: 450,
     priceLabel: "USD 450",
-    description: "Ideal para empresas que necesitan salir online rÃ¡pido con una landing clara, moderna y profesional.",
-    bullets: ["Landing one page", "DiseÃ±o responsive", "WhatsApp integrado", "Formulario simple", "CTA principal", "Estructura comercial base", "Entrega express 48hs"]
+    description: "Ideal para empresas que necesitan salir online rápido con una landing clara, moderna y profesional.",
+    bullets: ["Landing one page", "Diseño responsive", "WhatsApp integrado", "Formulario simple", "CTA principal", "Estructura comercial base", "Entrega express 48hs"]
   },
   comercial: {
     name: "Web Comercial",
     price: 850,
     priceLabel: "USD 850",
-    description: "Ideal para empresas que quieren captar mÃ¡s consultas y comunicar mejor sus servicios.",
-    bullets: ["Web con estructura comercial", "Secciones estratÃ©gicas", "Copy base", "WhatsApp y formularios", "OptimizaciÃ³n mobile", "Base lista para campaÃ±as", "Mejor jerarquÃ­a visual y recorrido comercial"]
+    description: "Ideal para empresas que quieren captar más consultas y comunicar mejor sus servicios.",
+    bullets: ["Web con estructura comercial", "Secciones estratégicas", "Copy base", "WhatsApp y formularios", "Optimización mobile", "Base lista para campañas", "Mejor jerarquía visual y recorrido comercial"]
   },
   sistema: {
     name: "Web + Sistema",
     price: 1500,
     priceLabel: "desde USD 1.500",
-    description: "Ideal para empresas que quieren conectar su web con seguimiento, CRM o automatizaciÃ³n.",
-    bullets: ["Web comercial", "CRM o pipeline simple", "AutomatizaciÃ³n inicial", "Seguimiento de consultas", "Dashboards bÃ¡sicos", "IntegraciÃ³n futura con Runia"]
+    description: "Ideal para empresas que quieren conectar su web con seguimiento, CRM o automatización.",
+    bullets: ["Web comercial", "CRM o pipeline simple", "Automatización inicial", "Seguimiento de consultas", "Dashboards básicos", "Integración futura con Runia"]
   }
 };
 
 const ADDONS = {
   whatsapp: { name: "WhatsApp integrado" },
   formulario: { name: "Formulario de contacto" },
-  mapa: { name: "Mapa / ubicaciÃ³n" },
-  catalogo: { name: "CatÃ¡logo de servicios o productos" },
+  mapa: { name: "Mapa / ubicación" },
+  catalogo: { name: "Catálogo de servicios o productos" },
   secciones: { name: "Secciones comerciales" },
-  automatizacion: { name: "AutomatizaciÃ³n futura" }
+  automatizacion: { name: "Automatización futura" }
 };
 
 const QUOTE_EXTRAS = {
-  brandingBasic: { name: "Branding bÃ¡sico", detail: "USD 250 Â· Logo simple, paleta de colores, tipografÃ­as y guÃ­a visual bÃ¡sica." },
-  brandingPro: { name: "Branding pro", detail: "USD 650 Â· Logo, variantes, paleta, tipografÃ­as, mini manual de marca y aplicaciones bÃ¡sicas." },
+  brandingBasic: { name: "Branding básico", detail: "USD 250 · Logo simple, paleta de colores, tipografías y guía visual básica." },
+  brandingPro: { name: "Branding pro", detail: "USD 650 · Logo, variantes, paleta, tipografías, mini manual de marca y aplicaciones básicas." },
   copywriting: { name: "Copywriting avanzado", detail: "USD 250" },
   productsLoad: { name: "Carga de productos/servicios", detail: "desde USD 150" },
   maintenance: { name: "Mantenimiento mensual", detail: "desde USD 80/mes" },
-  automationExtra: { name: "AutomatizaciÃ³n / IA", detail: "a cotizar" }
+  automationExtra: { name: "Automatización / IA", detail: "a cotizar" }
 };
 
 const getCheckedValues = (form, name) => Array.from(form.querySelectorAll(`[name="${name}"]:checked`)).map((input) => input.value);
@@ -138,8 +138,8 @@ const initQuoteLegacy = () => {
     resultText.textContent = pack.description;
     renderResultList(resultList, pack.bullets);
     renderQuoteExtras(resultExtras, extras);
-    if (nextCardTitle) nextCardTitle.textContent = "EnviÃ¡ tu presupuesto a Runia y lo revisamos para avanzar.";
-    ["01 Presupuesto", "02 RevisiÃ³n", "03 Contacto"].forEach((label, index) => {
+    if (nextCardTitle) nextCardTitle.textContent = "Enviá tu presupuesto a Runia y lo revisamos para avanzar.";
+    ["01 Presupuesto", "02 Revisión", "03 Contacto"].forEach((label, index) => {
       if (nextSteps[index]) nextSteps[index].textContent = label;
     });
 
@@ -182,22 +182,22 @@ Extras: ${extras.map((extra) => `${extra.name} (${extra.detail})`).join(", ") ||
 
 Quiero agendar una llamada para avanzar.`;
       link.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(agendaMessage)}`;
-      link.textContent = "Agendar reuniÃ³n";
+      link.textContent = "Agendar reunión";
     });
     if (leadStatus) {
-      leadStatus.textContent = "Tu estimaciÃ³n estÃ¡ lista. EnviÃ¡ el presupuesto y el equipo de Runia lo revisa para contactarte con el alcance recomendado.";
+      leadStatus.textContent = "Tu estimación está lista. Enviá el presupuesto y el equipo de Runia lo revisa para contactarte con el alcance recomendado.";
     }
     if (leadStatus) leadStatus.textContent = "Completa tus datos y toca Finalizar presupuesto para elegir como avanzar.";
     nextCard?.classList.remove("is-sent", "is-ready");
     if (leadStatus) {
-      leadStatus.textContent = "Listo para enviar. Al tocar WhatsApp guardamos el lead y abrimos la conversaciÃ³n.";
+      leadStatus.textContent = "Listo para enviar. Al tocar WhatsApp guardamos el lead y abrimos la conversación.";
     }
     window.setTimeout(setQuoteReadyMessage, 0);
   };
 
   const setQuoteReadyMessage = () => {
     if (leadStatus) {
-      leadStatus.textContent = "Tu estimaciÃ³n estÃ¡ lista. EnviÃ¡ el presupuesto y el equipo de Runia lo revisa para contactarte con el alcance recomendado.";
+      leadStatus.textContent = "Tu estimación está lista. Enviá el presupuesto y el equipo de Runia lo revisa para contactarte con el alcance recomendado.";
     }
   };
 
@@ -255,7 +255,7 @@ Quiero agendar una llamada para avanzar.`;
       mensaje: message,
       estado_lead: "Nuevo cotizador",
       origen: "Cotizador Runia Web",
-      presupuesto_generado: `${pack.name} Â· ${pack.priceLabel}`,
+      presupuesto_generado: `${pack.name} · ${pack.priceLabel}`,
       accion_comercial: action,
       seguimiento: "Contactar por WhatsApp y enviar propuesta si corresponde",
       email_automatico: "pendiente",
@@ -264,13 +264,13 @@ Quiero agendar una llamada para avanzar.`;
       window.setTimeout(() => {
         if (leadStatus) {
           leadStatus.textContent = saved
-            ? "Presupuesto enviado. El equipo de Runia lo revisarÃ¡ y se pondrÃ¡ en contacto con vos para confirmar alcance y prÃ³ximos pasos."
-            : "No pudimos confirmar el envÃ­o. PodÃ©s descargar el resumen o agendar una reuniÃ³n.";
+            ? "Presupuesto enviado. El equipo de Runia lo revisará y se pondrá en contacto con vos para confirmar alcance y próximos pasos."
+            : "No pudimos confirmar el envío. Podés descargar el resumen o agendar una reunión.";
         }
         if (saved) nextCard?.classList.add("is-sent");
       }, 0);
       if (leadStatus) {
-        leadStatus.textContent = saved ? "Lead guardado. Ya podÃ©s continuar por WhatsApp." : "No pudimos confirmar el guardado, pero podÃ©s continuar por WhatsApp.";
+        leadStatus.textContent = saved ? "Lead guardado. Ya podés continuar por WhatsApp." : "No pudimos confirmar el guardado, pero podés continuar por WhatsApp.";
       }
     });
   };
@@ -287,7 +287,7 @@ Quiero agendar una llamada para avanzar.`;
     link.addEventListener("click", () => saveQuoteLead(link.dataset.quoteAction || "WhatsApp"));
   });
   agendaLinks.forEach((link) => {
-    link.addEventListener("click", () => saveQuoteLead(link.dataset.quoteAction || "Agendar reuniÃ³n"));
+    link.addEventListener("click", () => saveQuoteLead(link.dataset.quoteAction || "Agendar reunión"));
   });
   update();
 };
@@ -361,7 +361,7 @@ Extras: ${extras.map((extra) => `${extra.name} (${extra.detail})`).join(", ") ||
   const updateMeetingLinks = () => {
     agendaLinks.forEach((link) => {
       link.href = "https://api.whatsapp.com/send?text=" + encodeURIComponent("Hola Runia Web. Quiero coordinar una reunion para revisar mi presupuesto.");
-      link.textContent = "Solicitar reuniÃ³n";
+      link.textContent = "Solicitar reunión";
     });
   };
 
@@ -383,10 +383,10 @@ Extras: ${extras.map((extra) => `${extra.name} (${extra.detail})`).join(", ") ||
     renderQuoteExtras(resultExtras, extras);
 
     if (nextCardTitle) nextCardTitle.textContent = "Mandanos el resumen por WhatsApp y revisamos el alcance.";
-    ["01 WhatsApp", "02 RevisiÃ³n", "03 Contacto"].forEach((label, index) => {
+    ["01 WhatsApp", "02 Revisión", "03 Contacto"].forEach((label, index) => {
       if (nextSteps[index]) nextSteps[index].textContent = label;
     });
-    if (leadStatus) leadStatus.textContent = "Tu estimaciÃ³n estÃ¡ lista. EnviÃ¡ el resumen por WhatsApp o solicitÃ¡ una reuniÃ³n para avanzar.";
+    if (leadStatus) leadStatus.textContent = "Tu estimación está lista. Enviá el resumen por WhatsApp o solicitá una reunión para avanzar.";
     if (leadStatus) leadStatus.textContent = "Completa tus datos y toca Finalizar presupuesto para elegir como avanzar.";
     nextCard?.classList.remove("is-sent", "is-ready");
 
@@ -534,8 +534,8 @@ Extras: ${extras.map((extra) => `${extra.name} (${extra.detail})`).join(", ") ||
     }, "cotizador").then((saved) => {
       if (leadStatus) {
         leadStatus.textContent = saved
-          ? "Resumen enviado. El equipo de Runia lo revisarÃ¡ y se pondrÃ¡ en contacto con vos."
-          : "No pudimos confirmar el envÃ­o. PodÃ©s descargar el PDF o solicitar una reuniÃ³n.";
+          ? "Resumen enviado. El equipo de Runia lo revisará y se pondrá en contacto con vos."
+          : "No pudimos confirmar el envío. Podés descargar el PDF o solicitar una reunión.";
       }
       if (saved) {
         currentQuote.saved = true;
@@ -575,7 +575,7 @@ Extras: ${extras.map((extra) => `${extra.name} (${extra.detail})`).join(", ") ||
     button.addEventListener("click", downloadQuotePdf);
   });
   agendaLinks.forEach((link) => {
-    link.addEventListener("click", () => saveQuoteLead(link.dataset.quoteAction || "Solicitar reuniÃ³n"));
+    link.addEventListener("click", () => saveQuoteLead(link.dataset.quoteAction || "Solicitar reunión"));
   });
   update();
 };
@@ -592,24 +592,35 @@ const initBudgetLegacy = () => {
   const budgetWhatsapp = document.querySelector("[data-budget-whatsapp]");
 
   const webTypes = {
-    web48: { name: "Web 48hs", price: 450, detail: "Para empresas que necesitan salir online rÃ¡pido. Incluye landing one page, diseÃ±o responsive, WhatsApp integrado, formulario simple, CTA principal, estructura comercial base y entrega express 48hs." },
-    comercial: { name: "Web Comercial", price: 850, detail: "Para empresas que quieren captar mÃ¡s consultas y vender mejor. Incluye web con estructura comercial, secciones estratÃ©gicas, copy base, WhatsApp y formularios, optimizaciÃ³n mobile, base lista para campaÃ±as y mejor jerarquÃ­a visual y recorrido comercial." },
-    sistema: { name: "Web + Sistema", price: 1500, detail: "Web comercial, CRM o pipeline simple, automatizaciÃ³n inicial, seguimiento de consultas, dashboards bÃ¡sicos e integraciÃ³n futura con Runia." }
+    web48: { name: "Web 48hs", price: 450, detail: "Para empresas que necesitan salir online rápido. Incluye landing one page, diseño responsive, WhatsApp integrado, formulario simple, CTA principal, estructura comercial base y entrega express 48hs." },
+    comercial: { name: "Web Comercial", price: 850, detail: "Para empresas que quieren captar más consultas y vender mejor. Incluye web con estructura comercial, secciones estratégicas, copy base, WhatsApp y formularios, optimización mobile, base lista para campañas y mejor jerarquía visual y recorrido comercial." },
+    sistema: { name: "Web + Sistema", price: 1500, detail: "Web comercial, CRM o pipeline simple, automatización inicial, seguimiento de consultas, dashboards básicos e integración futura con Runia." }
   };
 
   const budgetExtras = {
-    brandingBasic: { name: "Branding bÃ¡sico", price: 250 },
+    brandingBasic: { name: "Branding básico", price: 250 },
     brandingPro: { name: "Branding pro", price: 650 },
     copywriting: { name: "Copywriting avanzado", price: 250 },
     productsLoad: { name: "Carga de productos o servicios", price: 150 },
     maintenance: { name: "Mantenimiento mensual", price: 80, displayPrice: "desde USD 80/mes", recurring: true },
-    automationAI: { name: "AutomatizaciÃ³n / IA", price: 0, displayPrice: "a cotizar" }
+    automationAI: { name: "Automatización / IA", price: 0, displayPrice: "a cotizar" }
   };
 
   const getBudget = () => {
     const values = getFormObject(form);
     const selectedType = webTypes[values.webType] || webTypes.comercial;
-    const extras = getCheckedValues(form, "budgetExtras").map((key) => budgetExtras[key]).filter(Boolean);
+    const extras = getCheckedValues(form, "budgetExtras").map((key) => {
+      const item = budgetExtras[key];
+      if (!item) return null;
+      const customPrice = Number(values[`extraPrice_${key}`]);
+      const price = Number.isFinite(customPrice) ? Math.max(customPrice, 0) : item.price;
+      const displayPrice = item.recurring
+        ? `${usdLabel(price)}/mes`
+        : price > 0
+          ? usdLabel(price)
+          : item.displayPrice || "a cotizar";
+      return { ...item, key, price, displayPrice };
+    }).filter(Boolean);
     const oneTimeExtras = extras.filter((item) => !item.recurring);
     const recurringExtras = extras.filter((item) => item.recurring);
     const base = Number(values.basePrice || selectedType.price || 0);
@@ -618,18 +629,16 @@ const initBudgetLegacy = () => {
     const subtotal = base + extrasTotal;
     const discount = Math.min(Number(values.discount || 0), subtotal);
     const total = Math.max(subtotal - discount, 0);
-    const commissionPercent = Number(values.commission || 0);
-    const commissionAmount = total * (commissionPercent / 100);
     const rate = Number(values.rate || 1300);
-    return { values, selectedType, extras, oneTimeExtras, recurringExtras, base, extrasTotal, monthlyTotal, subtotal, discount, total, commissionPercent, commissionAmount, rate };
+    return { values, selectedType, extras, oneTimeExtras, recurringExtras, base, extrasTotal, monthlyTotal, subtotal, discount, total, rate };
   };
 
   const renderBudget = () => {
     const data = getBudget();
-    const { values, selectedType, oneTimeExtras, recurringExtras, base, extrasTotal, monthlyTotal, discount, total, commissionPercent, commissionAmount, rate } = data;
+    const { values, selectedType, oneTimeExtras, recurringExtras, base, extrasTotal, monthlyTotal, discount, total, rate } = data;
     const proposalDate = values.date || new Date().toISOString().slice(0, 10);
-    const validity = values.validity || "7 dÃ­as";
-    const terms = values.terms || "50% para comenzar. Entrega segÃºn alcance acordado.";
+    const validity = values.validity || "7 días";
+    const terms = values.terms || "50% para comenzar. Entrega según alcance acordado.";
     const itemRows = [
       {
         name: selectedType.name,
@@ -648,9 +657,9 @@ const initBudgetLegacy = () => {
       amount: item.displayPrice ? item.displayPrice : `${usdLabel(item.price)}/mes`
     }));
     const scopeBulletsByType = {
-      web48: ["Landing responsive", "WhatsApp integrado", "Formulario simple", "CTA comercial", "Base optimizada para conversiÃ³n", "Entrega express 48hs"],
-      comercial: ["Estructura comercial", "Secciones estratÃ©gicas", "Copy base", "WhatsApp y formularios", "OptimizaciÃ³n mobile", "Base lista para campaÃ±as"],
-      sistema: ["Web comercial", "CRM o pipeline simple", "AutomatizaciÃ³n inicial", "Seguimiento de consultas", "Dashboards bÃ¡sicos", "IntegraciÃ³n futura con Runia"]
+      web48: ["Landing responsive", "WhatsApp integrado", "Formulario simple", "CTA comercial", "Base optimizada para conversión", "Entrega express 48hs"],
+      comercial: ["Estructura comercial", "Secciones estratégicas", "Copy base", "WhatsApp y formularios", "Optimización mobile", "Base lista para campañas"],
+      sistema: ["Web comercial", "CRM o pipeline simple", "Automatización inicial", "Seguimiento de consultas", "Dashboards básicos", "Integración futura con Runia"]
     };
     const scopeBullets = scopeBulletsByType[values.webType] || scopeBulletsByType.comercial;
     const oneTimeExtrasLabel = oneTimeExtras.map((item) => item.name).join(" - ");
@@ -1037,7 +1046,7 @@ Tiempo estimado: ${values.time || "Segun alcance"}`;
           <a class="proposal-brand" href="../" aria-label="Runia Web"><img src="../runialogo-black.png" alt="Runia" /><span>Web</span></a>
           <div class="deck-meta">
             <span>${escapeHtml(values.company || values.client || "Propuesta")}</span>
-            <span>${escapeHtml(proposalDate)} Â· ${escapeHtml(validity)}</span>
+            <span>${escapeHtml(proposalDate)} · ${escapeHtml(validity)}</span>
           </div>
         </div>
 
@@ -1046,17 +1055,17 @@ Tiempo estimado: ${values.time || "Segun alcance"}`;
             <p class="deck-label">Propuesta comercial</p>
             <h2 class="deck-title">Una web clara <em>para</em> <strong>vender mejor.</strong></h2>
             <p class="deck-lead">Presencia profesional, contacto ordenado y una base lista para crecer.</p>
-            <p class="proposal-client">${escapeHtml(values.company || values.client || "Tu empresa")} Â· ${escapeHtml(selectedType.name)}</p>
+            <p class="proposal-client">${escapeHtml(values.company || values.client || "Tu empresa")} · ${escapeHtml(selectedType.name)}</p>
           </div>
           <section class="proposal-investment">
-            <span>InversiÃ³n inicial</span>
+            <span>Inversión inicial</span>
             <strong>${usdLabel(total)}</strong>
-            <p>Referencia ARS: ${MONEY_ARS.format(total * rate)} Â· DÃ³lar tomado: ${MONEY_ARS.format(rate)} ARS.</p>
+            <p>Referencia ARS: ${MONEY_ARS.format(total * rate)} · Dólar tomado: ${MONEY_ARS.format(rate)} ARS.</p>
           </section>
         </header>
 
         <div class="proposal-microline">
-          <span>DiseÃ±o responsive</span>
+          <span>Diseño responsive</span>
           <span>Contacto directo</span>
           <span>Base comercial lista para crecer</span>
         </div>
@@ -1064,7 +1073,7 @@ Tiempo estimado: ${values.time || "Segun alcance"}`;
         <section class="deck-split">
           <div>
             <div class="deck-heading">
-              <span class="deck-label">SoluciÃ³n propuesta</span>
+              <span class="deck-label">Solución propuesta</span>
               <h3>Alcance incluido.</h3>
             </div>
             <ul class="scope-list">
@@ -1077,24 +1086,24 @@ Tiempo estimado: ${values.time || "Segun alcance"}`;
             <div class="proposal-detail-list">
               <div><span>Plan</span><strong>${escapeHtml(selectedType.name)}</strong></div>
               <div><span>Validez</span><strong>${escapeHtml(validity)}</strong></div>
-              <div><span>Tiempo</span><strong>${escapeHtml(values.time || "SegÃºn alcance")}</strong></div>
+              <div><span>Tiempo</span><strong>${escapeHtml(values.time || "Según alcance")}</strong></div>
               ${monthlyLabel ? `<div><span>Mensual opcional</span><strong>${escapeHtml(monthlyLabel)}</strong></div>` : ""}
             </div>
           </aside>
         </section>
 
         <section class="deck-onboarding">
-          <span class="deck-label">CÃ³mo avanzamos</span>
+          <span class="deck-label">Cómo avanzamos</span>
           <div class="onboarding-row">
             <div><span>01</span><p>Confirmamos alcance</p></div>
-            <div><span>02</span><p>Reservamos producciÃ³n</p></div>
-            <div><span>03</span><p>Iniciamos implementaciÃ³n</p></div>
+            <div><span>02</span><p>Reservamos producción</p></div>
+            <div><span>03</span><p>Iniciamos implementación</p></div>
           </div>
           <p class="proposal-terms">${escapeHtml(terms)}</p>
         </section>
 
         <section class="proposal-close">
-          <strong>Lista para aprobar y empezar <span>producciÃ³n.</span></strong>
+          <strong>Lista para aprobar y empezar <span>producción.</span></strong>
           <p>Runia Web</p>
         </section>
       </div>
@@ -1115,7 +1124,7 @@ Tiempo estimado: ${values.time || "Segun alcance"}`;
             <aside class="proposal-investment-master">
               <span>Inversion inicial</span>
               <strong>${usdLabel(total)}</strong>
-              <p>${escapeHtml(values.company || values.client || "Tu empresa")} Â· ${escapeHtml(selectedType.name)}</p>
+              <p>${escapeHtml(values.company || values.client || "Tu empresa")} · ${escapeHtml(selectedType.name)}</p>
             </aside>
           </div>
           <div class="proposal-page-footer">
@@ -1273,42 +1282,46 @@ const initBudget = () => {
   const summary = document.querySelector("[data-budget-summary]");
   const preview = document.querySelector("[data-proposal-preview]");
   const exportButtons = document.querySelectorAll("[data-export-pdf]");
+  const saveButtons = document.querySelectorAll("[data-save-budget]");
   const budgetWhatsapp = document.querySelector("[data-budget-whatsapp]");
+  const saveStatus = document.querySelector("[data-budget-save-status]");
   const partnerFields = document.querySelector("[data-partner-fields]");
   const pricingWarning = document.querySelector("[data-pricing-warning]");
   let partnerLogoData = "";
+  let lastSavedReference = "";
+  let budgetIsLocked = false;
 
   const webTypes = {
     web48: {
       name: "Web 48hs",
       price: 450,
       min: 450,
-      detail: "Landing one page clara, moderna y profesional para salir online rÃ¡pido.",
-      scope: ["Landing one page", "DiseÃ±o responsive", "WhatsApp integrado", "Formulario simple", "CTA principal", "Estructura comercial base", "Entrega express 48hs"]
+      detail: "Landing one page clara, moderna y profesional para salir online rápido.",
+      scope: ["Landing one page", "Diseño responsive", "WhatsApp integrado", "Formulario simple", "CTA principal", "Estructura comercial base", "Entrega express 48hs"]
     },
     comercial: {
       name: "Web Comercial",
       price: 850,
       min: 850,
-      detail: "Web con estructura comercial para captar mÃ¡s consultas y comunicar mejor los servicios.",
-      scope: ["Web con estructura comercial", "Secciones estratÃ©gicas", "Copy base", "WhatsApp y formularios", "OptimizaciÃ³n mobile", "Base lista para campaÃ±as", "Mejor recorrido comercial"]
+      detail: "Web con estructura comercial para captar más consultas y comunicar mejor los servicios.",
+      scope: ["Web con estructura comercial", "Secciones estratégicas", "Copy base", "WhatsApp y formularios", "Optimización mobile", "Base lista para campañas", "Mejor recorrido comercial"]
     },
     sistema: {
       name: "Web + Sistema",
       price: 1500,
       min: 1500,
-      detail: "Web comercial preparada para conectar seguimiento, CRM o automatizaciÃ³n.",
-      scope: ["Web comercial", "CRM o pipeline simple", "AutomatizaciÃ³n inicial", "Seguimiento de consultas", "Dashboards bÃ¡sicos", "IntegraciÃ³n futura con Runia"]
+      detail: "Web comercial preparada para conectar seguimiento, CRM o automatización.",
+      scope: ["Web comercial", "CRM o pipeline simple", "Automatización inicial", "Seguimiento de consultas", "Dashboards básicos", "Integración futura con Runia"]
     }
   };
 
   const budgetExtras = {
-    brandingBasic: { name: "Branding bÃ¡sico", price: 250, detail: "Logo simple, paleta, tipografÃ­as sugeridas y guÃ­a visual bÃ¡sica." },
-    brandingPro: { name: "Branding pro", price: 650, detail: "Logo, variantes, paleta, tipografÃ­as, sistema visual bÃ¡sico y mini manual de marca." },
-    copywriting: { name: "Copywriting avanzado", price: 250, detail: "Textos comerciales mÃ¡s trabajados para explicar mejor la propuesta." },
-    productsLoad: { name: "Carga de productos o servicios", price: 150, detail: "OrganizaciÃ³n y carga inicial de contenido." },
-    maintenance: { name: "Mantenimiento mensual", price: 80, displayPrice: "desde USD 80/mes", recurring: true, detail: "AcompaÃ±amiento mensual para ajustes y continuidad." },
-    automationAI: { name: "AutomatizaciÃ³n / IA", price: 0, displayPrice: "a cotizar", detail: "ConexiÃ³n futura con herramientas comerciales, seguimiento o atenciÃ³n automatizada." }
+    brandingBasic: { name: "Branding básico", price: 250, detail: "Logo simple, paleta, tipografías sugeridas y guía visual básica." },
+    brandingPro: { name: "Branding pro", price: 650, detail: "Logo, variantes, paleta, tipografías, sistema visual básico y mini manual de marca." },
+    copywriting: { name: "Copywriting avanzado", price: 250, detail: "Textos comerciales más trabajados para explicar mejor la propuesta." },
+    productsLoad: { name: "Carga de productos o servicios", price: 150, detail: "Organización y carga inicial de contenido." },
+    maintenance: { name: "Mantenimiento mensual", price: 80, displayPrice: "desde USD 80/mes", recurring: true, detail: "Acompañamiento mensual para ajustes y continuidad." },
+    automationAI: { name: "Automatización / IA", price: 0, displayPrice: "a cotizar", detail: "Conexión futura con herramientas comerciales, seguimiento o atención automatizada." }
   };
 
   const getMode = () => form.elements.budgetMode?.value || "runia";
@@ -1317,7 +1330,18 @@ const initBudget = () => {
   const getBudget = () => {
     const values = getFormObject(form);
     const selectedType = webTypes[values.webType] || webTypes.comercial;
-    const extras = getCheckedValues(form, "budgetExtras").map((key) => budgetExtras[key]).filter(Boolean);
+    const extras = getCheckedValues(form, "budgetExtras").map((key) => {
+      const item = budgetExtras[key];
+      if (!item) return null;
+      const customPrice = Number(values[`extraPrice_${key}`]);
+      const price = Number.isFinite(customPrice) ? Math.max(customPrice, 0) : item.price;
+      const displayPrice = item.recurring
+        ? `${usdLabel(price)}/mes`
+        : price > 0
+          ? usdLabel(price)
+          : item.displayPrice || "a cotizar";
+      return { ...item, key, price, displayPrice };
+    }).filter(Boolean);
     const oneTimeExtras = extras.filter((item) => !item.recurring);
     const recurringExtras = extras.filter((item) => item.recurring);
     const mode = getMode();
@@ -1333,14 +1357,12 @@ const initBudget = () => {
     const subtotal = base + extrasTotal;
     const discount = Math.min(Number(values.discount || 0), subtotal);
     const total = Math.max(subtotal - discount, 0);
-    const commissionPercent = Number(values.commission || 0);
-    const commissionAmount = total * (commissionPercent / 100);
     const margin = mode === "partner" ? Math.max(total - internalCost, 0) : 0;
     const rate = Number(values.rate || 1300);
     const belowMin = base < selectedType.min;
     const proposalDate = values.date || new Date().toISOString().slice(0, 10);
-    const validity = values.validity || "7 dÃ­as";
-    const terms = values.terms || "50% para comenzar. Entrega segÃºn alcance acordado.";
+    const validity = values.validity || "7 días";
+    const terms = values.terms || "50% para comenzar. Entrega según alcance acordado.";
     const monthlyLabel = recurringExtras.map((item) => `${item.name}: ${item.displayPrice || `${usdLabel(item.price)}/mes`}`).join(" - ");
     const oneTimeExtrasLabel = oneTimeExtras.map((item) => item.name).join(" - ");
     const brandName = mode === "partner" && values.partnerName ? values.partnerName : "Runia Web";
@@ -1360,8 +1382,6 @@ const initBudget = () => {
       subtotal,
       discount,
       total,
-      commissionPercent,
-      commissionAmount,
       margin,
       rate,
       belowMin,
@@ -1390,8 +1410,6 @@ const initBudget = () => {
       monthlyTotal,
       discount,
       total,
-      commissionPercent,
-      commissionAmount,
       margin,
       rate,
       belowMin,
@@ -1407,14 +1425,14 @@ const initBudget = () => {
 
     const clientLabel = values.company || values.client || "Cliente sin empresa";
     const isPartner = mode === "partner";
-    const nextSteps = ["ConfirmaciÃ³n del proyecto", "EnvÃ­o del brief", "ProducciÃ³n", "Entrega inicial"];
+    const nextSteps = ["Confirmación del proyecto", "Envío del brief", "Producción", "Entrega inicial"];
     const conditionItems = [
-      "50% para comenzar y 50% contra entrega inicial o segÃºn acuerdo.",
+      "50% para comenzar y 50% contra entrega inicial o según acuerdo.",
       `Validez de la propuesta: ${validity}.`,
       "Entrega sujeta al alcance definido y al material recibido.",
-      "Dominio, hosting y servicios externos no incluidos salvo indicaciÃ³n expresa.",
+      "Dominio, hosting y servicios externos no incluidos salvo indicación expresa.",
       "Cambios fuera de alcance se cotizan aparte.",
-      "Mantenimiento opcional, no incluido en la inversiÃ³n inicial."
+      "Mantenimiento opcional, no incluido en la inversión inicial."
     ];
     const contactLabel = isPartner && values.partnerName ? values.partnerName : "Runia Web";
     const whatsappMessage = `Hola ${contactLabel}. Te comparto la propuesta generada.
@@ -1422,18 +1440,18 @@ Cliente: ${values.client || "-"}
 Empresa: ${values.company || "-"}
 Rubro: ${values.industry || "-"}
 Plan: ${selectedType.name}
-InversiÃ³n inicial: ${usdLabel(total)}
+Inversión inicial: ${usdLabel(total)}
 Referencia ARS: ${MONEY_ARS.format(total * rate)}
-DÃ³lar tomado: ${MONEY_ARS.format(rate)} ARS
+Dólar tomado: ${MONEY_ARS.format(rate)} ARS
 Extras iniciales: ${oneTimeExtrasLabel || "-"}
 Mensual opcional: ${monthlyLabel || "-"}
 Validez: ${validity}
-Tiempo estimado: ${values.time || "SegÃºn alcance"}`;
+Tiempo estimado: ${values.time || "Según alcance"}`;
 
     partnerFields.hidden = !isPartner;
     if (pricingWarning) {
       pricingWarning.hidden = !belowMin;
-      pricingWarning.textContent = `El precio ingresado estÃ¡ por debajo del mÃ­nimo recomendado Runia: ${usdLabel(selectedType.min)}.`;
+      pricingWarning.textContent = `El precio ingresado está por debajo del mínimo recomendado Runia: ${usdLabel(selectedType.min)}.`;
     }
     form.classList.toggle("is-partner-mode", isPartner);
     totalUsd.textContent = MONEY_USD.format(total);
@@ -1446,7 +1464,7 @@ Tiempo estimado: ${values.time || "SegÃºn alcance"}`;
         <strong>${escapeHtml(selectedType.name)}</strong>
         <p>${escapeHtml(clientLabel)} - ${escapeHtml(values.industry || "Rubro pendiente")}</p>
       </div>
-      ${belowMin ? `<div class="pricing-warning is-visible">Precio por debajo del mÃ­nimo protegido: ${usdLabel(selectedType.min)}</div>` : ""}
+      ${belowMin ? `<div class="pricing-warning is-visible">Precio por debajo del mínimo protegido: ${usdLabel(selectedType.min)}</div>` : ""}
       <div class="budget-summary-grid">
         <div><span>Precio cliente</span><strong>${MONEY_USD.format(base)}</strong></div>
         <div><span>Extras</span><strong>${MONEY_USD.format(extrasTotal)}</strong></div>
@@ -1462,14 +1480,14 @@ Tiempo estimado: ${values.time || "SegÃºn alcance"}`;
         <div class="partner-internal-summary">
           <div><span>Costo Runia</span><strong>${MONEY_USD.format(internalCost)}</strong></div>
           <div><span>Margen estimado</span><strong>${MONEY_USD.format(margin)}</strong></div>
-          <div><span>ComisiÃ³n partner</span><strong>${commissionPercent}% - ${MONEY_USD.format(commissionAmount)}</strong></div>
         </div>
       ` : ""}
-      <p class="budget-helper">El PDF no muestra costo Runia, margen, comisiÃ³n ni precio mÃ­nimo. Solo muestra la propuesta comercial para el cliente.</p>
+      <p class="budget-helper">El PDF no muestra costo Runia, margen ni precio mínimo. Solo muestra la propuesta comercial para el cliente.</p>
     `;
 
     const brandText = isPartner && values.partnerName ? values.partnerName : "Web";
-    const brandMarkup = `<a class="proposal-brand" href="../" aria-label="${escapeHtml(brandName)}"><span class="proposal-logo-frame"><img src="${escapeHtml(logoSrc)}" alt="${escapeHtml(brandName)}" /></span><span class="proposal-brand-name">${escapeHtml(brandText)}</span></a>`;
+    const sellerLabel = values.seller || values.partnerName || "";
+    const brandMarkup = `<a class="proposal-brand" href="../" aria-label="${escapeHtml(brandName)}"><span class="proposal-logo-frame"><img src="${escapeHtml(logoSrc)}" alt="${escapeHtml(brandName)}" /></span>${brandText ? `<span class="proposal-brand-name">${escapeHtml(brandText)}</span>` : ""}</a>`;
     const headerMeta = (sectionLabel) => `<div class="proposal-pdf-meta"><span>${escapeHtml(sectionLabel)}</span><span>${escapeHtml(reference)}</span><span>${escapeHtml(proposalDate)}</span></div>`;
     const hasExtras = Boolean(oneTimeExtras.length || recurringExtras.length);
 
@@ -1488,12 +1506,13 @@ Tiempo estimado: ${values.time || "SegÃºn alcance"}`;
               <div class="proposal-ref-line">
                 <strong>Cliente</strong><span>${escapeHtml(values.client || "-")}</span>
                 <strong>Rubro</strong><span>${escapeHtml(values.industry || "-")}</span>
+                <strong>Vendedor</strong><span>${escapeHtml(sellerLabel || "-")}</span>
               </div>
             </div>
             <aside class="proposal-investment-master">
-              <span>InversiÃ³n inicial</span>
+              <span>Inversión inicial</span>
               <strong>${usdLabel(total)}</strong>
-              <p>Referencia ARS: ${MONEY_ARS.format(total * rate)}. DÃ³lar tomado: ${MONEY_ARS.format(rate)} ARS.</p>
+              <p><span>Ref. ARS: ${MONEY_ARS.format(total * rate)}</span><span>Dólar tomado: ${MONEY_ARS.format(rate)} ARS</span></p>
               <div class="proposal-cover-facts">
                 <div><span>Plan</span><strong>${escapeHtml(selectedType.name)}</strong></div>
                 <div><span>Validez</span><strong>${escapeHtml(validity)}</strong></div>
@@ -1520,9 +1539,9 @@ Tiempo estimado: ${values.time || "SegÃºn alcance"}`;
             <div class="proposal-scope-summary"><span></span><strong>Base comercial lista para lanzar</strong><p>Incluye estructura, contacto y recorrido inicial para empezar a captar consultas.</p></div>
           </div>
           <div class="proposal-benefits-row">
-            <div><span>01</span><strong>Claridad comercial</strong><p>Una estructura pensada para explicar rÃ¡pido quÃ© hace la empresa.</p></div>
+            <div><span>01</span><strong>Claridad comercial</strong><p>Una estructura pensada para explicar rápido qué hace la empresa.</p></div>
             <div><span>02</span><strong>Contacto directo</strong><p>CTA, WhatsApp y formularios listos para recibir consultas.</p></div>
-            <div><span>03</span><strong>Base escalable</strong><p>Preparada para campaÃ±as, seguimiento o automatizaciÃ³n futura.</p></div>
+            <div><span>03</span><strong>Base escalable</strong><p>Preparada para campañas, seguimiento o automatización futura.</p></div>
           </div>
         </section>
 
@@ -1542,20 +1561,20 @@ Tiempo estimado: ${values.time || "SegÃºn alcance"}`;
           </div>
           <div class="proposal-extra-suggest">
             <span>Opcional a futuro</span>
-            <p>PodÃ©s sumar mantenimiento, branding, carga de contenido o automatizaciones cuando lo necesites.</p>
+            <p>Podés sumar mantenimiento, branding, carga de contenido o automatizaciones cuando lo necesites.</p>
           </div>
         </section>
 
-        <section class="proposal-page">
+        <section class="proposal-page proposal-page-investment">
           <div class="proposal-page-top proposal-pdf-header">
             ${brandMarkup}
-            ${headerMeta("04 / InversiÃ³n")}
+            ${headerMeta("04 / Inversión")}
           </div>
           <div class="proposal-section-title proposal-money-title">
-            <p>InversiÃ³n</p>
+            <p>Inversión</p>
             <span>Total final</span>
             <h2>${usdLabel(total)}</h2>
-            <small>InversiÃ³n inicial del proyecto. Los servicios mensuales quedan separados.</small>
+            <small>Inversión inicial del proyecto. Los servicios mensuales quedan separados.</small>
           </div>
           <div class="proposal-money-grid proposal-invest-grid">
             <div><span>Subtotal</span><strong>${MONEY_USD.format(base)}</strong></div>
@@ -1563,12 +1582,12 @@ Tiempo estimado: ${values.time || "SegÃºn alcance"}`;
             <div><span>Descuento</span><strong>${MONEY_USD.format(discount)}</strong></div>
             <div><span>Total final</span><strong>${MONEY_USD.format(total)}</strong></div>
             <div><span>Mantenimiento opcional</span><strong>${monthlyTotal ? `${MONEY_USD.format(monthlyTotal)}/mes` : "No aplica"}</strong></div>
-            <div><span>Tiempo estimado</span><strong>${escapeHtml(values.time || "SegÃºn alcance")}</strong></div>
+            <div><span>Tiempo estimado</span><strong>${escapeHtml(values.time || "Según alcance")}</strong></div>
           </div>
-          <p class="proposal-note">Referencia en pesos: ${MONEY_ARS.format(total * rate)}. DÃ³lar tomado: ${MONEY_ARS.format(rate)} ARS.</p>
+          <p class="proposal-note">Referencia en pesos: ${MONEY_ARS.format(total * rate)}. Dólar tomado: ${MONEY_ARS.format(rate)} ARS.</p>
           <div class="proposal-payment-strip">
             <div><span>Inicio</span><strong>50% para comenzar</strong></div>
-            <div><span>Entrega</span><strong>50% contra entrega inicial o segÃºn acuerdo</strong></div>
+            <div><span>Entrega</span><strong>50% contra entrega inicial o según acuerdo</strong></div>
           </div>
         </section>
 
@@ -1578,7 +1597,7 @@ Tiempo estimado: ${values.time || "SegÃºn alcance"}`;
             ${headerMeta("05 / Cierre")}
           </div>
           <div class="proposal-section-title">
-            <p>PrÃ³ximos pasos</p>
+            <p>Próximos pasos</p>
             <h2>Avanzamos con un proceso simple y ordenado.</h2>
           </div>
           <div class="proposal-timeline-master proposal-next-steps">
@@ -1593,12 +1612,124 @@ Tiempo estimado: ${values.time || "SegÃºn alcance"}`;
           </div>
           <div class="proposal-contact-block">
             <strong>Listo para avanzar.</strong>
-            <span>Confirmamos el alcance, reunimos el material y activamos la producciÃ³n.</span>
+            <span>Confirmamos el alcance, reunimos el material y activamos la producción.</span>
             <p>Contacto: WhatsApp / ${escapeHtml(contactLabel)}</p>
           </div>
         </section>
       </div>
     `;
+  };
+
+  const setBudgetFormLocked = (isLocked) => {
+    budgetIsLocked = isLocked;
+    form.classList.toggle("is-budget-locked", isLocked);
+    form.querySelectorAll("input, select, textarea").forEach((control) => {
+      control.disabled = isLocked;
+    });
+  };
+
+  const setBudgetSavedState = (isSaved, message) => {
+    exportButtons.forEach((button) => {
+      button.hidden = !isSaved;
+      button.disabled = !isSaved;
+      button.classList.toggle("is-revealed", isSaved);
+    });
+    if (budgetWhatsapp) {
+      budgetWhatsapp.hidden = !isSaved;
+      budgetWhatsapp.setAttribute("aria-disabled", isSaved ? "false" : "true");
+      budgetWhatsapp.classList.toggle("is-revealed", isSaved);
+    }
+    saveButtons.forEach((button) => {
+      button.textContent = isSaved ? "Editar presupuesto" : "Guardar presupuesto";
+      button.disabled = false;
+      button.classList.toggle("is-edit-mode", isSaved);
+    });
+    if (saveStatus) {
+      saveStatus.textContent = message || (isSaved ? "Presupuesto guardado. Ya podés descargarlo o enviarlo." : "Guardá el presupuesto para habilitar descarga y envío.");
+      saveStatus.classList.toggle("is-saved", isSaved);
+    }
+  };
+
+  const markBudgetDirty = () => {
+    if (budgetIsLocked) return;
+    lastSavedReference = "";
+    setBudgetSavedState(false, "Hay cambios sin guardar. Guardá el presupuesto para habilitar descarga y envío.");
+  };
+
+  const unlockBudget = () => {
+    setBudgetFormLocked(false);
+    setBudgetSavedState(false, "Editá los datos y guardá nuevamente para habilitar descarga y envío.");
+  };
+
+  const saveBudget = async () => {
+    if (budgetIsLocked) {
+      unlockBudget();
+      return;
+    }
+    const data = getBudget();
+    const {
+      values,
+      selectedType,
+      oneTimeExtras,
+      recurringExtras,
+      base,
+      extrasTotal,
+      monthlyTotal,
+      discount,
+      total,
+      margin,
+      rate,
+      proposalDate,
+      validity,
+      brandName,
+      reference
+    } = data;
+    const payload = {
+      timestamp: new Date().toISOString(),
+      origen: "Presupuestador Runia Web",
+      estado_lead: "Presupuesto guardado",
+      accion: "Guardar presupuesto",
+      referencia: reference,
+      modo: data.mode,
+      cliente: values.client || "",
+      empresa: values.company || "",
+      rubro: values.industry || "",
+      vendedor_partner: values.seller || values.partnerName || "",
+      marca_pdf: brandName,
+      plan: selectedType.name,
+      precio_base_usd: base,
+      extras_usd: extrasTotal,
+      descuento_usd: discount,
+      inversion_inicial_usd: total,
+      mensual_usd: monthlyTotal,
+      referencia_ars: Math.round(total * rate),
+      dolar_referencia: rate,
+      margen_partner_usd: data.mode === "partner" ? margin : "",
+      extras: oneTimeExtras.map((item) => `${item.name}: ${item.displayPrice || usdLabel(item.price)}`).join(" | "),
+      mensual: recurringExtras.map((item) => `${item.name}: ${item.displayPrice || `${usdLabel(item.price)}/mes`}`).join(" | "),
+      tiempo_estimado: values.time || "",
+      validez: validity,
+      fecha_presupuesto: proposalDate,
+      condiciones: values.terms || ""
+    };
+    saveButtons.forEach((button) => {
+      button.disabled = true;
+      button.textContent = "Guardando...";
+    });
+    if (saveStatus) saveStatus.textContent = "Guardando presupuesto...";
+    const saved = await sendToGoogleSheets(payload, "Presupuestador Runia Web");
+    let stored = [];
+    try {
+      stored = JSON.parse(localStorage.getItem("runia_presupuestos") || "[]");
+      if (!Array.isArray(stored)) stored = [];
+    } catch {
+      stored = [];
+    }
+    stored.unshift(payload);
+    localStorage.setItem("runia_presupuestos", JSON.stringify(stored.slice(0, 100)));
+    lastSavedReference = reference;
+    setBudgetFormLocked(true);
+    setBudgetSavedState(true, saved ? "Presupuesto guardado. Ya podés descargarlo o enviarlo." : "Guardado localmente. Ya podés descargarlo o enviarlo.");
   };
 
   const syncBasePrice = (force = false) => {
@@ -1609,19 +1740,24 @@ Tiempo estimado: ${values.time || "SegÃºn alcance"}`;
     if (form.elements.finalClientPrice && (force || !form.elements.finalClientPrice.value)) form.elements.finalClientPrice.value = selectedType.price;
   };
 
-  form.addEventListener("input", renderBudget);
+  form.addEventListener("input", () => {
+    renderBudget();
+    markBudgetDirty();
+  });
   form.addEventListener("change", (event) => {
     if (event.target?.name === "partnerLogo" && event.target.files?.[0]) {
       const reader = new FileReader();
       reader.onload = () => {
         partnerLogoData = String(reader.result || "");
         renderBudget();
+        markBudgetDirty();
       };
       reader.readAsDataURL(event.target.files[0]);
       return;
     }
     if (event.target?.name === "webType") syncBasePrice(true);
     renderBudget();
+    markBudgetDirty();
   });
 
   const exportProposal = async () => {
@@ -1657,10 +1793,12 @@ Tiempo estimado: ${values.time || "SegÃºn alcance"}`;
   };
 
   exportButtons.forEach((button) => button.addEventListener("click", exportProposal));
+  saveButtons.forEach((button) => button.addEventListener("click", saveBudget));
 
   if (form.elements.date) form.elements.date.value = new Date().toISOString().slice(0, 10);
   syncBasePrice();
   renderBudget();
+  setBudgetSavedState(false);
 };
 
 const initBrief = () => {
@@ -1706,7 +1844,7 @@ const initBrief = () => {
       "DATOS DEL NEGOCIO",
       "Nombre: " + (v.business || "-"),
       "Rubro: " + (v.industry || "-"),
-      "UbicaciÃ³n: " + (v.location || "-"),
+      "Ubicación: " + (v.location || "-"),
       "WhatsApp: " + (v.whatsapp || "-"),
       "Email: " + (v.email || "-"),
       "Instagram: " + (v.instagram || "-"),
@@ -1717,7 +1855,7 @@ const initBrief = () => {
       listText(objectives),
       "",
       "SERVICIOS / PRODUCTOS",
-      "QuÃ© ofrece la empresa: " + (v.offer || "-"),
+      "Qué ofrece la empresa: " + (v.offer || "-"),
       "Servicios principales: " + (v.services || "-"),
       "Productos principales: " + (v.products || "-"),
       "Diferencial del negocio: " + (v.differential || "-"),
@@ -1725,7 +1863,7 @@ const initBrief = () => {
       "CTA principal: " + (v.primaryCta || "-"),
       "Tono: " + (v.tone || "-"),
       "",
-      "ESTÃ‰TICA",
+      "ESTÉTICA",
       "Colores actuales: " + (v.colors || "-"),
       "Marca disponible: " + listText(brandAssets),
       "Referencias visuales: " + (v.references || "-"),
@@ -1750,7 +1888,7 @@ const initBrief = () => {
     const hasBranding = hasLogo || brandAssets.includes("tiene manual de marca") || hasAnyText(v.colors);
     const hasTexts = hasAnyText(v.currentTexts, v.offer, v.services, v.products);
     const hasPhotos = hasAnyText(v.photoLinks);
-    const wantsAutomation = features.includes("automatizaciÃ³n futura") || features.includes("IA futura");
+    const wantsAutomation = features.includes("automatización futura") || features.includes("IA futura");
     return [
       { text: hasLogo ? "Tiene logo" : "Falta logo", status: hasLogo ? "ok" : "missing" },
       { text: v.domain ? "Tiene dominio" : "Falta dominio", status: v.domain ? "ok" : "missing" },
@@ -1758,16 +1896,16 @@ const initBrief = () => {
       { text: v.whatsapp || features.includes("WhatsApp") ? "Tiene WhatsApp" : "Falta WhatsApp", status: v.whatsapp || features.includes("WhatsApp") ? "ok" : "missing" },
       { text: hasBranding ? "Tiene base de branding" : "Necesita definir branding", status: hasBranding ? "ok" : "warn" },
       { text: hasTexts ? "Tiene contenido base" : "Necesita copy base", status: hasTexts ? "ok" : "warn" },
-      { text: wantsAutomation ? "Necesita automatizaciÃ³n futura" : "Sin automatizaciÃ³n futura declarada", status: wantsAutomation ? "warn" : "ok" }
+      { text: wantsAutomation ? "Necesita automatización futura" : "Sin automatización futura declarada", status: wantsAutomation ? "warn" : "ok" }
     ];
   };
 
   const buildStructure = () => {
     const { objectives, features } = getBriefData();
     const sections = ["Hero comercial", "Servicios / propuesta", "Diferenciales", "Contacto"];
-    if (objectives.includes("mostrar productos") || features.includes("catÃ¡logo")) sections.splice(2, 0, "CatÃ¡logo / productos");
-    if (objectives.includes("vender")) sections.splice(2, 0, "Bloque de conversiÃ³n");
-    if (features.includes("mapa")) sections.push("UbicaciÃ³n / mapa");
+    if (objectives.includes("mostrar productos") || features.includes("catálogo")) sections.splice(2, 0, "Catálogo / productos");
+    if (objectives.includes("vender")) sections.splice(2, 0, "Bloque de conversión");
+    if (features.includes("mapa")) sections.push("Ubicación / mapa");
     if (features.includes("agenda")) sections.push("Agenda / reserva");
     return sections;
   };
@@ -1779,24 +1917,24 @@ const initBrief = () => {
       "",
       "Mantener:",
       "",
-      "* estÃ©tica actual Runia Web,",
+      "* estética actual Runia Web,",
       "* dark premium,",
-      "* tipografÃ­as,",
+      "* tipografías,",
       "* spacing,",
       "* componentes,",
       "* estructura modular,",
-      "* navegaciÃ³n,",
+      "* navegación,",
       "* hero estilo Runia.",
       "",
       "Personalizar:",
       "",
       "* copy,",
-      "* imÃ¡genes,",
+      "* imágenes,",
       "* servicios,",
       "* CTA,",
       "* branding,",
       "* colores secundarios,",
-      "* mÃ³dulos necesarios,",
+      "* módulos necesarios,",
       "* WhatsApp,",
       "* formularios.",
       "",
@@ -1852,7 +1990,7 @@ const initBrief = () => {
         ["Tono", v.tone || "-"],
         ["Branding", listText(brandAssets)],
         ["Funcionalidades", listText(features)],
-        ["Assets faltantes", checklist.filter((item) => item.status === "missing").map((item) => item.text).join(", ") || "Sin faltantes crÃ­ticos"]
+        ["Assets faltantes", checklist.filter((item) => item.status === "missing").map((item) => item.text).join(", ") || "Sin faltantes críticos"]
       ];
       adminSummary.innerHTML = rows.map(([label, value]) => "<div><span>" + escapeHtml(label) + "</span><strong>" + escapeHtml(value) + "</strong></div>").join("");
     }
@@ -1910,7 +2048,7 @@ const initBrief = () => {
       origen: "Brief Runia Web",
       estado_lead: "Brief recibido",
       presupuesto_generado: "Postventa",
-      seguimiento: "Revisar materiales e iniciar producciÃ³n",
+      seguimiento: "Revisar materiales e iniciar producción",
       email_automatico: "pendiente",
       confirmacion_recepcion: "pendiente"
     };
