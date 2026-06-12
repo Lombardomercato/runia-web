@@ -106,10 +106,11 @@ const normalizeBrief = (raw, index) => {
     audience: getFirst(source, ["audience", "clienteIdeal", "Cliente ideal"], ""),
     primaryCta: getFirst(source, ["primaryCta", "cta", "CTA principal"], ""),
     tone: getFirst(source, ["tone", "tono", "Tono de comunicación"], ""),
+    visualFeeling: asArray(getFirst(source, ["visualFeeling", "sensacion_visual", "sensación visual", "Sensación visual", "¿Qué sensación querés transmitir?"], "")),
     colors: getFirst(source, ["colors", "colores", "Colores actuales"], ""),
     brandAssets,
     references: getFirst(source, ["references", "referencias", "Referencias visuales"], ""),
-    donts: getFirst(source, ["donts", "Estilos que NO quiere"], ""),
+    donts: getFirst(source, ["donts", "Estilos que NO quiere", "Qué NO querés", "Que NO queres"], ""),
     photoLinks: getFirst(source, ["photoLinks", "fotos", "Links a fotos"], ""),
     logoLinks: getFirst(source, ["logoLinks", "logo", "Links a logo"], ""),
     currentTexts: getFirst(source, ["currentTexts", "textos", "Textos existentes"], ""),
@@ -162,7 +163,7 @@ const getBriefSignals = (brief) => {
   const hasObjective = brief.objectives.length > 0;
   const hasServices = hasAnyText(brief.offer, brief.services, brief.products);
   const hasWhatsapp = hasAnyText(brief.whatsapp) || includesValue(brief.features, "WhatsApp");
-  const hasAesthetic = hasAnyText(brief.colors, brief.references, brief.tone) || brief.brandAssets.length > 0;
+  const hasAesthetic = hasAnyText(brief.colors, brief.references, brief.tone) || brief.visualFeeling.length > 0 || brief.brandAssets.length > 0;
   const hasMaterials = hasAnyText(brief.photoLinks, brief.logoLinks, brief.currentTexts, brief.socials, brief.instagram);
   const hasBranding = hasAnyText(brief.colors, brief.logoLinks) || includesValue(brief.brandAssets, "logo") || includesValue(brief.brandAssets, "manual");
   const hasCopy = hasAnyText(brief.currentTexts, brief.offer, brief.services, brief.products);
@@ -200,7 +201,7 @@ const buildSummary = (brief) => {
   const objective = listText(brief.objectives);
   const services = brief.services || brief.offer || brief.products || "servicios/productos a ordenar";
   const cta = brief.primaryCta || (brief.whatsapp ? "consultar por WhatsApp" : "generar consultas");
-  return `${company} es un proyecto del rubro ${industry}. La web debe enfocarse en ${objective}, presentar ${services} con claridad y llevar al usuario hacia ${cta}. El material disponible permite armar una instancia de la plantilla Runia Web priorizando claridad, velocidad, conversión y coherencia visual.`;
+  return `${company} es un proyecto del rubro ${industry}. La web debe enfocarse en ${objective}, presentar ${services} con claridad y llevar al usuario hacia ${cta}. El material disponible permite producir una web con el sistema técnico y comercial de Runia Web, pero con identidad visual propia para la marca del cliente.`;
 };
 
 const buildCommercialSummary = (brief) => {
@@ -212,13 +213,12 @@ const buildCommercialSummary = (brief) => {
   const cta = brief.primaryCta || (brief.whatsapp ? "consultar por WhatsApp" : "contactar al negocio");
   const missing = signals.missing.length ? signals.missing.slice(0, 4).join(", ") : "sin faltantes críticos";
 
-  return `${company} es un negocio del rubro ${industry} que necesita una web para ${objective}. La propuesta debería enfocarse en comunicar ${services} y llevar al usuario a ${cta}. El problema principal parece ser presentar la oferta con claridad, generar confianza y facilitar el contacto. Por el alcance informado, corresponde una web comercial modular basada en la plantilla Runia Web. El brief está ${signals.completeness.toLowerCase()} y faltan ${missing}.`;
+  return `${company} es un negocio del rubro ${industry} que necesita una web para ${objective}. La propuesta debería enfocarse en comunicar ${services} y llevar al usuario a ${cta}. El problema principal parece ser presentar la oferta con claridad, generar confianza y facilitar el contacto. Por el alcance informado, corresponde una web comercial modular producida con el sistema Runia Web, sin copiar su estética visual. El brief está ${signals.completeness.toLowerCase()} y faltan ${missing}.`;
 };
 
 const buildTechnicalSummary = (brief) => {
   const signals = getBriefSignals(brief);
-  const sections = ["Header", "Hero", "Servicios", "Diferenciales", "Proceso", "Contacto", "Footer"];
-  const extraSections = buildSections(brief).filter((section) => !["Hero comercial", "Servicios / propuesta", "Diferenciales", "Contacto"].includes(section));
+  const sections = buildSections(brief);
   const features = cleanListText(brief.features, "contacto claro y CTA visibles");
   const availableMaterials = [
     brief.logoLinks ? "logo" : "",
@@ -236,7 +236,7 @@ const buildTechnicalSummary = (brief) => {
   ].filter(Boolean);
   const ready = signals.risk === "Bajo" ? "listo para empezar" : signals.risk === "Medio" ? "puede empezar con revisión de faltantes" : "requiere completar información antes de producir";
 
-  return `Estructura recomendada: ${sections.concat(extraSections).join(", ")}. Funcionalidades: ${features}. Materiales disponibles: ${availableMaterials.length ? availableMaterials.join(", ") : "sin materiales claros declarados"}. Faltantes: ${signals.missing.length ? signals.missing.join(", ") : "sin faltantes críticos"}. Integraciones necesarias: ${integrations.length ? integrations.join(", ") : "no declaradas"}. Riesgo: ${signals.risk.toLowerCase()}. Estado operativo: ${ready}.`;
+  return `Estructura recomendada según el negocio: ${sections.join(", ")}. Funcionalidades: ${features}. Materiales disponibles: ${availableMaterials.length ? availableMaterials.join(", ") : "sin materiales claros declarados"}. Faltantes: ${signals.missing.length ? signals.missing.join(", ") : "sin faltantes críticos"}. Integraciones necesarias: ${integrations.length ? integrations.join(", ") : "no declaradas"}. Riesgo: ${signals.risk.toLowerCase()}. Estado operativo: ${ready}.`;
 };
 
 const buildPrompt = (brief) => {
@@ -251,9 +251,11 @@ const buildPrompt = (brief) => {
   const services = valueOrGuidance(brief.services || brief.offer, "Servicios no especificados. Crear bloques modulares con copy neutro y editable, sin inventar prestaciones concretas.");
   const products = valueOrGuidance(brief.products, "Productos no especificados. No crear catalogo de productos inventados.");
   const differential = valueOrGuidance(brief.differential, "Diferencial no especificado. Usar argumentos generales: atencion clara, profesionalismo, confianza y facilidad de contacto.");
+  const visualDirectionFallback = "No hay referencias suficientes. Proponer una direccion visual logica segun el rubro: deportivo = energia/movimiento/comunidad; inmobiliaria = confianza/premium/propiedades protagonistas; industrial = solidez/escala/infraestructura; gastronomia/vinos = lifestyle/calidez/producto/experiencia; servicios profesionales = claridad/autoridad/confianza. No copiar Runia Web.";
   const aesthetics = [
-    `Colores: ${valueOrGuidance(brief.colors, "No definidos. Mantener paleta Runia Web y usar acentos secundarios sobrios solo si corresponden.")}`,
-    `Referencias visuales: ${valueOrGuidance(brief.references, "No especificadas. Mantener estética Runia Web sin reinterpretar el sistema visual.")}`,
+    `Sensacion a transmitir: ${valueOrGuidance(brief.visualFeeling, "No especificada. Definir una sensacion coherente con el rubro y objetivo comercial.")}`,
+    `Colores: ${valueOrGuidance(brief.colors, "No definidos. Proponer una paleta propia coherente con el rubro/marca; no usar la paleta Runia salvo que el brief lo pida.")}`,
+    `Referencias visuales: ${valueOrGuidance(brief.references, visualDirectionFallback)}`,
     `Evitar: ${valueOrGuidance(brief.donts, "No especificado. Evitar recursos genericos, exceso decorativo y textos de relleno.")}`,
     `Tono: ${valueOrGuidance(brief.tone, "Profesional, claro y comercial.")}`
   ];
@@ -269,17 +271,40 @@ const buildPrompt = (brief) => {
   const cta = valueOrGuidance(brief.primaryCta, brief.whatsapp ? "Consultar por WhatsApp" : "Contactar");
 
   return [
-    `Crear una web para ${company}, rubro ${industry}, usando la plantilla base Runia Web.`,
+    `Crear una web para ${company}, rubro ${industry}, utilizando el sistema de produccion Runia Web.`,
     "",
-    "Mantener:",
-    "- estética Runia Web",
-    "- estructura modular",
-    "- tipografías",
-    "- spacing",
-    "- componentes",
-    "- diseño responsive",
-    "- navegación clara",
-    "- CTA visibles",
+    "OBJETIVO:",
+    `Desarrollar una web comercial clara, moderna y orientada a generar consultas para ${company}, pero con identidad visual propia.`,
+    "",
+    "IMPORTANTE:",
+    "- No copiar visualmente la web de Runia Web.",
+    "- No replicar el hero de Runia Web.",
+    "- No replicar la composicion de Runia Web.",
+    "- No usar la misma paleta salvo que el brief lo pida.",
+    "- No usar el mismo orden exacto de secciones si no tiene sentido para el negocio.",
+    "- No entregar una web que parezca Runia con otro logo.",
+    "",
+    "MANTENER DEL SISTEMA RUNIA:",
+    "- estructura comercial clara",
+    "- performance",
+    "- responsive",
+    "- accesibilidad basica",
+    "- CTAs visibles",
+    "- WhatsApp/formularios",
+    "- navegacion simple",
+    "- jerarquia visual",
+    "- modularidad",
+    "- SEO basico",
+    "- codigo limpio",
+    "",
+    "CREAR PARA EL CLIENTE:",
+    "- identidad visual propia",
+    "- paleta adaptada a su marca/rubro",
+    "- composicion de hero personalizada",
+    "- tono visual acorde al negocio",
+    "- secciones adaptadas a su objetivo",
+    "- recursos graficos coherentes",
+    "- experiencia visual diferenciada",
     "",
     "OBJETIVO DEL PROYECTO",
     objective,
@@ -303,8 +328,11 @@ const buildPrompt = (brief) => {
     "DIFERENCIALES",
     differential,
     "",
-    "ESTÉTICA",
+    "IDENTIDAD A CONSTRUIR",
     ...aesthetics.map((item) => `- ${item}`),
+    `- Tipo de cliente ideal: ${audience}`,
+    `- Rubro: ${industry}`,
+    `- Diferencial: ${differential}`,
     "",
     "MATERIALES DISPONIBLES",
     ...materials.map((item) => `- ${item}`),
@@ -319,16 +347,23 @@ const buildPrompt = (brief) => {
     "CTA PRINCIPAL",
     cta,
     "",
-    "ESTRUCTURA MÍNIMA SUGERIDA",
-    "- Header",
-    "- Hero",
+    "ESTRUCTURA",
+    "Definir el orden de secciones segun el objetivo comercial del cliente. Elegir solo las necesarias.",
+    "Secciones posibles:",
+    "- Hero comercial",
+    "- Problema / oportunidad",
     "- Servicios",
+    "- Productos",
+    "- Beneficios",
     "- Diferenciales",
     "- Proceso",
+    "- Galeria / portfolio",
+    "- Testimonios",
+    "- Ubicacion",
+    "- FAQ",
     "- Contacto",
-    "- Footer",
     "",
-    "SECCIONES ADICIONALES SEGÚN BRIEF",
+    "SECCIONES SUGERIDAS SEGUN ESTE BRIEF",
     buildSections(brief).join(", "),
     "",
     "CAMPOS FALTANTES",
@@ -340,27 +375,30 @@ const buildPrompt = (brief) => {
     "- Utilizar copy neutro y profesional basado en la información disponible.",
     "",
     "VALIDACIONES",
+    "- Verificar que la web no parezca copia de Runia Web.",
+    "- Revisar que tenga identidad visual propia.",
     "- Responsive completo",
     "- CTA visibles",
     "- Formularios funcionando",
     "- WhatsApp visible si hay numero disponible",
     "- Sin textos de relleno",
-    "- Mantener coherencia visual Runia Web",
-    "",
-    "IMPORTANTE:",
-    "No crear una web desde cero.",
-    "Instanciar la plantilla Runia Web.",
-    "No reinterpretar el sistema visual.",
-    "Priorizar claridad, velocidad, conversión y coherencia visual."
+    "- Sin placeholders visibles",
+    "- Estetica coherente con el rubro"
   ].join("\n");
 };
 
 const buildSections = (brief) => {
-  const sections = ["Hero comercial", "Servicios / propuesta", "Diferenciales", "Contacto"];
-  if (includesValue(brief.objectives, "productos") || includesValue(brief.features, "catálogo") || includesValue(brief.features, "catalogo")) sections.splice(2, 0, "Catálogo / productos");
-  if (includesValue(brief.objectives, "vender")) sections.splice(2, 0, "Bloque de conversión");
+  const sections = ["Hero comercial"];
+  if (includesValue(brief.objectives, "captar consultas")) sections.push("Problema / oportunidad");
+  if (hasAnyText(brief.services, brief.offer)) sections.push("Servicios");
+  if (hasAnyText(brief.products) || includesValue(brief.objectives, "productos") || includesValue(brief.features, "catálogo") || includesValue(brief.features, "catalogo")) sections.push("Productos / catálogo");
+  sections.push("Beneficios", "Diferenciales");
+  if (includesValue(brief.objectives, "vender")) sections.push("Bloque de conversión");
+  if (hasAnyText(brief.photoLinks, brief.socials, brief.instagram)) sections.push("Galería / portfolio");
+  sections.push("Proceso");
   if (includesValue(brief.features, "mapa")) sections.push("Ubicación / mapa");
   if (includesValue(brief.features, "agenda")) sections.push("Agenda / reserva");
+  sections.push("FAQ", "Contacto");
   return sections;
 };
 
@@ -682,7 +720,7 @@ const renderDetail = (brief) => {
   $("[data-brief-sections]").innerHTML = [
     sectionRow("Objetivo", listText(brief.objectives)),
     sectionRow("Servicios / productos", [brief.offer, brief.services, brief.products].filter(Boolean).join("\n\n")),
-    sectionRow("Estética", [`Colores: ${brief.colors || "-"}`, `Referencias: ${brief.references || "-"}`, `Evitar: ${brief.donts || "-"}`].join("\n")),
+    sectionRow("Identidad visual", [`Sensación: ${listText(brief.visualFeeling)}`, `Colores: ${brief.colors || "-"}`, `Referencias: ${brief.references || "-"}`, `Evitar: ${brief.donts || "-"}`].join("\n")),
     sectionRow("Materiales", [`Fotos: ${brief.photoLinks || "-"}`, `Logo: ${brief.logoLinks || "-"}`, `Textos: ${brief.currentTexts || "-"}`, `Videos: ${brief.videos || "-"}`, `Redes: ${brief.socials || "-"}`, `Otros: ${brief.otherFiles || "-"}`].join("\n")),
     sectionRow("Funcionalidades", listText(brief.features)),
     sectionRow("Comentarios", [brief.differential, brief.audience, brief.tone].filter(Boolean).join("\n\n"))

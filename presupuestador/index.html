@@ -25,7 +25,7 @@
     <meta name="twitter:description" content="Lo lanzamos en 48hs, o no pagás. Sitios comerciales pensados para generar consultas, mostrar profesionalismo y ayudar a vender más." />
     <meta name="twitter:image" content="https://web.runia.ar/assets/og-runia-web-preview.png" />
     <link rel="stylesheet" href="../styles.css" />
-    <link rel="stylesheet" href="../tools.css?v=partner-budget-15" />
+    <link rel="stylesheet" href="../tools.css?v=proposal-rwd-13" />
   </head>
   <body class="tool-page budget-page">
     <header class="header">
@@ -98,6 +98,12 @@
               <label class="tool-field"><span>Precio cliente USD</span><input name="basePrice" type="number" min="0" value="850" /></label>
             </div>
 
+            <p class="tool-label">Costos adicionales</p>
+            <div class="tool-options">
+              <label class="tool-field"><span>Dominio ARS</span><input name="domainCost" type="number" min="0" value="0" /></label>
+              <label class="tool-field"><span>SSL / seguridad ARS</span><input name="sslCost" type="number" min="0" value="0" /></label>
+            </div>
+
             <div class="partner-budget-fields" data-partner-fields hidden>
               <p class="tool-label">Datos internos partner</p>
               <div class="tool-options">
@@ -141,8 +147,10 @@
               </div>
             </fieldset>
 
+            <p class="tool-label">Descuentos</p>
             <div class="tool-options">
               <label class="tool-field"><span>Descuento USD</span><input name="discount" type="number" min="0" value="0" /></label>
+              <label class="tool-field"><span>Descuento %</span><input name="discountPercent" type="number" min="0" max="100" value="0" /></label>
             </div>
             <div class="tool-options">
               <label class="tool-field"><span>Tiempo estimado</span><input name="time" value="Desde 48hs según alcance" /></label>
@@ -154,10 +162,10 @@
             </div>
             <label class="tool-field"><span>Condiciones</span><textarea name="terms">50% para comenzar. Entrega según alcance acordado.</textarea></label>
 
-            <p class="tool-form-note">El PDF no se previsualiza completo en pantalla. Se genera desde el resumen comercial de la derecha.</p>
+            <p class="tool-form-note">Guardá el presupuesto y abrí la propuesta final para revisarla, enviarla o guardarla como PDF.</p>
             <div class="tool-actions budget-actions budget-form-actions">
               <button class="button button-dark" type="button" data-save-budget>Guardar presupuesto</button>
-              <button class="button button-light" type="button" data-export-pdf hidden>Descargar propuesta PDF</button>
+              <button class="button button-light" type="button" data-export-pdf hidden>Abrir presupuesto</button>
               <a class="button button-light" data-budget-whatsapp href="#" target="_blank" rel="noopener noreferrer" hidden>Enviar por WhatsApp</a>
             </div>
             <p class="budget-save-status" data-budget-save-status>Guardá el presupuesto para habilitar descarga y envío.</p>
@@ -191,6 +199,6 @@
     <script src="../vendor/html2canvas.min.js"></script>
     <script src="../vendor/jspdf.umd.min.js"></script>
     <script src="../script.js"></script>
-    <script src="../tools.js?v=partner-budget-15"></script>
+    <script src="../tools.js?v=proposal-rwd-13"></script>
   </body>
 </html>

@@ -1429,6 +1429,95 @@
   padding-top: 0;
 }
 
+.proposal-master-commercial .proposal-cover-pill {
+  width: max-content;
+  margin-left: auto;
+  padding: 0.72rem 1.25rem;
+  border: 1px solid rgba(27, 25, 22, 0.14);
+  border-radius: 999px;
+  color: rgba(27, 25, 22, 0.58);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-cover-commercial {
+  display: block;
+  min-height: auto;
+  margin-top: 20.5rem;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-cover-commercial::after {
+  content: none;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-cover-commercial h2 {
+  max-width: 46rem;
+  font-size: 4.35rem;
+  line-height: 1.02;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-cover-commercial .proposal-page-lead {
+  max-width: 43rem;
+  margin-top: 1.35rem;
+  font-size: 1.28rem;
+  line-height: 1.55;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-investment-master {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 1.35rem 1.75rem;
+  border: 0;
+  border-radius: 0.85rem;
+  background: #151519;
+  color: #fffdf9;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-investment-master span {
+  color: rgba(255, 253, 249, 0.48);
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-investment-master strong {
+  grid-column: 1;
+  color: #fffdf9;
+  font-size: 3.05rem;
+  line-height: 1;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-investment-master p {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  max-width: 18rem;
+  margin: 0;
+  color: rgba(255, 253, 249, 0.62);
+  text-align: right;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-cover-facts {
+  display: none;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-ref-line {
+  position: absolute;
+  left: 4.6rem;
+  right: 4.6rem;
+  bottom: 5.2rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  max-width: none;
+  margin: 0;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(27, 25, 22, 0.11);
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-page-footer {
+  display: none;
+}
+
 .proposal-page-cover .proposal-cover-commercial::after {
   content: "ALCANCE CLARO   /   CONTACTO VISIBLE   /   ENTREGA ORDENADA";
   grid-column: 1 / -1;
@@ -1923,6 +2012,460 @@
   font-size: 1rem;
   line-height: 1.25;
   font-weight: 430;
+}
+
+/* Final PDF polish: lighter editorial type and calmer commercial hierarchy. */
+.proposal-master-commercial .proposal-page {
+  color: #1b1916;
+  font-family: "Instrument Sans", Inter, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 350;
+  letter-spacing: 0;
+}
+
+.proposal-master-commercial .proposal-page h2,
+.proposal-master-commercial .proposal-section-title h2,
+.proposal-master-commercial .proposal-page-cover .proposal-cover-commercial h2,
+.proposal-master-commercial .proposal-money-title h2 {
+  font-weight: 430;
+  letter-spacing: 0;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-cover-commercial h2 {
+  max-width: 47rem;
+  font-size: 4.45rem;
+  line-height: 1.02;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-cover-commercial h2 span {
+  margin-top: 0.18rem;
+  font-weight: 360;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-cover-commercial .proposal-page-lead {
+  max-width: 41rem;
+  margin-top: 1.55rem;
+  color: rgba(27, 25, 22, 0.6);
+  font-size: 1.12rem;
+  line-height: 1.62;
+  font-weight: 330;
+}
+
+.proposal-master-commercial .proposal-page-top,
+.proposal-master-commercial .proposal-page-footer,
+.proposal-master-commercial .proposal-page-kicker,
+.proposal-master-commercial .proposal-section-title p,
+.proposal-master-commercial .proposal-investment-master span,
+.proposal-master-commercial .proposal-money-title > span,
+.proposal-master-commercial .proposal-note span,
+.proposal-master-commercial .proposal-money-grid span,
+.proposal-master-commercial .proposal-extra-list span,
+.proposal-master-commercial .proposal-extra-suggest span,
+.proposal-master-commercial .proposal-ref-line strong,
+.proposal-master-commercial .proposal-benefits-row span,
+.proposal-master-commercial .proposal-timeline-master span,
+.proposal-master-commercial .proposal-cover-facts span,
+.proposal-master-commercial .proposal-payment-strip span {
+  font-family: "Instrument Sans", Inter, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 520;
+  letter-spacing: 0.08em;
+}
+
+.proposal-master-commercial .proposal-cover-pill {
+  padding: 0.68rem 1.15rem;
+  border-color: rgba(27, 25, 22, 0.12);
+  background: rgba(255, 253, 249, 0.72);
+  color: rgba(27, 25, 22, 0.46);
+  font-weight: 520;
+  letter-spacing: 0.08em;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-investment-master {
+  margin-top: 2.2rem;
+  padding: 1.45rem 1.65rem;
+  border-radius: 0.58rem;
+  background: #171514;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-investment-master strong {
+  font-size: 3rem;
+  font-weight: 430;
+  letter-spacing: 0;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-investment-master p {
+  color: rgba(255, 253, 249, 0.58);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.proposal-master-commercial .proposal-ref-line {
+  gap: 0.45rem 0.9rem;
+}
+
+.proposal-master-commercial .proposal-ref-line span {
+  color: rgba(27, 25, 22, 0.64);
+  font-size: 0.92rem;
+}
+
+.proposal-master-commercial .proposal-section-title {
+  margin-top: 3.75rem;
+}
+
+.proposal-master-commercial .proposal-section-title h2 {
+  max-width: 45rem;
+  font-size: 2.65rem;
+  line-height: 1.08;
+}
+
+.proposal-master-commercial .proposal-section-title p {
+  color: rgba(27, 25, 22, 0.46);
+  font-size: 0.72rem;
+}
+
+.proposal-master-commercial .proposal-scope-list div,
+.proposal-master-commercial .proposal-extra-list div,
+.proposal-master-commercial .proposal-payment-strip div,
+.proposal-master-commercial .proposal-benefits-row div,
+.proposal-master-commercial .proposal-next-steps div {
+  border-color: rgba(27, 25, 22, 0.08);
+  border-radius: 0.46rem;
+  background: rgba(255, 253, 249, 0.86);
+}
+
+.proposal-master-commercial .proposal-scope-list strong,
+.proposal-master-commercial .proposal-extra-list strong,
+.proposal-master-commercial .proposal-benefits-row strong,
+.proposal-master-commercial .proposal-next-steps strong,
+.proposal-master-commercial .proposal-contact-block strong,
+.proposal-master-commercial .proposal-terms-summary > strong {
+  color: #1b1916;
+  font-weight: 470;
+  letter-spacing: 0;
+}
+
+.proposal-master-commercial .proposal-scope-list strong,
+.proposal-master-commercial .proposal-extra-list strong {
+  font-size: 1.02rem;
+  line-height: 1.25;
+}
+
+.proposal-master-commercial .proposal-scope-list span {
+  width: 1.08rem;
+  height: 0.1rem;
+  margin-bottom: 0.82rem;
+}
+
+.proposal-master-commercial .proposal-extra-list p,
+.proposal-master-commercial .proposal-benefits-row p,
+.proposal-master-commercial .proposal-extra-suggest p,
+.proposal-master-commercial .proposal-terms-summary li,
+.proposal-master-commercial .proposal-terms-summary p,
+.proposal-master-commercial .proposal-contact-block p,
+.proposal-master-commercial .proposal-contact-block span,
+.proposal-master-commercial .proposal-note {
+  color: rgba(27, 25, 22, 0.58);
+  font-weight: 330;
+  line-height: 1.55;
+}
+
+.proposal-master-commercial .proposal-money-title {
+  margin-top: 3rem;
+  padding: 1.45rem 1.55rem;
+  border: 1px solid rgba(27, 25, 22, 0.09);
+  border-left: 0.16rem solid var(--orange);
+  border-radius: 0.52rem;
+  background: #191716;
+}
+
+.proposal-master-commercial .proposal-money-title h2 {
+  color: #fffdf9;
+  font-size: 4.05rem;
+  line-height: 1;
+}
+
+.proposal-master-commercial .proposal-money-title p,
+.proposal-master-commercial .proposal-money-title > span,
+.proposal-master-commercial .proposal-money-title small {
+  color: rgba(255, 253, 249, 0.58);
+}
+
+.proposal-master-commercial .proposal-money-title small {
+  font-weight: 330;
+}
+
+.proposal-master-commercial .proposal-invest-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid rgba(27, 25, 22, 0.09);
+  border-radius: 0.52rem;
+  background: rgba(27, 25, 22, 0.08);
+}
+
+.proposal-master-commercial .proposal-invest-grid div {
+  min-height: 5.45rem;
+  padding: 0.95rem 1.05rem;
+  border: 0;
+  border-right: 1px solid rgba(27, 25, 22, 0.07);
+  border-bottom: 1px solid rgba(27, 25, 22, 0.07);
+  border-radius: 0;
+  background: rgba(255, 253, 249, 0.9);
+}
+
+.proposal-master-commercial .proposal-invest-grid span {
+  color: rgba(27, 25, 22, 0.46);
+  font-size: 0.68rem;
+}
+
+.proposal-master-commercial .proposal-invest-grid strong {
+  color: #1b1916;
+  font-size: 1.15rem;
+  font-weight: 470;
+  letter-spacing: 0;
+}
+
+.proposal-master-commercial .proposal-invest-grid div:nth-child(6) {
+  background: #191716;
+}
+
+.proposal-master-commercial .proposal-invest-grid div:nth-child(6) strong {
+  color: #fffdf9;
+  font-size: 1.45rem;
+  font-weight: 470;
+}
+
+.proposal-master-commercial .proposal-contact-block {
+  border-left-width: 0.16rem;
+  border-radius: 0.52rem;
+}
+
+.proposal-master-commercial .proposal-contact-block strong {
+  font-size: 1.58rem;
+}
+
+.proposal-master-commercial .proposal-page {
+  font-family: "Instrument Sans", Inter, "Helvetica Neue", Arial, sans-serif;
+  background: #fbfaf6;
+  border-color: rgba(27, 25, 22, 0.055);
+}
+
+.proposal-master-commercial .proposal-page::before {
+  inset: 1.05rem;
+  border-color: rgba(27, 25, 22, 0.045);
+}
+
+.proposal-master-commercial .proposal-page::after {
+  width: 3.2rem;
+  height: 0.13rem;
+  background: #f16f16;
+}
+
+.proposal-master-commercial .proposal-page-top,
+.proposal-master-commercial .proposal-page-footer,
+.proposal-master-commercial .proposal-page-kicker,
+.proposal-master-commercial .proposal-section-title p,
+.proposal-master-commercial .proposal-investment-master span,
+.proposal-master-commercial .proposal-money-title > span,
+.proposal-master-commercial .proposal-note span,
+.proposal-master-commercial .proposal-money-grid span,
+.proposal-master-commercial .proposal-extra-list span,
+.proposal-master-commercial .proposal-extra-suggest span,
+.proposal-master-commercial .proposal-ref-line strong,
+.proposal-master-commercial .proposal-benefits-row span,
+.proposal-master-commercial .proposal-timeline-master span,
+.proposal-master-commercial .proposal-cover-facts span,
+.proposal-master-commercial .proposal-payment-strip span {
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+}
+
+.proposal-master-commercial .proposal-pdf-header .proposal-logo-frame img {
+  width: 7.6rem;
+}
+
+.proposal-master-commercial .proposal-cover-pill {
+  padding: 0.76rem 1.35rem;
+  border-color: rgba(27, 25, 22, 0.18);
+  background: rgba(255, 253, 249, 0.64);
+  color: rgba(27, 25, 22, 0.56);
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-cover-commercial {
+  margin-top: 20rem;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-cover-commercial h2 {
+  max-width: 48rem;
+  font-size: 4.75rem;
+  line-height: 0.96;
+  font-weight: 760;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-cover-commercial h2 span {
+  display: block;
+  color: #f16f16;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-cover-commercial .proposal-page-lead {
+  max-width: 43rem;
+  color: rgba(27, 25, 22, 0.62);
+  font-size: 1.18rem;
+  line-height: 1.58;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-investment-master {
+  margin-top: 2.1rem;
+  border-radius: 0.72rem;
+  background: #151519;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-investment-master strong {
+  color: #fffdf9;
+  font-size: 3.25rem;
+  font-weight: 760;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-ref-line {
+  gap: 0.4rem 1rem;
+  color: rgba(27, 25, 22, 0.58);
+}
+
+.proposal-master-commercial .proposal-page h2 {
+  font-weight: 720;
+}
+
+.proposal-master-commercial .proposal-section-title {
+  margin-top: 4.2rem;
+}
+
+.proposal-master-commercial .proposal-section-title h2 {
+  max-width: 44rem;
+  font-size: 2.9rem;
+  line-height: 1.03;
+}
+
+.proposal-master-commercial .proposal-section-title::after {
+  width: 2.8rem;
+  margin-top: 1.55rem;
+}
+
+.proposal-master-commercial .proposal-scope-list,
+.proposal-master-commercial .proposal-extra-list {
+  gap: 0.72rem;
+  margin-top: 1.7rem;
+}
+
+.proposal-master-commercial .proposal-scope-list div,
+.proposal-master-commercial .proposal-extra-list div {
+  min-height: 5.8rem;
+  padding: 1rem 1.12rem;
+  border: 1px solid rgba(27, 25, 22, 0.11);
+  border-left: 0;
+  border-radius: 0.7rem;
+  background: rgba(255, 253, 249, 0.82);
+}
+
+.proposal-master-commercial .proposal-scope-list span {
+  width: 0.42rem;
+  height: 0.42rem;
+  margin-bottom: 1rem;
+}
+
+.proposal-master-commercial .proposal-scope-list strong,
+.proposal-master-commercial .proposal-extra-list strong {
+  font-size: 1.08rem;
+  font-weight: 690;
+}
+
+.proposal-master-commercial .proposal-scope-summary {
+  background: rgba(255, 246, 232, 0.9) !important;
+  box-shadow: inset 0 0 0 1px rgba(241, 111, 22, 0.2);
+}
+
+.proposal-master-commercial .proposal-benefits-row div {
+  background: transparent;
+}
+
+.proposal-master-commercial .proposal-money-title {
+  margin-top: 3.1rem;
+  padding: 1.55rem 1.75rem;
+  border: 0;
+  border-radius: 0.8rem;
+  background: #151519;
+}
+
+.proposal-master-commercial .proposal-money-title p,
+.proposal-master-commercial .proposal-money-title > span,
+.proposal-master-commercial .proposal-money-title small {
+  color: rgba(255, 253, 249, 0.58);
+}
+
+.proposal-master-commercial .proposal-money-title h2 {
+  color: #fffdf9;
+  font-size: 4.55rem;
+  font-weight: 760;
+}
+
+.proposal-master-commercial .proposal-invest-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: 1.55rem;
+  overflow: hidden;
+  border: 1px solid rgba(27, 25, 22, 0.11);
+  border-radius: 0.82rem;
+  background: rgba(27, 25, 22, 0.1);
+}
+
+.proposal-master-commercial .proposal-invest-grid div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  min-height: 4.15rem;
+  padding: 0.95rem 1.15rem;
+  border: 0;
+  border-bottom: 1px solid rgba(27, 25, 22, 0.08);
+  background: rgba(255, 253, 249, 0.9);
+}
+
+.proposal-master-commercial .proposal-invest-grid div:last-child {
+  border-bottom: 0;
+}
+
+.proposal-master-commercial .proposal-invest-grid span {
+  color: rgba(27, 25, 22, 0.46);
+}
+
+.proposal-master-commercial .proposal-invest-grid strong {
+  margin-top: 0;
+  font-size: 1.28rem;
+  font-weight: 720;
+  text-align: right;
+}
+
+.proposal-master-commercial .proposal-invest-grid div:nth-child(6) {
+  background: rgba(21, 21, 25, 0.96);
+}
+
+.proposal-master-commercial .proposal-invest-grid div:nth-child(6) span,
+.proposal-master-commercial .proposal-invest-grid div:nth-child(6) strong {
+  color: #fffdf9;
+}
+
+.proposal-master-commercial .proposal-note {
+  max-width: 45rem;
+  margin-top: 0.85rem;
+}
+
+.proposal-master-commercial .proposal-payment-strip {
+  margin-top: 1rem;
+}
+
+.proposal-master-commercial .proposal-payment-strip div {
+  border-left-color: #f16f16;
+  border-radius: 0.7rem;
+  background: rgba(255, 253, 249, 0.84);
 }
 
 .proposal-preview {
@@ -3253,6 +3796,884 @@
   font-size: 0.78rem;
   line-height: 1.65;
   white-space: pre-wrap;
+}
+
+/* Final PDF polish: keep the client proposal lighter, cleaner and less bold. */
+.proposal-master-commercial .proposal-page {
+  color: #1b1916;
+  font-family: "Instrument Sans", Inter, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 350;
+  letter-spacing: 0;
+}
+
+.proposal-master-commercial .proposal-page h2,
+.proposal-master-commercial .proposal-section-title h2,
+.proposal-master-commercial .proposal-page-cover .proposal-cover-commercial h2,
+.proposal-master-commercial .proposal-money-title h2 {
+  font-weight: 430;
+  letter-spacing: 0;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-cover-commercial h2 {
+  max-width: 47rem;
+  font-size: 4.45rem;
+  line-height: 1.02;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-cover-commercial h2 span {
+  margin-top: 0.18rem;
+  font-weight: 360;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-cover-commercial .proposal-page-lead {
+  max-width: 41rem;
+  margin-top: 1.55rem;
+  color: rgba(27, 25, 22, 0.6);
+  font-size: 1.12rem;
+  line-height: 1.62;
+  font-weight: 330;
+}
+
+.proposal-master-commercial .proposal-page-top,
+.proposal-master-commercial .proposal-page-footer,
+.proposal-master-commercial .proposal-page-kicker,
+.proposal-master-commercial .proposal-section-title p,
+.proposal-master-commercial .proposal-investment-master span,
+.proposal-master-commercial .proposal-money-title > span,
+.proposal-master-commercial .proposal-note span,
+.proposal-master-commercial .proposal-money-grid span,
+.proposal-master-commercial .proposal-extra-list span,
+.proposal-master-commercial .proposal-extra-suggest span,
+.proposal-master-commercial .proposal-ref-line strong,
+.proposal-master-commercial .proposal-benefits-row span,
+.proposal-master-commercial .proposal-timeline-master span,
+.proposal-master-commercial .proposal-cover-facts span,
+.proposal-master-commercial .proposal-payment-strip span {
+  font-family: "Instrument Sans", Inter, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 520;
+  letter-spacing: 0.08em;
+}
+
+.proposal-master-commercial .proposal-cover-pill {
+  padding: 0.68rem 1.15rem;
+  border-color: rgba(27, 25, 22, 0.12);
+  background: rgba(255, 253, 249, 0.72);
+  color: rgba(27, 25, 22, 0.46);
+  font-weight: 520;
+  letter-spacing: 0.08em;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-investment-master {
+  margin-top: 2.2rem;
+  padding: 1.45rem 1.65rem;
+  border-radius: 0.58rem;
+  background: #171514;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-investment-master strong {
+  font-size: 3rem;
+  font-weight: 430;
+  letter-spacing: 0;
+}
+
+.proposal-master-commercial .proposal-page-cover .proposal-investment-master p {
+  color: rgba(255, 253, 249, 0.58);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.proposal-master-commercial .proposal-ref-line {
+  gap: 0.45rem 0.9rem;
+}
+
+.proposal-master-commercial .proposal-ref-line span {
+  color: rgba(27, 25, 22, 0.64);
+  font-size: 0.92rem;
+}
+
+.proposal-master-commercial .proposal-section-title {
+  margin-top: 3.75rem;
+}
+
+.proposal-master-commercial .proposal-section-title h2 {
+  max-width: 45rem;
+  font-size: 2.65rem;
+  line-height: 1.08;
+}
+
+.proposal-master-commercial .proposal-section-title p {
+  color: rgba(27, 25, 22, 0.46);
+  font-size: 0.72rem;
+}
+
+.proposal-master-commercial .proposal-scope-list div,
+.proposal-master-commercial .proposal-extra-list div,
+.proposal-master-commercial .proposal-payment-strip div,
+.proposal-master-commercial .proposal-benefits-row div,
+.proposal-master-commercial .proposal-next-steps div {
+  border-color: rgba(27, 25, 22, 0.08);
+  border-radius: 0.46rem;
+  background: rgba(255, 253, 249, 0.86);
+}
+
+.proposal-master-commercial .proposal-scope-list strong,
+.proposal-master-commercial .proposal-extra-list strong,
+.proposal-master-commercial .proposal-benefits-row strong,
+.proposal-master-commercial .proposal-next-steps strong,
+.proposal-master-commercial .proposal-contact-block strong,
+.proposal-master-commercial .proposal-terms-summary > strong {
+  color: #1b1916;
+  font-weight: 470;
+  letter-spacing: 0;
+}
+
+.proposal-master-commercial .proposal-scope-list strong,
+.proposal-master-commercial .proposal-extra-list strong {
+  font-size: 1.02rem;
+  line-height: 1.25;
+}
+
+.proposal-master-commercial .proposal-scope-list span {
+  width: 1.08rem;
+  height: 0.1rem;
+  margin-bottom: 0.82rem;
+}
+
+.proposal-master-commercial .proposal-extra-list p,
+.proposal-master-commercial .proposal-benefits-row p,
+.proposal-master-commercial .proposal-extra-suggest p,
+.proposal-master-commercial .proposal-terms-summary li,
+.proposal-master-commercial .proposal-terms-summary p,
+.proposal-master-commercial .proposal-contact-block p,
+.proposal-master-commercial .proposal-contact-block span,
+.proposal-master-commercial .proposal-note {
+  color: rgba(27, 25, 22, 0.58);
+  font-weight: 330;
+  line-height: 1.55;
+}
+
+.proposal-master-commercial .proposal-money-title {
+  margin-top: 3rem;
+  padding: 1.45rem 1.55rem;
+  border: 1px solid rgba(27, 25, 22, 0.09);
+  border-left: 0.16rem solid var(--orange);
+  border-radius: 0.52rem;
+  background: #191716;
+}
+
+.proposal-master-commercial .proposal-money-title h2 {
+  color: #fffdf9;
+  font-size: 4.05rem;
+  line-height: 1;
+}
+
+.proposal-master-commercial .proposal-money-title p,
+.proposal-master-commercial .proposal-money-title > span,
+.proposal-master-commercial .proposal-money-title small {
+  color: rgba(255, 253, 249, 0.58);
+}
+
+.proposal-master-commercial .proposal-money-title small {
+  font-weight: 330;
+}
+
+.proposal-master-commercial .proposal-invest-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid rgba(27, 25, 22, 0.09);
+  border-radius: 0.52rem;
+  background: rgba(27, 25, 22, 0.08);
+}
+
+.proposal-master-commercial .proposal-invest-grid div {
+  min-height: 5.45rem;
+  padding: 0.95rem 1.05rem;
+  border: 0;
+  border-right: 1px solid rgba(27, 25, 22, 0.07);
+  border-bottom: 1px solid rgba(27, 25, 22, 0.07);
+  border-radius: 0;
+  background: rgba(255, 253, 249, 0.9);
+}
+
+.proposal-master-commercial .proposal-invest-grid span {
+  color: rgba(27, 25, 22, 0.46);
+  font-size: 0.68rem;
+}
+
+.proposal-master-commercial .proposal-invest-grid strong {
+  color: #1b1916;
+  font-size: 1.15rem;
+  font-weight: 470;
+  letter-spacing: 0;
+}
+
+.proposal-master-commercial .proposal-invest-grid div:nth-child(6) {
+  background: #191716;
+}
+
+.proposal-master-commercial .proposal-invest-grid div:nth-child(6) strong {
+  color: #fffdf9;
+  font-size: 1.45rem;
+  font-weight: 470;
+}
+
+.proposal-master-commercial .proposal-contact-block {
+  border-left-width: 0.16rem;
+  border-radius: 0.52rem;
+}
+
+.proposal-master-commercial .proposal-contact-block strong {
+  font-size: 1.58rem;
+}
+
+.proposal-master-rwd .proposal-page {
+  font-family: "Bahnschrift", "Aptos", "Instrument Sans", Inter, sans-serif;
+  font-weight: 300;
+  padding: 3.7rem 4.4rem;
+}
+
+.proposal-master-rwd .proposal-section-title h2,
+.proposal-master-rwd .proposal-page-cover .proposal-cover-commercial h2 {
+  font-family: "Bahnschrift", "Aptos Display", "Instrument Sans", Inter, sans-serif;
+  font-weight: 380;
+  letter-spacing: 0;
+}
+
+.proposal-master-rwd .proposal-section-title h2 span,
+.proposal-master-rwd .proposal-page-cover .proposal-cover-commercial h2 span {
+  color: #f16f16;
+}
+
+.proposal-master-rwd .proposal-cover-pill {
+  border-radius: 0;
+  padding: 0.72rem 1rem;
+  background: rgba(255, 253, 249, 0.62);
+}
+
+.proposal-master-rwd .proposal-page-cover .proposal-cover-commercial {
+  margin-top: 15.8rem;
+}
+
+.proposal-master-rwd .proposal-page-cover .proposal-cover-commercial h2 {
+  max-width: 45rem;
+  font-size: 4.25rem;
+  line-height: 1.02;
+}
+
+.proposal-master-rwd .proposal-page-cover .proposal-investment-master {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.55rem 1.6rem;
+  margin-top: 2.8rem;
+  border-radius: 0;
+}
+
+.proposal-master-rwd .proposal-page-cover .proposal-investment-master strong {
+  grid-column: 1;
+}
+
+.proposal-master-rwd .proposal-page-cover .proposal-investment-master p {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  margin: 0;
+  text-align: right;
+}
+
+.proposal-master-rwd .proposal-page-footer {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.proposal-master-rwd .proposal-page-scope .proposal-section-title,
+.proposal-master-rwd .proposal-page-investment-rwd .proposal-section-title {
+  margin-top: 3rem;
+}
+
+.proposal-master-rwd .proposal-page-scope .proposal-section-title h2,
+.proposal-master-rwd .proposal-page-investment-rwd .proposal-section-title h2 {
+  max-width: 43rem;
+  font-size: 2.35rem;
+  line-height: 1.06;
+}
+
+.proposal-master-rwd .proposal-page-scope .proposal-context-lead,
+.proposal-master-rwd .proposal-page-investment-rwd .proposal-note {
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.proposal-master-rwd .proposal-context-lead {
+  max-width: 48rem;
+  margin-top: 1.2rem;
+  color: rgba(27, 25, 22, 0.66);
+  font-size: 1.08rem;
+  line-height: 1.62;
+}
+
+.proposal-context-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2.4rem;
+}
+
+.proposal-context-grid div,
+.proposal-conditions-grid div {
+  min-height: 12rem;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid rgba(27, 25, 22, 0.08);
+  background: rgba(255, 253, 249, 0.9);
+}
+
+.proposal-context-grid strong,
+.proposal-conditions-grid strong {
+  display: block;
+  color: #1b1916;
+  font-size: 1.12rem;
+  font-weight: 470;
+  line-height: 1.2;
+}
+
+.proposal-context-grid p,
+.proposal-conditions-grid p {
+  margin-top: 0.85rem;
+  color: rgba(27, 25, 22, 0.62);
+  font-size: 0.94rem;
+  font-weight: 300;
+  line-height: 1.58;
+}
+
+.proposal-tech-label {
+  margin-top: 2rem;
+  color: #f16f16;
+  font-size: 0.72rem;
+  font-weight: 620;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.proposal-tech-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+}
+
+.proposal-tech-row span {
+  padding: 0.58rem 0.82rem;
+  border: 1px solid rgba(27, 25, 22, 0.09);
+  background: rgba(255, 253, 249, 0.86);
+  color: rgba(27, 25, 22, 0.66);
+  font-size: 0.84rem;
+  font-weight: 340;
+}
+
+.proposal-module-list,
+.proposal-investment-table,
+.proposal-assumption-list {
+  display: grid;
+  gap: 0;
+  margin-top: 1.8rem;
+  border-top: 1px solid rgba(27, 25, 22, 0.1);
+}
+
+.proposal-module-row {
+  display: grid;
+  grid-template-columns: 7.8rem minmax(0, 1fr) auto;
+  gap: 0.55rem 1.15rem;
+  padding: 1.05rem 0;
+  border-bottom: 1px solid rgba(27, 25, 22, 0.1);
+}
+
+.proposal-module-row span,
+.proposal-assumption-list span {
+  color: #f16f16;
+  font-size: 0.72rem;
+  font-weight: 620;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.proposal-module-row strong {
+  color: #1b1916;
+  font-size: 1.2rem;
+  font-weight: 470;
+  line-height: 1.18;
+}
+
+.proposal-module-row em {
+  color: #1b1916;
+  font-style: normal;
+  font-size: 1rem;
+  font-weight: 520;
+  white-space: nowrap;
+}
+
+.proposal-module-row p {
+  grid-column: 2 / -1;
+  margin: 0;
+  color: rgba(27, 25, 22, 0.62);
+  font-size: 0.92rem;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.proposal-page-scope .proposal-module-list {
+  margin-top: 1.35rem;
+}
+
+.proposal-page-scope .proposal-module-row {
+  padding: 0.74rem 0;
+}
+
+.proposal-page-scope .proposal-module-row strong {
+  font-size: 1.04rem;
+}
+
+.proposal-page-scope .proposal-module-row p {
+  font-size: 0.84rem;
+  line-height: 1.34;
+}
+
+.proposal-page-scope .proposal-included-runia {
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+}
+
+.proposal-page-scope .proposal-included-runia p {
+  font-size: 0.84rem;
+  line-height: 1.38;
+}
+
+.proposal-included-runia {
+  margin-top: 1.35rem;
+}
+
+.proposal-investment-table div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.2rem 1.2rem;
+  padding: 0.95rem 0;
+  border-bottom: 1px solid rgba(27, 25, 22, 0.1);
+}
+
+.proposal-investment-table strong {
+  color: #1b1916;
+  font-size: 1.05rem;
+  font-weight: 470;
+}
+
+.proposal-investment-table p {
+  grid-column: 1;
+  margin: 0;
+  color: rgba(27, 25, 22, 0.58);
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.proposal-investment-table span {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  color: #1b1916;
+  font-size: 1rem;
+  font-weight: 520;
+  white-space: nowrap;
+}
+
+.proposal-investment-table .is-total {
+  margin-top: 0.8rem;
+  padding: 1.1rem 1.2rem;
+  border: 0;
+  background: #1b1916;
+}
+
+.proposal-investment-table .is-total strong,
+.proposal-investment-table .is-total span {
+  color: #fffdf9;
+}
+
+.proposal-investment-table .is-total p {
+  color: rgba(255, 253, 249, 0.62);
+}
+
+.proposal-monthly-table {
+  margin-top: 1.3rem;
+}
+
+.proposal-page-investment-rwd .proposal-money-title {
+  margin-top: 2.45rem;
+  padding: 1.1rem 1.25rem;
+}
+
+.proposal-page-investment-rwd .proposal-money-title h2 {
+  font-size: 3.35rem;
+}
+
+.proposal-page-investment-rwd .proposal-investment-table {
+  margin-top: 1.05rem;
+}
+
+.proposal-page-investment-rwd .proposal-investment-table div {
+  padding: 0.68rem 0;
+}
+
+.proposal-page-investment-rwd .proposal-investment-table .is-total {
+  margin-top: 0.55rem;
+  padding: 0.95rem 1rem;
+}
+
+.proposal-page-investment-rwd .proposal-monthly-table {
+  margin-top: 0.8rem;
+}
+
+.proposal-page-investment-rwd .proposal-payment-strip {
+  margin-top: 0.95rem;
+}
+
+.proposal-page-investment-rwd .proposal-payment-strip div {
+  min-height: auto;
+  padding: 0.85rem 1rem;
+}
+
+.proposal-page-investment-rwd .proposal-note {
+  margin-top: 0.72rem;
+}
+
+.proposal-next-steps em {
+  display: block;
+  margin-top: 0.55rem;
+  color: rgba(27, 25, 22, 0.5);
+  font-style: normal;
+  font-size: 0.82rem;
+}
+
+.proposal-next-steps p {
+  margin-top: 0.8rem;
+  color: rgba(27, 25, 22, 0.62);
+  font-size: 0.86rem;
+  line-height: 1.48;
+}
+
+.proposal-conditions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.8rem;
+}
+
+.proposal-page-close .proposal-conditions-grid {
+  margin-top: 1.25rem;
+}
+
+.proposal-page-close .proposal-conditions-grid div {
+  min-height: 10.5rem;
+  padding: 1rem 1.1rem;
+}
+
+.proposal-page-close .proposal-conditions-grid p {
+  margin-top: 0.62rem;
+  font-size: 0.84rem;
+  line-height: 1.38;
+}
+
+.proposal-page-close .proposal-terms-summary {
+  margin-top: 1rem;
+  padding: 1rem 1.1rem;
+}
+
+.proposal-page-close .proposal-terms-summary li,
+.proposal-page-close .proposal-terms-summary p {
+  font-size: 0.84rem;
+  line-height: 1.38;
+}
+
+.proposal-quality-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 1.6rem;
+}
+
+.proposal-quality-grid div {
+  display: grid;
+  grid-template-columns: 1.35rem minmax(0, 1fr);
+  gap: 0.62rem;
+  align-items: center;
+  min-height: 2.85rem;
+  padding: 0.58rem 0.72rem;
+  border: 1px solid rgba(27, 25, 22, 0.08);
+  background: rgba(255, 253, 249, 0.88);
+}
+
+.proposal-quality-grid span {
+  color: #f16f16;
+  font-size: 0.82rem;
+  font-weight: 620;
+}
+
+.proposal-quality-grid strong {
+  color: #1b1916;
+  font-size: 0.88rem;
+  font-weight: 380;
+  line-height: 1.18;
+}
+
+.proposal-quality-note {
+  margin-top: 1.15rem;
+}
+
+.proposal-page-quality .proposal-section-title {
+  margin-top: 3rem;
+}
+
+.proposal-page-quality .proposal-section-title h2 {
+  max-width: 45rem;
+  font-size: 2.45rem;
+}
+
+.proposal-page-conditions {
+  padding-top: 3.25rem;
+  padding-bottom: 3.25rem;
+}
+
+.proposal-page-conditions .proposal-section-title {
+  margin-top: 2.35rem;
+}
+
+.proposal-page-conditions .proposal-section-title h2 {
+  max-width: 42rem;
+  font-size: 2.2rem;
+  line-height: 1.04;
+}
+
+.proposal-page-conditions .proposal-conditions-grid {
+  margin-top: 1rem;
+}
+
+.proposal-page-conditions .proposal-conditions-grid div {
+  min-height: 9.2rem;
+  padding: 0.82rem 0.95rem;
+}
+
+.proposal-page-conditions .proposal-terms-summary {
+  margin-top: 0.8rem;
+  padding: 0.86rem 0.95rem;
+}
+
+.proposal-assumption-list div {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.05rem 0;
+  border-bottom: 1px solid rgba(27, 25, 22, 0.1);
+}
+
+.proposal-assumption-list p {
+  margin: 0;
+  color: rgba(27, 25, 22, 0.64);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.proposal-signatures {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.8rem;
+  margin-top: 2.35rem;
+}
+
+.proposal-signatures div {
+  min-height: 7.2rem;
+  padding: 0;
+  border-top: 0;
+}
+
+.proposal-signatures span {
+  display: block;
+  color: rgba(27, 25, 22, 0.48);
+  font-size: 0.82rem;
+}
+
+.proposal-signatures strong {
+  display: block;
+  min-height: 1.4rem;
+  margin: 0 0 1.05rem;
+  color: #1b1916;
+  font-size: 0.98rem;
+  font-weight: 540;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.proposal-signatures em {
+  display: block;
+  height: 2.45rem;
+  border-bottom: 1px solid rgba(27, 25, 22, 0.42);
+  font-family: inherit;
+  font-size: 0;
+  font-style: normal;
+  line-height: 1;
+}
+
+.proposal-signatures p {
+  margin: 0.82rem 0 0;
+  color: rgba(27, 25, 22, 0.52);
+  font-size: 0.78rem;
+  font-weight: 340;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.proposal-signature-client em {
+  border-bottom: 1px solid rgba(27, 25, 22, 0.24);
+}
+
+.proposal-page-acceptance .proposal-contact-block {
+  margin-top: 1.2rem;
+  padding: 1.05rem 1.2rem;
+}
+
+.proposal-page-acceptance .proposal-contact-block strong {
+  font-size: 1.28rem;
+}
+
+.proposal-print-page {
+  min-height: 100vh;
+  margin: 0;
+  padding: 2rem;
+  background: #efebe4;
+}
+
+.proposal-print-export {
+  background: #fffdf9;
+}
+
+.proposal-print-page .proposal-master {
+  display: grid;
+  gap: 1.5rem;
+  width: max-content;
+  margin: 0 auto;
+}
+
+.proposal-print-actions {
+  position: sticky;
+  top: 1rem;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  width: min(100%, 920px);
+  margin: 0 auto 1.2rem;
+  padding: 0.75rem;
+  border: 1px solid rgba(27, 25, 22, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 253, 249, 0.94);
+  box-shadow: 0 18px 50px rgba(27, 25, 22, 0.12);
+}
+
+.proposal-print-actions div {
+  min-width: 0;
+  margin-right: auto;
+  padding-left: 0.65rem;
+}
+
+.proposal-print-actions span,
+.proposal-print-actions strong {
+  display: block;
+  white-space: nowrap;
+}
+
+.proposal-print-actions span {
+  color: rgba(27, 25, 22, 0.46);
+  font-size: 0.68rem;
+  font-weight: 520;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.proposal-print-actions strong {
+  margin-top: 0.1rem;
+  overflow: hidden;
+  color: #1b1916;
+  font-size: 0.95rem;
+  font-weight: 520;
+  text-overflow: ellipsis;
+}
+
+.proposal-print-actions button {
+  min-height: 2.55rem;
+  padding: 0 1.15rem;
+  border: 1px solid rgba(27, 25, 22, 0.14);
+  border-radius: 999px;
+  background: #fffdf9;
+  color: #1b1916;
+  font: 600 0.86rem/1 "Instrument Sans", Inter, sans-serif;
+  cursor: pointer;
+}
+
+.proposal-print-actions button:first-of-type {
+  border-color: #1b1916;
+  background: #1b1916;
+  color: #fffdf9;
+}
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+@media print {
+  * {
+    visibility: visible !important;
+  }
+
+  html,
+  body {
+    width: 210mm;
+    margin: 0;
+    padding: 0;
+    background: #fffdf9 !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .proposal-print-actions {
+    display: none !important;
+  }
+
+  .proposal-print-page {
+    padding: 0;
+    background: #fffdf9 !important;
+  }
+
+  .proposal-print-page .proposal-master {
+    display: block;
+    width: 210mm;
+    margin: 0;
+  }
+
+  .proposal-print-page .proposal-page {
+    width: 210mm;
+    min-height: 297mm;
+    height: 297mm;
+    margin: 0;
+    padding: 18mm 21mm;
+    overflow: hidden;
+    break-after: page;
+    page-break-after: always;
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+
+  .proposal-print-page .proposal-page:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
 }
 
 @media (max-width: 980px) {
