@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Runia + Odoo · Plucinski Maderas</title>
+<style>
+:root{
+  --canvas:#d7d0c6;
+  --paper:#fbf7ef;
+  --paper-card:#fffdf8;
+  --ink:#151412;
+  --ink-2:#2e2a26;
+  --text:#514a43;
+  --muted:#7f766c;
+  --faint:#aaa197;
+  --line:#e5dacd;
+  --line-strong:#d1c4b4;
+  --orange:#ef6b25;
+  --orange-soft:#fff0e6;
+  --dark:#111112;
+  --dark-2:#1b1a18;
+  --green:#e2f5e9;
+  --odoo:#a2468d;
+}
+*{box-sizing:border-box}
+html,body{
+  margin:0;
+  background:var(--canvas);
+  color:var(--ink);
+  font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:geometricPrecision;
+}
+.page{
+  width:210mm;
+  height:297mm;
+  margin:24px auto;
+  padding:20mm;
+  background:
+    linear-gradient(90deg, rgba(229,218,205,.48) 1px, transparent 1px) 0 0/42mm 42mm,
+    radial-gradient(circle at 88% 10%, rgba(239,107,37,.055), transparent 27%),
+    var(--paper);
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 24px 78px rgba(17,14,12,.17);
+  page-break-after:always;
+}
+.page.clean{
+  background:var(--paper);
+}
+.page:after{
+  content:"";
+  position:absolute;
+  right:-145px;
+  bottom:-175px;
+  width:430px;
+  height:430px;
+  border-radius:50%;
+  border:1px solid rgba(239,107,37,.10);
+  pointer-events:none;
+}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{
+  font-weight:360;
+  letter-spacing:-.055em;
+  color:var(--ink);
+}
+h1{font-size:76px;line-height:.87}
+h2{font-size:43px;line-height:1.03;max-width:680px}
+h3{font-size:18px;line-height:1.16}
+p{
+  font-size:14px;
+  line-height:1.58;
+  color:var(--text);
+  letter-spacing:-.008em;
+}
+.lead{
+  margin-top:16px;
+  max-width:660px;
+  font-size:18px;
+  line-height:1.5;
+  color:#332f2a;
+  letter-spacing:-.025em;
+}
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  padding-bottom:13px;
+  border-bottom:1px solid var(--line-strong);
+  margin-bottom:30px;
+}
+.eyebrow{
+  color:var(--orange);
+  font-size:10px;
+  line-height:1;
+  text-transform:uppercase;
+  letter-spacing:.28em;
+  font-weight:650;
+}
+.header-brand{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:#6e655d;
+  font-size:10px;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+  font-weight:520;
+}
+.header-brand img{
+  width:24px;height:24px;border-radius:50%;
+  object-fit:cover;
+}
+.footer{
+  position:absolute;
+  left:20mm;
+  right:20mm;
+  bottom:14mm;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding-top:12px;
+  border-top:1px solid var(--line);
+  color:#a79d93;
+  font-size:10px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-weight:520;
+}
+.rule{
+  width:40px;
+  height:1px;
+  background:var(--orange);
+  margin:22px 0;
+}
+.card{
+  background:rgba(255,253,248,.78);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 10px 30px rgba(34,24,14,.026);
+}
+.card.dark{
+  background:var(--dark);
+  border-color:var(--dark);
+  color:white;
+}
+.card.dark h3,.card.dark p,.card.dark li{color:white}
+.card.dark p,.card.dark li{opacity:.80}
+.card.soft{
+  background:var(--orange-soft);
+  border-color:#f8d9c4;
+}
+.card.green{
+  background:var(--green);
+  border-color:#cdebd8;
+}
+.tag{
+  display:inline-block;
+  margin-bottom:15px;
+  padding:6px 9px;
+  border:1px solid rgba(210,196,180,.75);
+  border-radius:999px;
+  font-size:9px;
+  line-height:1;
+  text-transform:uppercase;
+  letter-spacing:.18em;
+  color:#7b7167;
+  font-weight:680;
+}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-top:28px}
+.quote{
+  margin-top:28px;
+  background:rgba(255,253,248,.70);
+  border:1px solid var(--line);
+  border-left:4px solid var(--orange);
+  border-radius:0 18px 18px 0;
+  padding:23px 26px;
+  color:#25211d;
+  font-size:24px;
+  line-height:1.22;
+  letter-spacing:-.045em;
+  font-weight:360;
+}
+.quote small{
+  display:block;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.4;
+  letter-spacing:0;
+}
+ul{margin:10px 0 0;padding-left:17px}
+li{
+  color:var(--text);
+  font-size:13px;
+  line-height:1.44;
+  margin:8px 0;
+}
+.icon{
+  width:32px;height:32px;
+  stroke:#4b453f;
+  stroke-width:1.12;
+  fill:none;
+  margin-bottom:21px;
+}
+.check{
+  display:inline-block;
+  width:17px;height:17px;
+  border:1px solid var(--orange);
+  border-radius:50%;
+  position:relative;
+  vertical-align:-3px;
+  margin-right:8px;
+}
+.check:after{
+  content:"";
+  position:absolute;
+  left:4px;top:4px;
+  width:6px;height:3px;
+  border-left:1px solid var(--orange);
+  border-bottom:1px solid var(--orange);
+  transform:rotate(-45deg);
+}
+
+/* COVER */
+.cover{
+  padding:0;
+  background:#090909;
+  color:white;
+}
+.cover:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.90) 0%, rgba(0,0,0,.70) 44%, rgba(0,0,0,.30) 100%),
+    linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.58)),
+    url("cover-maderera-bg.jpg") center center / cover no-repeat;
+}
+.cover:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.28));
+}
+.cover-inner{
+  position:relative;
+  z-index:2;
+  height:100%;
+  padding:20mm;
+}
+.cover-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+}
+.cover-logos{
+  display:flex;
+  align-items:center;
+  gap:28px;
+}
+.runia-lock{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.runia-lock img{
+  width:34px;height:34px;border-radius:50%;
+  object-fit:cover;
+}
+.runia-lock span{
+  color:#fff;
+  font-size:17px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  font-weight:320;
+}
+.odoo-lock img{
+  height:31px;
+  width:auto;
+  filter:brightness(0) invert(1);
+  opacity:.94;
+}
+.odoo-lock small{
+  display:block;
+  margin-top:3px;
+  color:#d9d1c8;
+  font-size:10px;
+  letter-spacing:.12em;
+}
+.cover-date{
+  text-align:right;
+  color:#e8dfd5;
+  font-size:11px;
+  line-height:1.45;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.cover-title{margin-top:56mm}
+.cover h1{
+  color:#fff;
+  max-width:470px;
+}
+.cover-sub{
+  margin-top:22px;
+  max-width:430px;
+  color:#f1ebe3;
+  font-size:17px;
+  line-height:1.46;
+}
+.cover-desc{
+  max-width:380px;
+  color:#d8d0c6;
+  font-size:13px;
+  line-height:1.66;
+}
+.cover-bottom{
+  position:absolute;
+  left:20mm;right:20mm;bottom:20mm;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+}
+.price-label{
+  color:#c4b9ae;
+  font-size:9px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.price{
+  color:white;
+  font-size:29px;
+  letter-spacing:-.04em;
+  font-weight:320;
+}
+.client-mark{text-align:right;color:#fff}
+.client-mark .name{
+  font-size:18px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.client-mark .sub{
+  margin-top:2px;
+  font-size:10px;
+  letter-spacing:.24em;
+  color:#d9d1c8;
+}
+
+/* Problem */
+.problem-card{min-height:170px}
+.problem-card h3{font-size:16px;margin-bottom:8px}
+.problem-card p{font-size:11px;line-height:1.52}
+
+/* Solution */
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 26px}
+.pill{
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:var(--paper-card);
+  padding:8px 11px;
+  font-size:12px;
+  color:#514941;
+}
+.core{
+  margin-top:20px;
+  min-height:118px;
+  background:var(--dark);
+  border-radius:24px;
+  color:white;
+  padding:28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.core h3{
+  color:white;
+  font-size:32px;
+}
+.core p{
+  color:#d8d0c8;
+  max-width:390px;
+}
+.core img{
+  height:50px;
+  background:white;
+  border-radius:14px;
+  padding:8px 14px;
+}
+.modules{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:12px;
+}
+.module{
+  background:var(--paper-card);
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:16px;
+  min-height:96px;
+}
+.module h3{font-size:15px}
+.module p{font-size:11.5px;margin-top:6px;color:var(--muted)}
+
+/* Timeline */
+.timeline{
+  margin-top:30px;
+  display:grid;
+  gap:12px;
+}
+.step{
+  display:grid;
+  grid-template-columns:54px 1fr;
+  gap:16px;
+  align-items:start;
+  background:var(--paper-card);
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:16px;
+}
+.num{
+  width:42px;height:42px;
+  border:1px solid #b8a894;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  color:#2b2723;
+}
+.step:nth-child(2n) .num{
+  background:var(--dark);
+  color:white;
+  border-color:var(--dark);
+}
+.step p{font-size:12.5px}
+
+/* Compare */
+.compare{
+  display:grid;
+  grid-template-columns:1fr 1px 1fr;
+  gap:31px;
+  margin-top:34px;
+}
+.sep{
+  height:235px;
+  background:#cabdad;
+  margin-top:8px;
+}
+.ba-label{
+  font-size:10px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  margin-bottom:17px;
+  color:#70665d;
+}
+.ba-item{
+  display:grid;
+  grid-template-columns:18px 1fr;
+  gap:10px;
+  margin:13px 0;
+  align-items:start;
+}
+.x,.ok{
+  width:16px;height:16px;
+  border:1px solid #9b9288;
+  border-radius:50%;
+  position:relative;
+  margin-top:1px;
+}
+.x:before,.x:after{
+  content:"";
+  position:absolute;
+  left:4px;right:4px;top:7px;
+  height:1px;
+  background:#4f4942;
+}
+.x:before{transform:rotate(45deg)}
+.x:after{transform:rotate(-45deg)}
+.ok:after{
+  content:"";
+  position:absolute;
+  left:4px;top:4px;
+  width:6px;height:3px;
+  border-left:1px solid #4f4942;
+  border-bottom:1px solid #4f4942;
+  transform:rotate(-45deg);
+}
+.ba-item p{
+  font-size:12px;
+  color:#403a34;
+}
+.banner{
+  margin-top:42px;
+  background:rgba(232,220,205,.52);
+  border-radius:8px;
+  padding:24px 28px;
+  display:grid;
+  grid-template-columns:64px 1fr;
+  gap:22px;
+  align-items:center;
+}
+.arrow-circle{
+  width:54px;height:54px;
+  border:1px solid var(--orange);
+  border-radius:50%;
+  position:relative;
+}
+.arrow-circle:before{
+  content:"";
+  position:absolute;
+  left:15px;right:15px;top:26px;
+  height:1px;
+  background:var(--orange);
+}
+.arrow-circle:after{
+  content:"";
+  position:absolute;
+  right:16px;top:20px;
+  width:12px;height:12px;
+  border-top:1px solid var(--orange);
+  border-right:1px solid var(--orange);
+  transform:rotate(45deg);
+}
+
+/* Investment */
+.invest-layout{
+  display:grid;
+  grid-template-columns:1.18fr .82fr;
+  height:100%;
+  margin:-20mm;
+}
+.inv-left{
+  background:linear-gradient(135deg,#111,#242424);
+  color:white;
+  padding:22mm 20mm;
+  position:relative;
+}
+.inv-left .header{
+  border-color:#5c5852;
+}
+.inv-left h2{
+  color:#ece7df;
+  font-size:34px;
+  margin-top:30mm;
+}
+.inv-price{
+  color:#f3eee7;
+  font-size:46px;
+  letter-spacing:-.05em;
+  margin-top:18px;
+  font-weight:320;
+}
+.inv-left p,.inv-left li{color:#d8d0c8}
+.inv-list{
+  margin-top:24px;
+  display:grid;
+  gap:10px;
+}
+.inv-list div{
+  font-size:12.5px;
+  color:#e2dbd3;
+}
+.inv-right{
+  padding:22mm 18mm;
+  background:var(--paper);
+  position:relative;
+}
+.side{margin-top:56mm}
+.side-item{
+  display:grid;
+  grid-template-columns:52px 1fr;
+  gap:16px;
+  padding-bottom:34px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:34px;
+}
+.side-icon{
+  width:44px;height:44px;
+  border:1px solid #b99c7a;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.side-icon svg{
+  width:24px;height:24px;
+  stroke:#4f4942;
+  stroke-width:1;
+  fill:none;
+}
+.amount{
+  font-size:17px;
+  margin-top:6px;
+  color:#1f1b18;
+}
+.inv-footer{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:43mm;
+  background:#111;
+  color:#eee;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:18px;
+  align-items:center;
+  padding:0 18mm;
+}
+.inv-footer p{
+  color:#d6cec4;
+  font-size:10px;
+}
+.signature{
+  font-family:"Segoe Script","Brush Script MT",cursive;
+  font-size:19px;
+  color:#f2eee8;
+  margin-top:6px;
+  text-align:center;
+}
+
+/* Print */
+@media print{
+  body{background:white}
+  .page{
+    margin:0;
+    box-shadow:none;
+  }
+}
+</style>
+</head>
+<body>
+
+<section class="page cover">
+  <div class="cover-inner">
+    <div class="cover-top">
+      <div class="cover-logos">
+        <div class="runia-lock"><img src="runia-logo.png" alt="Runia"><span>Runia</span></div>
+        <div class="odoo-lock"><img src="odoo.png" alt="Odoo"><small>Partner</small></div>
+      </div>
+      <div class="cover-date">Propuesta<br>Junio 2026</div>
+    </div>
+    <div class="cover-title">
+      <h1>Ordenar<br>para crecer</h1>
+      <p class="cover-sub">Implementación de un sistema integral de gestión para Plucinski Maderas.</p>
+      <div class="rule"></div>
+      <p class="cover-desc">Una plataforma única para centralizar ventas, compras, stock, facturación e información clave de la empresa.</p>
+    </div>
+    <div class="cover-bottom">
+      <div><div class="price-label">Inversión</div><div class="price">USD 3.500</div></div>
+      <div class="client-mark"><div class="name">Plucinski</div><div class="sub">Maderas</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="page clean">
+  <div class="header"><div class="eyebrow">02 · El desafío</div><div class="header-brand"><img src="runia-logo.png" alt="">Runia + Odoo</div></div>
+  <h2>Hoy la información está en muchos lugares</h2>
+  <p class="lead">Procesos manuales, datos dispersos y herramientas que no hablan entre sí generan ineficiencia, errores y menor visibilidad.</p>
+  <div class="rule"></div>
+  <div class="grid4">
+    <div class="card problem-card"><svg class="icon" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h4"/><path d="M9 12h6M9 16h6"/></svg><h3>Papel</h3><p>Registros físicos y comprobantes difíciles de controlar.</p></div>
+    <div class="card problem-card"><svg class="icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/><path d="M4 10h16M4 16h16M10 4v16M16 4v16"/></svg><h3>Excel</h3><p>Archivos dispersos, versiones distintas y datos poco confiables.</p></div>
+    <div class="card problem-card"><svg class="icon" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M12 7v10"/></svg><h3>Facturación</h3><p>Procesos separados que consumen tiempo y generan retrabajos.</p></div>
+    <div class="card problem-card"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3l8 4-8 4-8-4z"/><path d="M4 7v10l8 4 8-4V7"/></svg><h3>Stock</h3><p>Diferencias de inventario y falta de visibilidad en tiempo real.</p></div>
+  </div>
+  <div class="quote">El problema no es la falta de información.<br>El problema es que la información no vive en un único lugar.</div>
+  <div class="footer"><span>Runia Sistemas</span><span>Plucinski Maderas</span></div>
+</section>
+
+<section class="page">
+  <div class="header"><div class="eyebrow">03 · La solución</div><div class="header-brand"><img src="runia-logo.png" alt="">Runia + Odoo</div></div>
+  <h2>Un sistema integral. Una única plataforma.</h2>
+  <p class="lead">Implementamos Odoo ERP para conectar todas las áreas de la empresa en un solo sistema, con información confiable y en tiempo real.</p>
+  <div class="pills"><span class="pill">Ventas</span><span class="pill">Compras</span><span class="pill">Stock</span><span class="pill">Facturación</span><span class="pill">Clientes</span><span class="pill">Proveedores</span><span class="pill">Reportes</span><span class="pill">Dashboards</span></div>
+  <div class="core"><div><h3>Odoo ERP</h3><p>Una plataforma modular para centralizar la operación sin desarrollar desde cero algo que ya existe, funciona y puede escalar.</p></div><img src="odoo.png" alt="Odoo"></div>
+  <div class="modules">
+    <div class="module"><h3>Ventas</h3><p>Presupuestos, pedidos y listas de precios.</p></div>
+    <div class="module"><h3>Compras</h3><p>Proveedores, recepción y costos.</p></div>
+    <div class="module"><h3>Stock</h3><p>Depósitos, movimientos y disponibilidad.</p></div>
+    <div class="module"><h3>Dirección</h3><p>Indicadores y reportes para decidir.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="card soft"><h3>Qué aporta Runia</h3><p>Relevamiento, parametrización, migración, capacitación y acompañamiento para que el sistema sea realmente adoptado.</p></div>
+    <div class="card dark"><h3>Qué compra Plucinski</h3><p>No compra un software. Compra orden operativo, visibilidad y una estructura preparada para crecer.</p></div>
+  </div>
+  <div class="footer"><span>Runia Sistemas</span><span>Plucinski Maderas</span></div>
+</section>
+
+<section class="page">
+  <div class="header"><div class="eyebrow">04 · Adaptación al rubro</div><div class="header-brand"><img src="runia-logo.png" alt="">Runia + Odoo</div></div>
+  <h2>La madera no se gestiona como un producto genérico.</h2>
+  <p class="lead">La implementación contempla las particularidades detectadas durante la reunión para que Odoo acompañe la forma real de trabajo del negocio.</p>
+  <div class="grid3">
+    <div class="card"><span class="tag">Medidas</span><h3>Unidades múltiples</h3><p>Configuración de unidades y conversiones: unidad, metro lineal, pie, pie cuadrado y pie cúbico.</p></div>
+    <div class="card green"><span class="tag">Disponibilidad</span><h3>Húmeda / seca</h3><p>Separación entre stock recibido o en secado y stock listo para comercialización inmediata.</p></div>
+    <div class="card"><span class="tag">Catálogo</span><h3>Reventa</h3><p>Gestión de productos complementarios: herrajes, pinturas, revestimientos, clavos y accesorios.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Stock disponible</h3><p>Ver qué existe físicamente y qué puede venderse hoy, evitando decisiones basadas en stock “mentiroso”.</p></div>
+    <div class="card"><h3>Precio y costo</h3><p>Estructura preparada para reducir la carga manual y mejorar la consistencia comercial.</p></div>
+  </div>
+  <div class="quote">El sistema debe reflejar cómo trabaja Plucinski, no obligar a Plucinski a trabajar como un sistema genérico.</div>
+  <div class="footer"><span>Runia Sistemas</span><span>Plucinski Maderas</span></div>
+</section>
+
+<section class="page">
+  <div class="header"><div class="eyebrow">05 · Implementación</div><div class="header-brand"><img src="runia-logo.png" alt="">Runia + Odoo</div></div>
+  <h2>Un proceso claro, ordenado y probado.</h2>
+  <p class="lead">La implementación se organiza en cinco momentos. Cada etapa deja definiciones concretas y evita avanzar sobre supuestos no validados.</p>
+  <div class="timeline">
+    <div class="step"><div class="num">01</div><div><h3>Relevamiento operativo</h3><p>Usuarios, procesos actuales, productos, depósitos, unidades de medida, permisos y prioridades.</p></div></div>
+    <div class="step"><div class="num">02</div><div><h3>Configuración y parametrización</h3><p>Activación de módulos, reglas de trabajo, categorías, listas, depósitos y flujo comercial.</p></div></div>
+    <div class="step"><div class="num">03</div><div><h3>Migración inicial</h3><p>Importación de clientes, proveedores, productos y listas de precios según la información disponible.</p></div></div>
+    <div class="step"><div class="num">04</div><div><h3>Capacitación del equipo</h3><p>Sesiones prácticas por rol: administración, ventas, compras, depósito y dirección.</p></div></div>
+    <div class="step"><div class="num">05</div><div><h3>Puesta en producción</h3><p>Acompañamiento inicial, correcciones y estabilización de la operatoria.</p></div></div>
+  </div>
+  <div class="footer"><span>Runia Sistemas</span><span>Plucinski Maderas</span></div>
+</section>
+
+<section class="page clean">
+  <div class="header"><div class="eyebrow">06 · Resultados esperados</div><div class="header-brand"><img src="runia-logo.png" alt="">Runia + Odoo</div></div>
+  <h2>Qué cambia después de la implementación</h2>
+  <div class="compare">
+    <div><div class="ba-label">Antes</div>
+      <div class="ba-item"><span class="x"></span><p>Información dispersa en múltiples lugares.</p></div>
+      <div class="ba-item"><span class="x"></span><p>Stock incierto y diferencias frecuentes.</p></div>
+      <div class="ba-item"><span class="x"></span><p>Procesos manuales y repetitivos.</p></div>
+      <div class="ba-item"><span class="x"></span><p>Falta de visibilidad del negocio.</p></div>
+      <div class="ba-item"><span class="x"></span><p>Decisiones basadas en datos incompletos.</p></div>
+    </div>
+    <div class="sep"></div>
+    <div><div class="ba-label">Después</div>
+      <div class="ba-item"><span class="ok"></span><p>Todos los datos en un único sistema.</p></div>
+      <div class="ba-item"><span class="ok"></span><p>Stock confiable en tiempo real.</p></div>
+      <div class="ba-item"><span class="ok"></span><p>Procesos conectados y más simples.</p></div>
+      <div class="ba-item"><span class="ok"></span><p>Indicadores claros para decidir mejor.</p></div>
+      <div class="ba-item"><span class="ok"></span><p>Información precisa para crecer con control.</p></div>
+    </div>
+  </div>
+  <div class="banner"><div class="arrow-circle"></div><p>Una plataforma preparada para acompañar el crecimiento de Plucinski Maderas en los próximos años.</p></div>
+  <div class="footer"><span>Runia Sistemas</span><span>Plucinski Maderas</span></div>
+</section>
+
+<section class="page">
+  <div class="invest-layout">
+    <div class="inv-left">
+      <div class="header"><div class="eyebrow" style="color:#d8d0c8">07 · Inversión</div><div style="color:#d8d0c8" class="header-brand">Runia Sistemas</div></div>
+      <h2>Implementación completa</h2>
+      <div class="inv-price">USD 3.500</div>
+      <div class="rule"></div>
+      <p>Incluye relevamiento, parametrización, configuración, migración inicial, capacitación, puesta en marcha y acompañamiento inicial.</p>
+      <div class="inv-list">
+        <div><span class="check"></span>Relevamiento y análisis de procesos.</div>
+        <div><span class="check"></span>Configuración y parametrización de Odoo.</div>
+        <div><span class="check"></span>Migración inicial de datos.</div>
+        <div><span class="check"></span>Capacitación al equipo usuario.</div>
+        <div><span class="check"></span>Puesta en marcha.</div>
+      </div>
+    </div>
+    <div class="inv-right">
+      <div class="header" style="margin-bottom:0"><div class="eyebrow">Condiciones</div><div></div></div>
+      <div class="side">
+        <div class="side-item"><div class="side-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 15-5 16 0"/></svg></div><div><h3>Licencias Odoo</h3><div class="amount">A confirmar</div><p>Según cantidad y tipo de usuarios.</p></div></div>
+        <div class="side-item"><div class="side-icon"><svg viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0v4a3 3 0 0 1-3 3h-2"/><path d="M5 12v5H3v-5zM19 12v5h2v-5z"/></svg></div><div><h3>Mantenimiento mensual</h3><div class="amount">$500.000 / mes</div><p>Sujeto a actualización trimestral según índice ICL.</p></div></div>
+      </div>
+    </div>
+    <div class="inv-footer">
+      <div><p>Validez de la propuesta<br>30 días</p></div>
+      <div><p>Forma de pago<br>50% al inicio · 50% al go-live</p></div>
+      <div><p style="text-align:center">Runia Sistemas</p><div class="signature">Firma</div></div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
