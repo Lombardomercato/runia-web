@@ -2120,19 +2120,31 @@ const initBudget = () => {
   const preview = document.querySelector("[data-proposal-preview]");
   const exportButtons = document.querySelectorAll("[data-export-pdf]");
   const saveButtons = document.querySelectorAll("[data-save-budget]");
+  const printSummaryButtons = document.querySelectorAll("[data-print-budget-summary]");
   const budgetWhatsapp = document.querySelector("[data-budget-whatsapp]");
   const saveStatus = document.querySelector("[data-budget-save-status]");
   const partnerFields = document.querySelector("[data-partner-fields]");
   const pricingWarning = document.querySelector("[data-pricing-warning]");
+  const wizard = document.querySelector("[data-budget-wizard]");
+  const wizardSteps = Array.from(document.querySelectorAll("[data-budget-step]"));
+  const wizardProgress = document.querySelector("[data-budget-progress]");
+  const wizardTitle = document.querySelector("[data-wizard-title]");
+  const wizardPrev = document.querySelector("[data-budget-prev]");
+  const wizardNext = document.querySelector("[data-budget-next]");
+  const wizardChangeMode = document.querySelector("[data-budget-change-mode]");
+  const wizardSummary = document.querySelector("[data-budget-wizard-summary]");
+  const maintenanceNote = document.querySelector("[data-maintenance-note]");
   let partnerLogoData = "";
   let lastSavedReference = "";
   let budgetIsLocked = false;
+  let currentWizardStep = 0;
 
   const encodeBudgetState = () => {
     const values = getFormObject(form);
     values.budgetMode = getMode();
     values.budgetExtras = getCheckedValues(form, "budgetExtras");
     values.partnerLogoData = partnerLogoData;
+    delete values.internalCost;
     return btoa(unescape(encodeURIComponent(JSON.stringify(values))))
       .replace(/\+/g, "-")
       .replace(/\//g, "_")
@@ -2152,7 +2164,7 @@ const initBudget = () => {
   const getShareUrl = () => {
     const url = new URL(window.location.href);
     url.search = "";
-    url.searchParams.set("v", "proposal-rwd-13");
+    url.searchParams.set("v", "budget-wizard-6");
     url.searchParams.set("share", "presupuesto");
     url.hash = `data=${encodeBudgetState()}`;
     return url.toString();
@@ -2205,7 +2217,7 @@ const initBudget = () => {
         return;
       }
       const stylesHref = new URL("styles.css", window.location.origin + "/").href;
-      const toolsHref = new URL("tools.css?v=proposal-rwd-13", window.location.origin + "/").href;
+      const toolsHref = new URL("tools.css?v=budget-wizard-6", window.location.origin + "/").href;
       printWindow.document.open();
       printWindow.document.write(`<!doctype html>
 <html lang="es">
@@ -2259,6 +2271,7 @@ const initBudget = () => {
       name: "Web 48hs",
       price: 450,
       min: 450,
+      partnerPrice: 330,
       detail: "Landing one page clara, moderna y profesional para salir online rápido.",
       scope: ["Landing one page", "Diseño responsive", "WhatsApp integrado", "Formulario simple", "CTA principal", "Estructura comercial base", "Entrega express 48hs"]
     },
@@ -2266,6 +2279,7 @@ const initBudget = () => {
       name: "Web Comercial",
       price: 850,
       min: 850,
+      partnerPrice: 620,
       detail: "Web con estructura comercial para captar más consultas y comunicar mejor los servicios.",
       scope: ["Web con estructura comercial", "Secciones estratégicas", "Copy base", "WhatsApp y formularios", "Optimización mobile", "Base lista para campañas", "Mejor recorrido comercial"]
     },
@@ -2273,6 +2287,7 @@ const initBudget = () => {
       name: "Web + Sistema",
       price: 1500,
       min: 1500,
+      partnerPrice: 1100,
       detail: "Web comercial preparada para conectar seguimiento, CRM o automatización.",
       scope: ["Web comercial", "CRM o pipeline simple", "Automatización inicial", "Seguimiento de consultas", "Dashboards básicos", "Integración futura con Runia"]
     }
@@ -2290,33 +2305,46 @@ const initBudget = () => {
     automationAI: { name: "Automatización / IA", price: 0, displayPrice: "a cotizar", detail: "Conexión futura con herramientas comerciales, seguimiento o atención automatizada." }
   };
 
+  budgetExtras.brandingBasic.partnerPrice = 180;
+  budgetExtras.brandingPro.partnerPrice = 480;
+  budgetExtras.maintenance.partnerPrice = 50;
+
   const getMode = () => form.elements.budgetMode?.value || "runia";
   const isPartnerMode = () => getMode() === "partner";
 
   const getBudget = () => {
     const values = getFormObject(form);
     const selectedType = webTypes[values.webType] || webTypes.comercial;
+    const mode = getMode();
     const extras = getCheckedValues(form, "budgetExtras").map((key) => {
       const item = budgetExtras[key];
       if (!item) return null;
       const customPrice = Number(values[`extraPrice_${key}`]);
+      const customPartnerPrice = key === "maintenance"
+        ? Number(values.monthlyPartnerCost || item.partnerPrice || item.price || 0)
+        : Number(values[`extraPartnerPrice_${key}`]);
+      const publicPrice = Number(item.price || 0);
       const price = Number.isFinite(customPrice) ? Math.max(customPrice, 0) : item.price;
       const displayPrice = item.recurring
         ? `${usdLabel(price)}/mes`
         : price > 0
           ? usdLabel(price)
           : item.displayPrice || "a cotizar";
-      return { ...item, key, price, displayPrice };
+      const internalPrice = mode === "partner"
+        ? Number.isFinite(customPartnerPrice) ? Math.max(customPartnerPrice, 0) : Number(item.partnerPrice || price || 0)
+        : price;
+      return { ...item, key, price, publicPrice, internalPrice, displayPrice };
     }).filter(Boolean);
     const oneTimeExtras = extras.filter((item) => !item.recurring);
     const recurringExtras = extras.filter((item) => item.recurring);
-    const mode = getMode();
     const clientPrice = mode === "partner"
       ? Number(values.finalClientPrice || values.basePrice || selectedType.price || 0)
       : Number(values.basePrice || selectedType.price || 0);
+    const suggestedPublicPrice = Number(selectedType.price || 0);
+    const partnerBasePrice = Number(selectedType.partnerPrice || selectedType.price || 0);
     const internalCost = mode === "partner"
-      ? Number(values.internalCost || selectedType.price || 0)
-      : Number(values.basePrice || selectedType.price || 0);
+      ? Number(values.internalCost || partnerBasePrice || 0)
+      : Number(values.basePrice || suggestedPublicPrice || 0);
     const base = clientPrice;
     const rate = Math.max(Number(values.rate || 1300), 1);
     const domainCostArs = Math.max(Number(values.domainCost || 0), 0);
@@ -2326,6 +2354,8 @@ const initBudget = () => {
     const projectCostsTotal = domainCost + sslCost;
     const extrasTotal = oneTimeExtras.reduce((sum, item) => sum + item.price, 0);
     const monthlyTotal = recurringExtras.reduce((sum, item) => sum + item.price, 0);
+    const partnerExtrasTotal = mode === "partner" ? oneTimeExtras.reduce((sum, item) => sum + item.internalPrice, 0) : extrasTotal;
+    const partnerMonthlyTotal = mode === "partner" ? recurringExtras.reduce((sum, item) => sum + item.internalPrice, 0) : monthlyTotal;
     const discountableSubtotal = base + extrasTotal;
     const subtotal = discountableSubtotal + projectCostsTotal;
     const discountUsd = Math.max(Number(values.discount || 0), 0);
@@ -2334,8 +2364,11 @@ const initBudget = () => {
     const discount = Math.min(discountUsd + discountPercentAmount, discountableSubtotal);
     const discountedProjectSubtotal = Math.max(discountableSubtotal - discount, 0);
     const total = discountedProjectSubtotal + projectCostsTotal;
-    const margin = mode === "partner" ? Math.max(total - internalCost, 0) : 0;
-    const belowMin = base < selectedType.min;
+    const partnerProjectCost = internalCost + partnerExtrasTotal;
+    const suggestedResaleSubtotal = suggestedPublicPrice + oneTimeExtras.reduce((sum, item) => sum + item.publicPrice, 0);
+    const margin = mode === "partner" ? Math.max(discountedProjectSubtotal - partnerProjectCost, 0) : 0;
+    const monthlyMargin = mode === "partner" ? Math.max(monthlyTotal - partnerMonthlyTotal, 0) : 0;
+    const belowMin = mode === "partner" ? discountedProjectSubtotal < suggestedResaleSubtotal : base < selectedType.min;
     const proposalDate = values.date || new Date().toISOString().slice(0, 10);
     const validity = values.validity || "7 días";
     const terms = values.terms || "50% para comenzar. Entrega según alcance acordado.";
@@ -2353,6 +2386,12 @@ const initBudget = () => {
       mode,
       base,
       internalCost,
+      suggestedPublicPrice,
+      suggestedResaleSubtotal,
+      partnerBasePrice,
+      partnerProjectCost,
+      partnerExtrasTotal,
+      partnerMonthlyTotal,
       domainCostArs,
       sslCostArs,
       domainCost,
@@ -2369,6 +2408,7 @@ const initBudget = () => {
       discount,
       total,
       margin,
+      monthlyMargin,
       rate,
       belowMin,
       proposalDate,
@@ -2392,6 +2432,10 @@ const initBudget = () => {
       mode,
       base,
       internalCost,
+      suggestedPublicPrice,
+      suggestedResaleSubtotal,
+      partnerProjectCost,
+      partnerMonthlyTotal,
       domainCostArs,
       sslCostArs,
       domainCost,
@@ -2408,6 +2452,7 @@ const initBudget = () => {
       discount,
       total,
       margin,
+      monthlyMargin,
       rate,
       belowMin,
       proposalDate,
@@ -2422,6 +2467,7 @@ const initBudget = () => {
 
     const clientLabel = values.company || values.client || "Cliente sin empresa";
     const isPartner = mode === "partner";
+    const belowPartnerCost = isPartner && discountedProjectSubtotal < partnerProjectCost;
     const projectCosts = [
       domainCostArs > 0 ? { name: "Dominio", detail: `Compra o renovacion del dominio. Equivale a ${usdLabel(domainCost)} segun dolar ${MONEY_ARS.format(rate)}.`, price: domainCost, displayPrice: MONEY_ARS.format(domainCostArs) } : null,
       sslCostArs > 0 ? { name: "SSL / seguridad", detail: `Certificado de seguridad HTTPS. Equivale a ${usdLabel(sslCost)} segun dolar ${MONEY_ARS.format(rate)}.`, price: sslCost, displayPrice: MONEY_ARS.format(sslCostArs) } : null
@@ -2458,8 +2504,12 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
 
     partnerFields.hidden = !isPartner;
     if (pricingWarning) {
-      pricingWarning.hidden = !belowMin;
-      pricingWarning.textContent = `El precio ingresado está por debajo del mínimo recomendado Runia: ${usdLabel(selectedType.min)}.`;
+      pricingWarning.hidden = !(belowMin || belowPartnerCost);
+      pricingWarning.textContent = belowPartnerCost
+        ? "El precio final esta por debajo del costo partner."
+        : isPartner
+          ? `El precio final cliente esta por debajo del precio publico sugerido: ${usdLabel(suggestedResaleSubtotal)}. Requiere autorizacion.`
+        : `El precio ingresado esta por debajo del minimo recomendado Runia: ${usdLabel(selectedType.min)}.`;
     }
     form.classList.toggle("is-partner-mode", isPartner);
     totalUsd.textContent = MONEY_USD.format(total);
@@ -2472,9 +2522,10 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
         <strong>${escapeHtml(selectedType.name)}</strong>
         <p>${escapeHtml(clientLabel)} - ${escapeHtml(values.industry || "Rubro pendiente")}</p>
       </div>
-      ${belowMin ? `<div class="pricing-warning is-visible">Precio por debajo del mínimo protegido: ${usdLabel(selectedType.min)}</div>` : ""}
+      ${belowPartnerCost ? `<div class="pricing-warning is-visible">Precio final por debajo del costo partner</div>` : belowMin ? `<div class="pricing-warning is-visible">${isPartner ? `Precio final cliente por debajo del precio publico sugerido: ${usdLabel(suggestedResaleSubtotal)}` : `Precio por debajo del minimo protegido: ${usdLabel(selectedType.min)}`}</div>` : ""}
       <div class="budget-summary-grid">
-        <div><span>Precio cliente</span><strong>${MONEY_USD.format(base)}</strong></div>
+        <div><span>${isPartner ? "Precio final cliente" : "Precio cliente"}</span><strong>${MONEY_USD.format(base)}</strong></div>
+        ${isPartner ? `<div><span>Precio de reventa sugerido</span><strong>${MONEY_USD.format(suggestedResaleSubtotal)}</strong></div>` : ""}
         <div><span>Extras</span><strong>${MONEY_USD.format(extrasTotal)}</strong></div>
         <div><span>Dominio + SSL ARS</span><strong>${projectCostsLabel || MONEY_ARS.format(0)}</strong></div>
         <div><span>Descuento</span><strong>${discountLabel}</strong></div>
@@ -2489,11 +2540,13 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
       </div>
       ${isPartner ? `
         <div class="partner-internal-summary">
-          <div><span>Costo Runia</span><strong>${MONEY_USD.format(internalCost)}</strong></div>
+          <div><span>Precio Partner</span><strong>${MONEY_USD.format(internalCost)}</strong></div>
+          <div><span>Costo partner con extras</span><strong>${MONEY_USD.format(partnerProjectCost)}</strong></div>
           <div><span>Margen estimado</span><strong>${MONEY_USD.format(margin)}</strong></div>
+          <div><span>Margen mensual</span><strong>${monthlyTotal ? `${MONEY_USD.format(monthlyMargin)}/mes` : "No aplica"}</strong></div>
         </div>
       ` : ""}
-      <p class="budget-helper">El PDF no muestra costo Runia, margen ni precio mínimo. Solo muestra la propuesta comercial para el cliente.</p>
+      <p class="budget-helper">El PDF no muestra Precio Partner, margen estimado ni costo interno. Solo muestra la propuesta comercial para el cliente.</p>
     `;
 
     const brandText = isPartner && values.partnerName ? values.partnerName : "Web";
@@ -2797,7 +2850,7 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
         <div class="proposal-assumption-list">${assumptions.map((item, index) => `<div><span>${String(index + 1).padStart(2, "0")}</span><p>${escapeHtml(item)}</p></div>`).join("")}</div>
         <div class="proposal-contact-block"><strong>Para avanzar</strong><span>Si la propuesta esta alineada, coordinamos una breve reunion para cerrar alcance, materiales y fecha de inicio.</span><p>Contacto: WhatsApp / ${escapeHtml(contactLabel)}</p></div>
         <div class="proposal-signatures">
-          <div class="proposal-signature-runia"><strong>ALEX SANTILLAN</strong><em></em><p>RUNIA WEB</p></div>
+          <div class="proposal-signature-runia"><strong>${escapeHtml((sellerLabel || brandName || "RUNIA WEB").toUpperCase())}</strong><em></em><p>${escapeHtml(brandName.toUpperCase())}</p></div>
           <div class="proposal-signature-client"><strong>${escapeHtml((values.company || values.client || "CLIENTE").toUpperCase())}</strong><em></em><p>Firma y aclaracion del cliente</p></div>
         </div>
       `, "proposal-page-acceptance"));
@@ -2857,6 +2910,10 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
       oneTimeExtras,
       recurringExtras,
       base,
+      internalCost,
+      suggestedPublicPrice,
+      partnerProjectCost,
+      partnerMonthlyTotal,
       domainCostArs,
       sslCostArs,
       domainCost,
@@ -2871,6 +2928,7 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
       discount,
       total,
       margin,
+      monthlyMargin,
       rate,
       proposalDate,
       validity,
@@ -2891,6 +2949,9 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
       marca_pdf: brandName,
       plan: selectedType.name,
       precio_base_usd: base,
+      precio_publico_sugerido_usd: suggestedPublicPrice,
+      precio_partner_usd: data.mode === "partner" ? internalCost : "",
+      costo_partner_con_extras_usd: data.mode === "partner" ? partnerProjectCost : "",
       dominio_ars: domainCostArs,
       ssl_ars: sslCostArs,
       dominio_usd_equivalente: domainCost,
@@ -2907,6 +2968,8 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
       referencia_ars: Math.round(total * rate),
       dolar_referencia: rate,
       margen_partner_usd: data.mode === "partner" ? margin : "",
+      margen_partner_mensual_usd: data.mode === "partner" ? monthlyMargin : "",
+      mensual_partner_usd: data.mode === "partner" ? partnerMonthlyTotal : "",
       extras: oneTimeExtras.map((item) => `${item.name}: ${item.displayPrice || usdLabel(item.price)}`).join(" | "),
       mensual: recurringExtras.map((item) => `${item.name}: ${item.displayPrice || `${usdLabel(item.price)}/mes`}`).join(" | "),
       tiempo_estimado: values.time || "",
@@ -2937,13 +3000,183 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
   const syncBasePrice = (force = false) => {
     const type = form.elements.webType?.value;
     const selectedType = webTypes[type] || webTypes.comercial;
+    const partnerMode = getMode() === "partner";
     if (form.elements.basePrice && (force || !form.elements.basePrice.value)) form.elements.basePrice.value = selectedType.price;
-    if (form.elements.internalCost && (force || !form.elements.internalCost.value)) form.elements.internalCost.value = selectedType.price;
+    if (form.elements.internalCost && (force || !form.elements.internalCost.value)) form.elements.internalCost.value = partnerMode ? selectedType.partnerPrice || selectedType.price : selectedType.price;
     if (form.elements.finalClientPrice && (force || !form.elements.finalClientPrice.value)) form.elements.finalClientPrice.value = selectedType.price;
   };
 
-  form.addEventListener("input", () => {
+  const wizardStepMap = {
+    runia: ["mode", "client", "service", "extras", "summary", "generate"],
+    partner: ["mode", "partner", "client", "service", "extras", "maintenance", "summary", "generate"]
+  };
+  const wizardStepLabels = {
+    mode: "Modo",
+    partner: "Partner",
+    client: "Cliente",
+    service: "Servicio",
+    extras: "Extras",
+    maintenance: "Mant.",
+    summary: "Resumen",
+    generate: "Generar"
+  };
+
+  const getVisibleWizardSteps = () => wizardStepMap[getMode()] || wizardStepMap.runia;
+
+  const setBudgetMode = (mode, remember = true) => {
+    const nextMode = mode === "partner" ? "partner" : "runia";
+    form.querySelectorAll('[name="budgetMode"]').forEach((input) => {
+      input.checked = input.value === nextMode;
+    });
+    form.dataset.budgetMode = nextMode;
+    if (remember) {
+      try {
+        localStorage.setItem("runia_budget_mode", nextMode);
+      } catch {}
+    }
+  };
+
+  const syncMaintenanceMode = () => {
+    const mode = form.elements.maintenanceMode?.value || "none";
+    const maintenanceInput = form.querySelector('[name="budgetExtras"][value="maintenance"]');
+    const maintenancePrice = form.elements.extraPrice_maintenance;
+    const monthlyClientPrice = form.elements.monthlyClientPrice;
+    const monthlyPartnerCost = form.elements.monthlyPartnerCost;
+    if (!maintenanceInput || !maintenancePrice) return;
+    if (monthlyPartnerCost && !monthlyPartnerCost.value) monthlyPartnerCost.value = "50";
+    if (mode === "none") {
+      maintenanceInput.checked = false;
+      if (monthlyClientPrice && !monthlyClientPrice.value) monthlyClientPrice.value = "80";
+      maintenancePrice.value = monthlyClientPrice?.value || "80";
+      if (maintenanceNote) maintenanceNote.textContent = "Cambios posteriores a la entrega se cotizan por separado.";
+      return;
+    }
+    maintenanceInput.checked = true;
+    if (monthlyClientPrice) {
+      if (mode === "included") monthlyClientPrice.value = "0";
+      if (mode === "optional" && (!monthlyClientPrice.value || Number(monthlyClientPrice.value) === 0)) monthlyClientPrice.value = "80";
+    }
+    maintenancePrice.value = monthlyClientPrice?.value || (mode === "included" ? "0" : "80");
+    if (maintenanceNote) {
+      maintenanceNote.textContent = mode === "included"
+        ? "El mantenimiento se presenta incluido en la propuesta comercial."
+        : "El mantenimiento se muestra como servicio mensual opcional.";
+    }
+  };
+
+  const syncMaintenancePricing = () => {
+    const maintenancePrice = form.elements.extraPrice_maintenance;
+    const monthlyClientPrice = form.elements.monthlyClientPrice;
+    if (maintenancePrice && monthlyClientPrice) maintenancePrice.value = monthlyClientPrice.value || "0";
+  };
+
+  const renderPartnerPricingPanels = () => {
+    const data = getBudget();
+    const isPartner = data.mode === "partner";
+    form.querySelectorAll("[data-budget-modes]").forEach((element) => {
+      if (element.hasAttribute("data-budget-step")) return;
+      const modes = String(element.dataset.budgetModes || "").split(/\s+/);
+      element.hidden = modes.length > 0 && !modes.includes(data.mode);
+    });
+    const partnerBasePrice = Number(data.selectedType.partnerPrice || data.selectedType.price || 0);
+    const publicBasePrice = Number(data.selectedType.price || 0);
+    const finalBasePrice = Number(form.elements.finalClientPrice?.value || data.base || 0);
+    const setText = (selector, text) => {
+      const element = form.querySelector(selector);
+      if (element) element.textContent = text;
+    };
+    setText("[data-partner-base-price]", usdLabel(partnerBasePrice));
+    setText("[data-public-base-price]", usdLabel(publicBasePrice));
+    setText("[data-partner-base-margin]", usdLabel(Math.max(finalBasePrice - partnerBasePrice, 0)));
+    form.querySelectorAll("[data-extra-key]").forEach((row) => {
+      const key = row.dataset.extraKey;
+      const item = budgetExtras[key];
+      if (!item) return;
+      let meta = row.querySelector("[data-partner-extra-meta]");
+      if (!meta) {
+        meta = document.createElement("small");
+        meta.dataset.partnerExtraMeta = "";
+        row.insertBefore(meta, row.querySelector("input[type='number']"));
+      }
+      const priceInput = row.querySelector('input[type="number"]');
+      const publicPrice = Number(item.price || 0);
+      const partnerPrice = key === "maintenance"
+        ? Number(form.elements.monthlyPartnerCost?.value || item.partnerPrice || item.price || 0)
+        : Number(item.partnerPrice ?? item.price ?? 0);
+      const finalPrice = key === "maintenance"
+        ? Number(form.elements.monthlyClientPrice?.value || priceInput?.value || publicPrice || 0)
+        : Number(priceInput?.value || publicPrice || 0);
+      meta.textContent = isPartner
+        ? `Partner ${usdLabel(partnerPrice)} · Publico ${usdLabel(publicPrice)} · Margen ${usdLabel(Math.max(finalPrice - partnerPrice, 0))}`
+        : "";
+    });
+    const monthlyPartnerCost = Number(form.elements.monthlyPartnerCost?.value || 0);
+    const monthlyClientPrice = Number(form.elements.monthlyClientPrice?.value || 0);
+    setText("[data-maintenance-monthly-margin]", `${usdLabel(Math.max(monthlyClientPrice - monthlyPartnerCost, 0))}/mes`);
+  };
+
+  const renderWizardSummary = () => {
+    if (!wizardSummary) return;
+    const data = getBudget();
+    const values = data.values;
+    const isPartner = data.mode === "partner";
+    const extrasLabel = data.oneTimeExtras.length ? data.oneTimeExtras.map((item) => item.name).join(", ") : "Sin extras";
+    const monthlyLabel = data.monthlyTotal ? `${MONEY_USD.format(data.monthlyTotal)}/mes` : "Sin mantenimiento";
+    const partnerSummary = isPartner ? `
+      <div><span>Costo partner</span><strong>${MONEY_USD.format(data.partnerProjectCost)}</strong></div>
+      <div><span>Precio final cliente</span><strong>${MONEY_USD.format(data.discountedProjectSubtotal)}</strong></div>
+      <div><span>Margen estimado</span><strong>${MONEY_USD.format(data.margin)}</strong></div>
+    ` : "";
+    wizardSummary.innerHTML = `
+      <div><span>Cliente</span><strong>${escapeHtml(values.client || "Sin cargar")}</strong></div>
+      <div><span>Empresa</span><strong>${escapeHtml(values.company || "Sin cargar")}</strong></div>
+      <div><span>Plan elegido</span><strong>${escapeHtml(data.selectedType.name)}</strong></div>
+      <div><span>Extras</span><strong>${escapeHtml(extrasLabel)}</strong></div>
+      <div><span>Total</span><strong>${MONEY_USD.format(data.total)}</strong></div>
+      <div><span>Mantenimiento</span><strong>${escapeHtml(monthlyLabel)}</strong></div>
+      ${partnerSummary}
+    `;
+  };
+
+  const setWizardStep = (index) => {
+    if (!wizard) return;
+    const steps = getVisibleWizardSteps();
+    currentWizardStep = Math.min(Math.max(index, 0), steps.length - 1);
+    const activeKey = steps[currentWizardStep];
+    wizardSteps.forEach((step) => {
+      const isActive = step.dataset.budgetStep === activeKey;
+      step.hidden = !isActive;
+      step.classList.toggle("is-active", isActive);
+    });
+    if (wizardPrev) wizardPrev.disabled = currentWizardStep === 0;
+    if (wizardNext) {
+      wizardNext.hidden = activeKey === "generate";
+      wizardNext.textContent = currentWizardStep === steps.length - 2 ? "Ir a generar" : "Siguiente";
+    }
+    if (wizardChangeMode) wizardChangeMode.hidden = activeKey === "mode";
+    if (wizardTitle) wizardTitle.textContent = getMode() === "partner" ? "Propuesta Partner" : "Propuesta Runia Web";
+    if (wizardProgress) {
+      wizardProgress.innerHTML = steps.map((stepKey, stepIndex) => `
+        <button type="button" class="${stepIndex === currentWizardStep ? "is-active" : stepIndex < currentWizardStep ? "is-done" : ""}" data-budget-progress-step="${stepIndex}">
+          <span>${String(stepIndex + 1).padStart(2, "0")}</span>
+          ${escapeHtml(wizardStepLabels[stepKey] || stepKey)}
+        </button>
+      `).join("");
+    }
+    renderPartnerPricingPanels();
+    renderWizardSummary();
+  };
+
+  const resetWizardForMode = () => {
+    currentWizardStep = 0;
+    setWizardStep(0);
+  };
+
+  form.addEventListener("input", (event) => {
+    if (event.target?.name === "monthlyClientPrice") syncMaintenancePricing();
     renderBudget();
+    renderPartnerPricingPanels();
+    renderWizardSummary();
     markBudgetDirty();
   });
   form.addEventListener("change", (event) => {
@@ -2972,9 +3205,27 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
       reader.readAsDataURL(file);
       return;
     }
+    if (event.target?.name === "budgetMode") {
+      setBudgetMode(event.target.value);
+      syncBasePrice(true);
+      resetWizardForMode();
+    }
     if (event.target?.name === "webType") syncBasePrice(true);
+    if (event.target?.name === "maintenanceMode") syncMaintenanceMode();
+    if (event.target?.name === "monthlyClientPrice") syncMaintenancePricing();
     renderBudget();
+    renderPartnerPricingPanels();
+    renderWizardSummary();
     markBudgetDirty();
+  });
+
+  wizardPrev?.addEventListener("click", () => setWizardStep(currentWizardStep - 1));
+  wizardNext?.addEventListener("click", () => setWizardStep(currentWizardStep + 1));
+  wizardChangeMode?.addEventListener("click", () => setWizardStep(0));
+  wizardProgress?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-budget-progress-step]");
+    if (!button) return;
+    setWizardStep(Number(button.dataset.budgetProgressStep || 0));
   });
 
   const exportProposal = () => {
@@ -2985,20 +3236,166 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
     if (!opened) window.location.href = shareUrl;
   };
 
+  const printBudgetSummary = () => {
+    const data = getBudget();
+    const values = data.values;
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) return;
+    const isPartner = data.mode === "partner";
+    const oneTimeExtrasLabel = data.oneTimeExtras.length ? data.oneTimeExtras.map((item) => item.name).join(", ") : "Sin extras";
+    const monthlyLabel = data.monthlyTotal ? `${MONEY_USD.format(data.monthlyTotal)}/mes` : "Sin mantenimiento";
+    const rows = [
+      ["Modo", isPartner ? "Partner" : "Runia Web"],
+      ["Cliente", values.client || "-"],
+      ["Empresa", values.company || "-"],
+      ["Rubro", values.industry || "-"],
+      ["WhatsApp", values.whatsapp || "-"],
+      ["Vendedor / partner", values.seller || values.partnerName || "-"],
+      ["Plan", data.selectedType.name],
+      ["Extras únicos", oneTimeExtrasLabel],
+      ["Mantenimiento", monthlyLabel]
+    ];
+    const partnerRows = isPartner ? [
+      ["Costo partner", MONEY_USD.format(data.partnerProjectCost || 0)],
+      ["Precio final cliente", MONEY_USD.format(data.discountedProjectSubtotal || 0)],
+      ["Margen proyecto", MONEY_USD.format(data.margin || 0)],
+      ["Costo mensual partner", data.partnerMonthlyTotal ? `${MONEY_USD.format(data.partnerMonthlyTotal)}/mes` : "No aplica"],
+      ["Margen mensual", data.monthlyMargin ? `${MONEY_USD.format(data.monthlyMargin)}/mes` : "No aplica"]
+    ] : [];
+    const projectRows = [
+      ["Base web", MONEY_USD.format(data.base || 0)],
+      ["Extras únicos", MONEY_USD.format(data.extrasTotal || 0)],
+      ["Dominio", data.domainCostArs ? `${MONEY_ARS.format(data.domainCostArs)} / ${MONEY_USD.format(data.domainCost || 0)}` : "No cargado"],
+      ["SSL", data.sslCostArs ? `${MONEY_ARS.format(data.sslCostArs)} / ${MONEY_USD.format(data.sslCost || 0)}` : "No cargado"],
+      ["Descuento", MONEY_USD.format(data.discount || 0)],
+      ["Total pago único", MONEY_USD.format(data.total || 0)]
+    ];
+    const extraRows = data.oneTimeExtras.map((item) => `
+      <tr>
+        <td>${escapeHtml(item.name)}</td>
+        <td>${escapeHtml(item.displayPrice || usdLabel(item.price))}</td>
+        <td>${isPartner ? escapeHtml(usdLabel(item.internalPrice || item.price || 0)) : "-"}</td>
+      </tr>
+    `).join("");
+    const maintenanceRows = data.recurringExtras.map((item) => `
+      <tr>
+        <td>${escapeHtml(item.name)}</td>
+        <td>${escapeHtml(item.displayPrice || `${usdLabel(item.price)}/mes`)}</td>
+        <td>${isPartner ? escapeHtml(`${usdLabel(item.internalPrice || item.price || 0)}/mes`) : "-"}</td>
+      </tr>
+    `).join("");
+    printWindow.document.open();
+    printWindow.document.write(`<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Comanda ${escapeHtml(values.company || values.client || "Runia Web")}</title>
+    <style>
+      * { box-sizing: border-box; }
+      @page { size: A4; margin: 10mm; }
+      body { margin: 0; background: #f7f4ef; color: #191716; font-family: Inter, Arial, sans-serif; font-size: 11px; }
+      main { width: 100%; max-width: 780px; margin: 0 auto; padding: 24px; }
+      header { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: start; padding-bottom: 14px; border-bottom: 1px solid rgba(25, 23, 22, .18); }
+      h1 { margin: 4px 0 0; font-size: 32px; line-height: .96; font-weight: 430; letter-spacing: 0; }
+      p { margin: 6px 0 0; color: rgba(25, 23, 22, .62); line-height: 1.35; }
+      .tag { color: #f16f16; font-size: 9px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+      section { margin-top: 14px; break-inside: avoid; page-break-inside: avoid; }
+      h2 { margin: 0 0 7px; font-size: 13px; font-weight: 680; }
+      .layout { display: grid; grid-template-columns: 1.1fr .9fr; gap: 14px; align-items: start; }
+      .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid rgba(25, 23, 22, .14); }
+      .grid div { min-height: 47px; padding: 9px 10px; border-right: 1px solid rgba(25, 23, 22, .1); border-bottom: 1px solid rgba(25, 23, 22, .1); background: rgba(255, 253, 249, .72); }
+      .grid span { display: block; color: rgba(25, 23, 22, .48); font-size: 8px; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; }
+      .grid strong { display: block; margin-top: 5px; font-size: 12px; font-weight: 560; line-height: 1.2; }
+      .total { background: #191716 !important; color: #fffdf9; }
+      .total span { color: rgba(255, 253, 249, .56); }
+      .total strong { font-size: 20px; font-weight: 440; }
+      table { width: 100%; border-collapse: collapse; border: 1px solid rgba(25, 23, 22, .14); background: rgba(255, 253, 249, .72); }
+      th, td { padding: 7px 9px; border-bottom: 1px solid rgba(25, 23, 22, .1); text-align: left; font-size: 10px; line-height: 1.25; }
+      th { background: #191716; color: rgba(255, 253, 249, .78); font-size: 8px; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; }
+      .amounts { grid-template-columns: 1fr; }
+      .amounts div { min-height: 42px; }
+      .actions { position: sticky; top: 0; display: flex; justify-content: flex-end; gap: 10px; margin: -24px -24px 16px; padding: 10px; background: #f7f4ef; border-bottom: 1px solid rgba(25, 23, 22, .1); }
+      button { border: 1px solid #191716; border-radius: 999px; padding: 9px 14px; background: #191716; color: #fffdf9; font: inherit; font-weight: 700; cursor: pointer; }
+      @media print {
+        .actions { display: none; }
+        body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        main { max-width: none; padding: 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="actions"><button onclick="window.print()">Imprimir</button></div>
+      <header>
+        <div>
+          <div class="tag">Comanda interna Runia Web</div>
+          <h1>${escapeHtml(values.company || values.client || "Presupuesto")}</h1>
+          <p>Resumen operativo para producción, cobro y margen interno.</p>
+        </div>
+        <p><strong>${escapeHtml(data.reference)}</strong><br />${escapeHtml(data.proposalDate)}</p>
+      </header>
+      <div class="layout">
+        <section>
+          <h2>Datos del proyecto</h2>
+          <div class="grid">
+            ${rows.map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("")}
+          </div>
+        </section>
+        <section>
+          <h2>Importes</h2>
+          <div class="grid amounts">
+            ${projectRows.map(([label, value]) => `<div class="${label === "Total pago único" ? "total" : ""}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("")}
+          </div>
+        </section>
+      </div>
+      ${partnerRows.length ? `<section><h2>Resumen Partner</h2><div class="grid">${partnerRows.map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("")}</div></section>` : ""}
+      <div class="layout">
+        <section>
+          <h2>Extras únicos</h2>
+          <table>
+            <thead><tr><th>Item</th><th>Cliente</th><th>Partner</th></tr></thead>
+            <tbody>${extraRows || `<tr><td colspan="3">Sin extras únicos cargados.</td></tr>`}</tbody>
+          </table>
+        </section>
+        <section>
+          <h2>Mantenimiento mensual</h2>
+          <table>
+            <thead><tr><th>Item</th><th>Cliente</th><th>Partner</th></tr></thead>
+            <tbody>${maintenanceRows || `<tr><td colspan="3">Sin mantenimiento mensual.</td></tr>`}</tbody>
+          </table>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>`);
+    printWindow.document.close();
+  };
+
   exportButtons.forEach((button) => button.addEventListener("click", exportProposal));
+  printSummaryButtons.forEach((button) => button.addEventListener("click", printBudgetSummary));
   saveButtons.forEach((button) => button.addEventListener("click", saveBudget));
 
   try {
     if (!partnerLogoData) partnerLogoData = sessionStorage.getItem("runia_partner_logo_data") || "";
   } catch {}
   const isSharedProposal = applySharedBudgetState();
+  if (!isSharedProposal) {
+    try {
+      const savedMode = localStorage.getItem("runia_budget_mode");
+      if (savedMode === "partner" || savedMode === "runia") setBudgetMode(savedMode, false);
+    } catch {}
+  }
   if (form.elements.date && !form.elements.date.value) form.elements.date.value = new Date().toISOString().slice(0, 10);
   syncBasePrice();
+  if (!isSharedProposal) syncMaintenanceMode();
   renderBudget();
   if (isSharedProposal) {
     mountSharedProposalView();
     return;
   }
+  setWizardStep(0);
+  renderPartnerPricingPanels();
+  renderWizardSummary();
   setBudgetSavedState(false);
 };
 

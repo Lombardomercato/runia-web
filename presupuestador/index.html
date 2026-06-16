@@ -25,7 +25,7 @@
     <meta name="twitter:description" content="Lo lanzamos en 48hs, o no pagás. Sitios comerciales pensados para generar consultas, mostrar profesionalismo y ayudar a vender más." />
     <meta name="twitter:image" content="https://web.runia.ar/assets/og-runia-web-preview.png" />
     <link rel="stylesheet" href="../styles.css" />
-    <link rel="stylesheet" href="../tools.css?v=proposal-rwd-13" />
+    <link rel="stylesheet" href="../tools.css?v=budget-wizard-6" />
   </head>
   <body class="tool-page budget-page">
     <header class="header">
@@ -66,16 +66,31 @@
 
       <section class="tool-section" id="presupuestador">
         <div class="container tool-grid">
-          <form class="tool-panel tool-form quote-form-panel" data-budget-form>
+          <form class="tool-panel tool-form quote-form-panel budget-wizard" data-budget-form data-budget-wizard>
+            <div class="budget-wizard-top">
+              <div>
+                <p class="tool-label">Presupuestador</p>
+                <h2 data-wizard-title>Crear propuesta</h2>
+              </div>
+              <button class="budget-change-mode" type="button" data-budget-change-mode>Cambiar modo</button>
+            </div>
+            <div class="budget-progress" data-budget-progress aria-label="Progreso del presupuestador"></div>
+
+            <section class="budget-step is-active" data-budget-step="mode">
+              <p class="tool-label">Primera decision</p>
+              <h3>Quien genera esta propuesta?</h3>
             <fieldset class="tool-fieldset budget-mode-box">
               <legend>Modo de presupuesto</legend>
               <div class="budget-mode-options">
-                <label class="tool-option"><input type="radio" name="budgetMode" value="runia" checked /> Runia Web</label>
-                <label class="tool-option"><input type="radio" name="budgetMode" value="partner" /> Partner</label>
+                <label class="tool-option"><input type="radio" name="budgetMode" value="runia" checked /> <span>Runia Web<small>Propuesta directa para cliente final con marca Runia Web.</small></span></label>
+                <label class="tool-option"><input type="radio" name="budgetMode" value="partner" /> <span>Partner<small>Reventa con precio partner, margen interno y marca propia.</small></span></label>
               </div>
             </fieldset>
+            </section>
 
-            <p class="tool-label">Datos del cliente</p>
+            <section class="budget-step" data-budget-step="client" hidden>
+            <p class="tool-label">Paso cliente</p>
+            <h3>Datos comerciales del cliente</h3>
             <div class="tool-options">
               <label class="tool-field"><span>Cliente</span><input name="client" placeholder="Nombre del cliente" /></label>
               <label class="tool-field"><span>Empresa</span><input name="company" placeholder="Empresa / marca" /></label>
@@ -84,8 +99,15 @@
               <label class="tool-field"><span>Rubro</span><input name="industry" placeholder="Rubro del cliente" /></label>
               <label class="tool-field"><span>Vendedor / partner</span><input name="seller" placeholder="Nombre del vendedor" /></label>
             </div>
+            <div class="tool-options">
+              <label class="tool-field"><span>Email</span><input name="email" type="email" placeholder="cliente@empresa.com" /></label>
+              <label class="tool-field"><span>WhatsApp</span><input name="whatsapp" placeholder="+54 9..." /></label>
+            </div>
+            </section>
 
-            <p class="tool-label">Propuesta</p>
+            <section class="budget-step" data-budget-step="service" hidden>
+            <p class="tool-label">Paso servicio</p>
+            <h3>Elegir el tipo de web</h3>
             <div class="tool-options">
               <label class="tool-field">
                 <span>Tipo de web</span>
@@ -103,55 +125,94 @@
               <label class="tool-field"><span>Dominio ARS</span><input name="domainCost" type="number" min="0" value="0" /></label>
               <label class="tool-field"><span>SSL / seguridad ARS</span><input name="sslCost" type="number" min="0" value="0" /></label>
             </div>
+            <div class="partner-price-panel" data-budget-modes="partner">
+              <div><span>Precio partner</span><strong data-partner-base-price>USD 620</strong></div>
+              <div><span>Precio publico sugerido</span><strong data-public-base-price>USD 850</strong></div>
+              <label class="tool-field"><span>Precio Partner</span><input name="internalCost" type="number" min="0" value="620" /></label>
+              <label class="tool-field"><span>Precio final cliente</span><input name="finalClientPrice" type="number" min="0" value="850" /></label>
+              <div><span>Margen estimado</span><strong data-partner-base-margin>USD 230</strong></div>
+            </div>
+            <p class="pricing-warning" data-pricing-warning hidden>El precio final cliente esta por debajo del precio publico sugerido.</p>
+            </section>
 
+            <section class="budget-step" data-budget-step="partner" data-budget-modes="partner" hidden>
             <div class="partner-budget-fields" data-partner-fields hidden>
-              <p class="tool-label">Datos internos partner</p>
+              <p class="tool-label">Paso partner</p>
+              <h3>Datos internos partner</h3>
               <div class="tool-options">
                 <label class="tool-field"><span>Nombre partner</span><input name="partnerName" placeholder="Nombre del partner" /></label>
                 <label class="tool-field"><span>Logo partner</span><input name="partnerLogo" type="file" accept="image/*" /></label>
               </div>
-              <div class="tool-options">
-                <label class="tool-field"><span>Precio costo interno Runia</span><input name="internalCost" type="number" min="0" value="850" /></label>
-                <label class="tool-field"><span>Precio final cliente</span><input name="finalClientPrice" type="number" min="0" value="850" /></label>
-              </div>
-              <p class="pricing-warning" data-pricing-warning hidden>El precio ingresado está por debajo del mínimo recomendado Runia.</p>
             </div>
+            </section>
 
+            <section class="budget-step" data-budget-step="extras" hidden>
+            <p class="tool-label">Paso extras</p>
+            <h3>Sumar alcance adicional</h3>
             <fieldset class="tool-fieldset">
               <legend>Extras</legend>
               <div class="budget-extra-editor">
-                <label class="budget-extra-row">
+                <label class="budget-extra-row" data-extra-key="brandingBasic">
                   <span><input type="checkbox" name="budgetExtras" value="brandingBasic" /> Branding básico</span>
                   <input name="extraPrice_brandingBasic" type="number" min="0" value="250" aria-label="Precio branding básico" />
                 </label>
-                <label class="budget-extra-row">
+                <label class="budget-extra-row" data-extra-key="brandingPro">
                   <span><input type="checkbox" name="budgetExtras" value="brandingPro" /> Branding pro</span>
                   <input name="extraPrice_brandingPro" type="number" min="0" value="650" aria-label="Precio branding pro" />
                 </label>
-                <label class="budget-extra-row">
+                <label class="budget-extra-row" data-extra-key="copywriting">
                   <span><input type="checkbox" name="budgetExtras" value="copywriting" /> Copywriting avanzado</span>
                   <input name="extraPrice_copywriting" type="number" min="0" value="250" aria-label="Precio copywriting avanzado" />
                 </label>
-                <label class="budget-extra-row">
+                <label class="budget-extra-row" data-extra-key="productsLoad">
                   <span><input type="checkbox" name="budgetExtras" value="productsLoad" /> Carga de productos o servicios</span>
                   <input name="extraPrice_productsLoad" type="number" min="0" value="150" aria-label="Precio carga de productos o servicios" />
                 </label>
-                <label class="budget-extra-row">
+                <label class="budget-extra-row" data-extra-key="maintenance" data-budget-modes="runia">
                   <span><input type="checkbox" name="budgetExtras" value="maintenance" /> Mantenimiento mensual</span>
                   <input name="extraPrice_maintenance" type="number" min="0" value="80" aria-label="Precio mantenimiento mensual" />
                 </label>
-                <label class="budget-extra-row">
+                <label class="budget-extra-row" data-extra-key="automationAI">
                   <span><input type="checkbox" name="budgetExtras" value="automationAI" /> Automatización / IA</span>
                   <input name="extraPrice_automationAI" type="number" min="0" value="0" aria-label="Precio automatización o IA" />
                 </label>
               </div>
             </fieldset>
 
+            </section>
+
+            <section class="budget-step" data-budget-step="maintenance" data-budget-modes="partner" hidden>
+            <p class="tool-label">Paso mantenimiento</p>
+            <h3>Definir continuidad mensual</h3>
+            <div class="budget-maintenance-options">
+              <label class="tool-option"><input type="radio" name="maintenanceMode" value="none" checked /> Sin mantenimiento</label>
+              <label class="tool-option"><input type="radio" name="maintenanceMode" value="optional" /> Mantenimiento mensual opcional</label>
+              <label class="tool-option"><input type="radio" name="maintenanceMode" value="included" /> Mantenimiento mensual incluido</label>
+            </div>
+            <div class="tool-options budget-maintenance-pricing" data-maintenance-pricing>
+              <label class="tool-field"><span>Costo Runia / Partner USD</span><input name="monthlyPartnerCost" type="number" min="0" value="50" /></label>
+              <label class="tool-field"><span>Precio cliente mensual USD</span><input name="monthlyClientPrice" type="number" min="0" value="80" /></label>
+            </div>
+            <div class="partner-price-panel budget-maintenance-margin">
+              <div><span>Margen mensual estimado</span><strong data-maintenance-monthly-margin>USD 30/mes</strong></div>
+            </div>
+            <p class="budget-helper" data-maintenance-note>Cambios posteriores a la entrega se cotizan por separado.</p>
+            </section>
+
+            <section class="budget-step" data-budget-step="summary" hidden>
+            <p class="tool-label">Paso resumen</p>
+            <h3 data-summary-title>Revisar propuesta</h3>
+            <div class="budget-wizard-summary" data-budget-wizard-summary></div>
             <p class="tool-label">Descuentos</p>
             <div class="tool-options">
               <label class="tool-field"><span>Descuento USD</span><input name="discount" type="number" min="0" value="0" /></label>
               <label class="tool-field"><span>Descuento %</span><input name="discountPercent" type="number" min="0" max="100" value="0" /></label>
             </div>
+            </section>
+
+            <section class="budget-step" data-budget-step="generate" hidden>
+            <p class="tool-label">Generar propuesta</p>
+            <h3>Listo para abrir el presupuesto</h3>
             <div class="tool-options">
               <label class="tool-field"><span>Tiempo estimado</span><input name="time" value="Desde 48hs según alcance" /></label>
               <label class="tool-field"><span>Validez del presupuesto</span><input name="validity" value="7 días" /></label>
@@ -169,6 +230,12 @@
               <a class="button button-light" data-budget-whatsapp href="#" target="_blank" rel="noopener noreferrer" hidden>Enviar por WhatsApp</a>
             </div>
             <p class="budget-save-status" data-budget-save-status>Guardá el presupuesto para habilitar descarga y envío.</p>
+            </section>
+
+            <div class="budget-wizard-nav">
+              <button class="button button-light" type="button" data-budget-prev>Anterior</button>
+              <button class="button button-dark" type="button" data-budget-next>Siguiente</button>
+            </div>
           </form>
 
           <aside class="tool-result budget-result" aria-live="polite">
@@ -176,6 +243,7 @@
             <h2 data-total-usd>USD 0</h2>
             <p class="catalog-price" data-total-ars>$ 0</p>
             <div class="budget-summary" data-budget-summary></div>
+            <button class="button button-dark budget-print-summary" type="button" data-print-budget-summary>Imprimir comanda</button>
             <div class="proposal-export-source" data-proposal-preview aria-hidden="true"></div>
           </aside>
         </div>
@@ -199,6 +267,6 @@
     <script src="../vendor/html2canvas.min.js"></script>
     <script src="../vendor/jspdf.umd.min.js"></script>
     <script src="../script.js"></script>
-    <script src="../tools.js?v=proposal-rwd-13"></script>
+    <script src="../tools.js?v=budget-wizard-6"></script>
   </body>
 </html>

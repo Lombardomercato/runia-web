@@ -192,7 +192,7 @@
   min-height: 3.15rem;
   padding: 0.86rem 0.95rem;
   outline: none;
-  transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+  transition: border-color 180ms ease, background-color 180ms ease;
 }
 
 .tool-field textarea {
@@ -204,7 +204,7 @@
 .tool-field select:focus,
 .tool-field textarea:focus {
   border-color: rgba(237, 154, 38, 0.55);
-  box-shadow: 0 0 0 3px rgba(237, 154, 38, 0.1);
+  box-shadow: none;
 }
 
 .tool-options {
@@ -310,7 +310,7 @@
 .quote-form-panel .tool-field textarea:focus {
   border-color: rgba(237, 154, 38, 0.68);
   background: rgba(247, 244, 239, 0.105);
-  box-shadow: 0 0 0 3px rgba(237, 154, 38, 0.14);
+  box-shadow: none;
 }
 
 .tool-option {
@@ -3563,6 +3563,451 @@
   margin: 1.25rem 0;
 }
 
+.budget-page {
+  background: #f7f4ef;
+}
+
+.budget-page .tool-main {
+  background:
+    linear-gradient(rgba(27, 25, 22, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(27, 25, 22, 0.03) 1px, transparent 1px),
+    #f7f4ef;
+  background-size: 4.5rem 4.5rem;
+  color: #1b1916;
+}
+
+.budget-page .tool-hero {
+  padding: clamp(4.5rem, 8vw, 7rem) 0 clamp(2.6rem, 5vw, 4.5rem);
+  background: transparent;
+}
+
+.budget-page .tool-section {
+  padding: 0 0 clamp(4rem, 8vw, 6.5rem);
+  background: transparent;
+}
+
+.budget-page .tool-hero-grid,
+.budget-page .tool-grid {
+  width: min(100% - 2rem, 1180px);
+}
+
+.budget-page .tool-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 410px);
+  gap: clamp(1rem, 2vw, 1.6rem);
+  align-items: start;
+}
+
+.budget-page .tool-title {
+  max-width: 54rem;
+}
+
+.budget-page .tool-lead,
+.budget-page .tool-status-card p {
+  max-width: 41rem;
+  color: rgba(27, 25, 22, 0.62);
+}
+
+.budget-page .tool-status-card,
+.budget-page .tool-panel,
+.budget-page .budget-result {
+  border: 1px solid rgba(27, 25, 22, 0.1);
+  border-radius: 0.42rem;
+  background: rgba(255, 253, 249, 0.72);
+  color: #1b1916;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.budget-page .tool-panel {
+  padding: clamp(1.35rem, 3vw, 2rem);
+}
+
+.budget-page .budget-result {
+  position: sticky;
+  top: 6rem;
+  align-self: start;
+  border-color: rgba(27, 25, 22, 0.1);
+  background: rgba(255, 253, 249, 0.88);
+  color: #1b1916;
+  box-shadow: none;
+}
+
+.budget-wizard {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.budget-wizard-top,
+.budget-wizard-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.budget-wizard-top {
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(27, 25, 22, 0.09);
+}
+
+.budget-wizard-top h2,
+.budget-step h3 {
+  margin: 0;
+  color: #1b1916;
+  font-family: "Instrument Sans", Inter, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 390;
+  letter-spacing: 0;
+}
+
+.budget-wizard-top h2 {
+  margin-top: 0.32rem;
+  font-size: clamp(1.65rem, 3.2vw, 2.45rem);
+  line-height: 1;
+}
+
+.budget-step h3 {
+  max-width: 35rem;
+  margin-bottom: 1.45rem;
+  font-size: clamp(1.45rem, 2.7vw, 2.15rem);
+  line-height: 1.08;
+}
+
+.budget-change-mode {
+  border: 1px solid rgba(27, 25, 22, 0.16);
+  border-radius: 999px;
+  padding: 0.72rem 1rem;
+  background: rgba(255, 253, 249, 0.58);
+  color: rgba(27, 25, 22, 0.76);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.budget-change-mode:hover {
+  border-color: rgba(27, 25, 22, 0.34);
+  background: #1b1916;
+  color: #fffdf9;
+}
+
+.budget-progress {
+  display: flex;
+  gap: 0.38rem;
+  overflow-x: auto;
+  padding: 0.08rem 0 0.28rem;
+  scrollbar-width: thin;
+}
+
+.budget-progress button {
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.48rem 0.66rem;
+  background: transparent;
+  color: rgba(27, 25, 22, 0.48);
+  font: inherit;
+  font-size: 0.74rem;
+  line-height: 1;
+  text-transform: capitalize;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.budget-progress button span {
+  color: rgba(241, 111, 22, 0.72);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.64rem;
+}
+
+.budget-progress button.is-active {
+  border-color: #1b1916;
+  background: #1b1916;
+  color: #fffdf9;
+}
+
+.budget-progress button.is-done {
+  color: rgba(27, 25, 22, 0.72);
+}
+
+.budget-step {
+  min-height: 22rem;
+  padding: clamp(1.15rem, 2.5vw, 1.55rem);
+  border: 1px solid rgba(27, 25, 22, 0.08);
+  border-radius: 0.35rem;
+  background: rgba(255, 253, 249, 0.76);
+}
+
+.budget-step[hidden],
+.budget-page [hidden] {
+  display: none !important;
+}
+
+.budget-page .tool-label,
+.budget-page .result-kicker {
+  color: rgba(241, 111, 22, 0.88);
+}
+
+.budget-page .tool-field,
+.budget-page .tool-fieldset {
+  gap: 0.5rem;
+}
+
+.budget-page .tool-field span,
+.budget-page .tool-fieldset legend {
+  color: rgba(27, 25, 22, 0.56);
+  font-size: 0.7rem;
+}
+
+.budget-page .tool-field input,
+.budget-page .tool-field select,
+.budget-page .tool-field textarea,
+.budget-page .budget-extra-row input[type="number"] {
+  min-height: 3.05rem;
+  border-color: rgba(27, 25, 22, 0.12);
+  border-radius: 0.22rem;
+  background: rgba(255, 253, 249, 0.82);
+  color: #1b1916;
+  box-shadow: none;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.budget-page .tool-field textarea {
+  min-height: 6.4rem;
+}
+
+.budget-page .tool-field input::placeholder {
+  color: rgba(27, 25, 22, 0.34);
+}
+
+.budget-page .tool-field input:focus,
+.budget-page .tool-field select:focus,
+.budget-page .tool-field textarea:focus,
+.budget-page .budget-extra-row input[type="number"]:focus {
+  border-color: rgba(241, 111, 22, 0.72);
+  background: #fffdf9;
+  box-shadow: none;
+  outline: 0;
+}
+
+.budget-mode-options,
+.budget-maintenance-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.budget-maintenance-options {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.budget-page .tool-option {
+  align-items: flex-start;
+  min-height: 5.2rem;
+  padding: 1rem;
+  border-color: rgba(27, 25, 22, 0.1);
+  border-radius: 0.32rem;
+  background: rgba(255, 253, 249, 0.68);
+  color: #1b1916;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.budget-page .tool-option:hover {
+  border-color: rgba(27, 25, 22, 0.18);
+  background: #fffdf9;
+}
+
+.budget-page .tool-option:has(input:checked) {
+  border-color: rgba(241, 111, 22, 0.58);
+  background: rgba(241, 111, 22, 0.095);
+}
+
+.budget-page .tool-option small {
+  display: block;
+  margin-top: 0.38rem;
+  color: rgba(27, 25, 22, 0.56);
+  font-size: 0.82rem;
+  font-weight: 390;
+  line-height: 1.45;
+}
+
+.partner-price-panel,
+.partner-internal-summary,
+.budget-wizard-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.72rem;
+  margin-top: 1rem;
+}
+
+.partner-price-panel > div,
+.partner-price-panel .tool-field,
+.budget-wizard-summary > div,
+.partner-internal-summary > div {
+  min-height: 4.85rem;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid rgba(27, 25, 22, 0.09);
+  border-radius: 0.28rem;
+  background: rgba(255, 253, 249, 0.72);
+}
+
+.partner-price-panel > div:first-child,
+.budget-wizard-summary > div:nth-child(5),
+.partner-internal-summary > div:first-child {
+  border-color: rgba(27, 25, 22, 0.18);
+  background: #1b1916;
+}
+
+.partner-price-panel > div:first-child span,
+.budget-wizard-summary > div:nth-child(5) span,
+.partner-internal-summary > div:first-child span {
+  color: rgba(255, 253, 249, 0.56);
+}
+
+.partner-price-panel > div:first-child strong,
+.budget-wizard-summary > div:nth-child(5) strong,
+.partner-internal-summary > div:first-child strong {
+  color: #fffdf9;
+}
+
+.partner-price-panel span,
+.budget-wizard-summary span,
+.partner-internal-summary span,
+.budget-extra-row small {
+  display: block;
+  color: rgba(27, 25, 22, 0.48);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.partner-price-panel strong,
+.budget-wizard-summary strong {
+  display: block;
+  margin-top: 0.58rem;
+  color: #1b1916;
+  font-size: 1.05rem;
+  font-weight: 520;
+  letter-spacing: 0;
+}
+
+.budget-extra-row {
+  grid-template-columns: minmax(0, 1.2fr) minmax(12rem, 0.9fr) 7rem;
+  align-items: center;
+  min-height: 4.1rem;
+  border-color: rgba(27, 25, 22, 0.09);
+  border-radius: 0.26rem;
+  background: rgba(255, 253, 249, 0.7);
+}
+
+.budget-extra-row small:empty {
+  display: none;
+}
+
+.budget-page .pricing-warning {
+  border-color: rgba(241, 111, 22, 0.32);
+  border-radius: 0.3rem;
+  background: rgba(241, 111, 22, 0.09);
+  color: #1b1916;
+}
+
+.budget-page .budget-wizard-nav .button-dark {
+  border-color: #1b1916;
+  background: #1b1916;
+  color: #fffdf9;
+}
+
+.budget-page .budget-wizard-nav .button-light,
+.budget-page .budget-actions .button-light {
+  border-color: rgba(27, 25, 22, 0.14);
+  background: rgba(255, 253, 249, 0.64);
+  color: #1b1916;
+}
+
+.budget-page .budget-actions .button-dark,
+.budget-print-summary {
+  border-color: #1b1916;
+  background: #1b1916;
+  color: #fffdf9;
+}
+
+.budget-print-summary {
+  width: 100%;
+  margin-top: 0.9rem;
+  justify-content: center;
+}
+
+.budget-page .tool-main *,
+.budget-page .tool-status-card,
+.budget-page .tool-panel,
+.budget-page .budget-result {
+  box-shadow: none;
+}
+
+.budget-result h2 {
+  color: #1b1916;
+  font-weight: 370;
+}
+
+.budget-result .catalog-price,
+.budget-result .budget-helper,
+.budget-result .budget-save-status,
+.budget-page .budget-summary p {
+  color: rgba(27, 25, 22, 0.58);
+}
+
+.budget-page .budget-summary-grid > div,
+.budget-page .budget-client-card,
+.budget-page .lead-management-strip > div {
+  border-color: rgba(27, 25, 22, 0.09);
+  border-radius: 0.28rem;
+  background: rgba(255, 253, 249, 0.72);
+}
+
+.budget-page .budget-summary strong,
+.budget-page .lead-management-strip strong {
+  color: #1b1916;
+  font-weight: 520;
+}
+
+.budget-page .budget-result .pricing-warning {
+  color: #1b1916;
+}
+
+@media (max-width: 980px) {
+  .budget-page .tool-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .budget-page .budget-result {
+    position: static;
+  }
+}
+
+@media (max-width: 860px) {
+  .budget-mode-options,
+  .budget-maintenance-options,
+  .partner-price-panel,
+  .partner-internal-summary,
+  .budget-wizard-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .budget-extra-row {
+    grid-template-columns: 1fr;
+  }
+
+  .budget-wizard-top,
+  .budget-wizard-nav {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
 .brief-output-block {
   margin: 1rem 0 1.35rem;
   padding: 1rem;
@@ -4778,4 +5223,122 @@
   .proposal-meta {
     text-align: left;
   }
+}
+
+/* Presupuestador final polish: fondo claro, detalle negro, sin glow. */
+.budget-page .tool-title,
+.budget-page .tool-title .muted,
+.budget-page .tool-title .accent {
+  color: #1b1916;
+}
+
+.budget-page .tool-status-card strong,
+.budget-page .tool-status-card .tool-label {
+  color: #1b1916;
+}
+
+.budget-page .budget-progress {
+  justify-content: space-between;
+  gap: 0.15rem;
+  overflow: hidden;
+  scrollbar-width: none;
+}
+
+.budget-page .budget-progress::-webkit-scrollbar {
+  display: none;
+}
+
+.budget-page .budget-progress button {
+  flex: 0 1 auto;
+  min-width: 0;
+  padding: 0.42rem 0.42rem;
+  color: rgba(27, 25, 22, 0.54);
+  font-size: clamp(0.58rem, 0.78vw, 0.7rem);
+}
+
+.budget-page .budget-progress button span {
+  color: rgba(241, 111, 22, 0.8);
+}
+
+.budget-page .budget-progress button.is-active {
+  background: #1b1916;
+  border-color: #1b1916;
+  color: #fffdf9;
+}
+
+.budget-page .budget-step {
+  background: rgba(255, 253, 249, 0.86);
+}
+
+.budget-page .tool-option,
+.budget-page .budget-extra-row,
+.budget-page .partner-price-panel > div,
+.budget-page .partner-price-panel .tool-field,
+.budget-page .budget-wizard-summary > div,
+.budget-page .partner-internal-summary > div {
+  background: rgba(255, 253, 249, 0.82);
+}
+
+.budget-page .tool-option span,
+.budget-page .tool-option,
+.budget-page .budget-extra-row > span,
+.budget-page .budget-extra-row label,
+.budget-page .budget-extra-row input,
+.budget-page .budget-maintenance-options .tool-option {
+  color: #1b1916;
+}
+
+.budget-page .quote-form-panel .tool-option:hover,
+.budget-page .quote-form-panel .tool-option:has(input:checked) {
+  background: rgba(255, 253, 249, 0.92);
+  color: #1b1916;
+}
+
+.budget-page .quote-form-panel .tool-option:hover::before,
+.budget-page .quote-form-panel .tool-option:has(input:checked)::before {
+  background: var(--orange);
+}
+
+.budget-page .budget-extra-row small,
+.budget-page .partner-price-panel span,
+.budget-page .budget-wizard-summary span,
+.budget-page .partner-internal-summary span {
+  color: rgba(27, 25, 22, 0.58);
+}
+
+.budget-page .partner-price-panel strong,
+.budget-page .budget-wizard-summary strong,
+.budget-page .partner-internal-summary strong {
+  color: #1b1916;
+}
+
+.budget-page .partner-price-panel > div:first-child,
+.budget-page .budget-wizard-summary > div:nth-child(5),
+.budget-page .partner-internal-summary > div:first-child {
+  background: #1b1916;
+}
+
+.budget-page .partner-price-panel > div:first-child span,
+.budget-page .budget-wizard-summary > div:nth-child(5) span,
+.budget-page .partner-internal-summary > div:first-child span {
+  color: rgba(255, 253, 249, 0.58);
+}
+
+.budget-page .partner-price-panel > div:first-child strong,
+.budget-page .budget-wizard-summary > div:nth-child(5) strong,
+.budget-page .partner-internal-summary > div:first-child strong {
+  color: #fffdf9;
+}
+
+.budget-wizard.is-partner-mode [data-budget-step="extras"] [data-extra-key="maintenance"] {
+  display: none;
+}
+
+.budget-page .tool-main *,
+.budget-page .tool-panel,
+.budget-page .tool-status-card,
+.budget-page .budget-result {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
 }
