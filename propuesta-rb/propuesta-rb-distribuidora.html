@@ -22,9 +22,8 @@
     .page{width:210mm;min-height:297mm;margin:0 auto 28px;background:var(--paper);border:1px solid var(--line);padding:22mm 18mm;position:relative;overflow:hidden;page-break-after:always}
     .page:before{content:"";position:absolute;inset:5mm;border:1px solid rgba(0,0,0,.04);pointer-events:none}
     .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:50mm;position:relative;z-index:1}
-    .brand{min-height:36px;display:flex;align-items:center}
-    .brand img{height:34px;width:auto;display:block}
-    .brand img[src="runia-logo-alt.png"],.brand img:not([src]){display:none}
+    .brand{min-height:126px;display:flex;align-items:center}
+    .brand img{height:120px;width:auto;display:block}
     .tag{border:1px solid var(--line);padding:13px 18px;font-size:11px;letter-spacing:1.5px;color:#999;text-transform:uppercase;background:#faf9f5;font-weight:400}
     .meta{position:absolute;right:18mm;top:28mm;text-align:right;color:#aaa;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:400;line-height:1.8}
     .bottom-accent{position:absolute;right:18mm;bottom:15mm;width:46px;height:3px;background:var(--accent)}
@@ -87,9 +86,12 @@
     .check{border:1px solid var(--line);padding:12px 14px;background:#fff;font-size:13.5px;font-weight:400;color:#555}
     .check:before{content:"✓";color:var(--accent);margin-right:12px}
     .conditions{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
-    .sign{display:grid;grid-template-columns:1fr 1fr;gap:42px;margin-top:54px}
-    .signline{border-top:1px solid #bbb;padding-top:12px;color:#888;text-transform:uppercase;font-size:11px;letter-spacing:1px;font-weight:400}
-    .sign-name{display:block;color:#222;font-size:15px;margin-bottom:26px;letter-spacing:1.4px;font-weight:400}
+    .acceptance-table .row{grid-template-columns:48px minmax(0,1fr);gap:24px;align-items:start}
+    .acceptance-table .name{font-size:15px;color:var(--gold);letter-spacing:1.1px;padding-top:1px}
+    .acceptance-table .desc{font-size:14px;line-height:1.55;margin-top:0;max-width:590px;text-align:left}
+    .sign{display:grid;grid-template-columns:1fr 1fr;gap:42px;margin-top:78px}
+    .signline{border-top:1px solid #bbb;padding-top:18px;min-height:96px;color:#888;text-transform:uppercase;font-size:11px;letter-spacing:1px;font-weight:400}
+    .sign-name{display:block;color:#222;font-size:15px;margin-bottom:34px;letter-spacing:1.4px;font-weight:400}
     .cta{border:1px solid #edd3a8;background:#fffaf0;padding:20px;margin-top:36px;border-radius:8px}
     .cta h3{font-size:19px}
     .cta p{font-size:14px;margin:0}
@@ -103,7 +105,7 @@
 
 <section class="page">
   <div class="top">
-    <div class="brand"><img src="runia-logo-alt.png" alt="Runia Web" onerror="this.style.display='none'"></div>
+    <div class="brand"><img src="runia-logo-alt.png" alt="Runia Web"></div>
     <div class="tag">Propuesta económica</div>
   </div>
   <div class="eyebrow">Preparado para RB Distribuidora</div>
@@ -118,7 +120,7 @@
 </section>
 
 <section class="page compact">
-  <div class="brand"><img src="runia-logo-alt.png" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="brand"><img src="runia-logo-alt.png" alt="Runia Web"></div>
   <div class="meta">01 / Contexto<br>RB-20260617-DIST</div>
   <div style="margin-top:38mm"></div>
   <div class="section-id">01 / Contexto</div>
@@ -135,7 +137,7 @@
 </section>
 
 <section class="page compact">
-  <div class="brand"><img src="runia-logo-alt.png" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="brand"><img src="runia-logo-alt.png" alt="Runia Web"></div>
   <div class="meta">02 / Caminos<br>RB-20260617-DIST</div>
   <div style="margin-top:28mm"></div>
   <div class="section-id">02 / Dos caminos posibles</div>
@@ -170,7 +172,7 @@
 </section>
 
 <section class="page compact">
-  <div class="brand"><img src="runia-logo-alt.png" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="brand"><img src="runia-logo-alt.png" alt="Runia Web"></div>
   <div class="meta">03 / Comparativa<br>RB-20260617-DIST</div>
   <div style="margin-top:30mm"></div>
   <div class="section-id">03 / Comparativa</div>
@@ -189,7 +191,7 @@
 </section>
 
 <section class="page compact">
-  <div class="brand"><img src="runia-logo-alt.png" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="brand"><img src="runia-logo-alt.png" alt="Runia Web"></div>
   <div class="meta">04 / Inversión<br>RB-20260617-DIST</div>
   <div style="margin-top:27mm"></div>
   <div class="section-id">04 / Resumen de inversión</div>
@@ -211,7 +213,7 @@
 </section>
 
 <section class="page compact">
-  <div class="brand"><img src="" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="brand"><img src="runia-logo-alt.png" alt="Runia Web"></div>
   <div class="meta">05 / Mensualidad<br>RB-20260617-DIST</div>
   <div style="margin-top:30mm"></div>
   <div class="section-id">05 / Mensualidad y soporte</div>
@@ -229,7 +231,7 @@
 </section>
 
 <section class="page compact">
-  <div class="brand"><img src="" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="brand"><img src="runia-logo-alt.png" alt="Runia Web"></div>
   <div class="meta">06 / Entrega<br>RB-20260617-DIST</div>
   <div style="margin-top:35mm"></div>
   <div class="section-id">06 / Plan de entrega</div>
@@ -242,7 +244,7 @@
 </section>
 
 <section class="page compact">
-  <div class="brand"><img src="" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="brand"><img src="runia-logo-alt.png" alt="Runia Web"></div>
   <div class="meta">07 / Estándar<br>RB-20260617-DIST</div>
   <div style="margin-top:30mm"></div>
   <div class="section-id">07 / Estándar Runia Web</div>
@@ -255,7 +257,7 @@
 </section>
 
 <section class="page compact">
-  <div class="brand"><img src="" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="brand"><img src="runia-logo-alt.png" alt="Runia Web"></div>
   <div class="meta">08 / Condiciones<br>RB-20260617-DIST</div>
   <div style="margin-top:30mm"></div>
   <div class="section-id">08 / Alcance y condiciones</div>
@@ -267,14 +269,14 @@
 </section>
 
 <section class="page compact">
-  <div class="brand"><img src="" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="brand"><img src="runia-logo-alt.png" alt="Runia Web"></div>
   <div class="meta">09 / Aceptación<br>RB-20260617-DIST</div>
   <div style="margin-top:40mm"></div>
   <div class="section-id">09 / Supuestos y aceptación</div>
   <h2>Lo que necesitamos <span class="accent">confirmar</span></h2>
   <div class="rule"></div>
   <p class="lead">Esta inversión asume las siguientes definiciones. Confirmarlas antes de iniciar permite sostener precio, alcance y tiempos.</p>
-  <div class="table"><div class="row"><div><div class="name">01</div></div><div class="desc" style="text-align:left;max-width:520px">RB entrega logo, datos de contacto, catálogo base, imágenes disponibles y accesos necesarios antes de iniciar.</div></div><div class="row"><div><div class="name">02</div></div><div class="desc" style="text-align:left;max-width:520px">La carga completa del catálogo se cotiza aparte y requiere material ordenado para poder sostener tiempos.</div></div><div class="row"><div><div class="name">03</div></div><div class="desc" style="text-align:left;max-width:520px">La entrega queda sujeta al camino elegido: Tienda Nube o Sistema Mayorista Runia.</div></div><div class="row"><div><div class="name">04</div></div><div class="desc" style="text-align:left;max-width:520px">Automatizaciones, pagos online, login de clientes o funciones mayoristas avanzadas se definen en una etapa posterior.</div></div></div>
+  <div class="table acceptance-table"><div class="row"><div class="name">01</div><div class="desc">RB entrega logo, datos de contacto, catálogo base, imágenes disponibles y accesos necesarios antes de iniciar.</div></div><div class="row"><div class="name">02</div><div class="desc">La carga completa del catálogo se cotiza aparte y requiere material ordenado para poder sostener tiempos.</div></div><div class="row"><div class="name">03</div><div class="desc">La entrega queda sujeta al camino elegido: Tienda Nube o Sistema Mayorista Runia.</div></div><div class="row"><div class="name">04</div><div class="desc">Automatizaciones, pagos online, login de clientes o funciones mayoristas avanzadas se definen en una etapa posterior.</div></div></div>
   <div class="sign"><div class="signline"><span class="sign-name">Alex Santillán</span>Runia Web</div><div class="signline"><span class="sign-name">RB Distribuidora</span>Firma y aclaración del cliente</div></div>
   <div class="cta"><h3>Para avanzar</h3><p>Si la propuesta está alineada, coordinamos una breve reunión para elegir camino, cerrar alcance, materiales y fecha de inicio.</p><p style="margin-top:10px">Contacto: WhatsApp / Runia Web</p></div>
   <div class="bottom-accent"></div>
