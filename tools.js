@@ -2164,7 +2164,7 @@ const initBudget = () => {
   const getShareUrl = () => {
     const url = new URL(window.location.href);
     url.search = "";
-    url.searchParams.set("v", "budget-wizard-6");
+    url.searchParams.set("v", "budget-wizard-7");
     url.searchParams.set("share", "presupuesto");
     url.hash = `data=${encodeBudgetState()}`;
     return url.toString();
@@ -2217,7 +2217,7 @@ const initBudget = () => {
         return;
       }
       const stylesHref = new URL("styles.css", window.location.origin + "/").href;
-      const toolsHref = new URL("tools.css?v=budget-wizard-6", window.location.origin + "/").href;
+      const toolsHref = new URL("tools.css?v=budget-wizard-7", window.location.origin + "/").href;
       printWindow.document.open();
       printWindow.document.write(`<!doctype html>
 <html lang="es">
