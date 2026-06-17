@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Propuesta Económica | RB Distribuidora | Runia Web</title>
+  <style>
+    :root{
+      --bg:#f7f6f2;
+      --paper:#fbfaf7;
+      --ink:#151515;
+      --muted:#6f6c66;
+      --line:#e4e0d8;
+      --soft:#f0ede6;
+      --accent:#f27418;
+      --gold:#d8aa4a;
+      --black:#111111;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,Arial,sans-serif;line-height:1.45;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    body{padding:28px}
+    .page{width:210mm;min-height:297mm;margin:0 auto 28px;background:var(--paper);border:1px solid var(--line);padding:22mm 18mm;position:relative;overflow:hidden;page-break-after:always}
+    .page:before{content:"";position:absolute;inset:5mm;border:1px solid rgba(0,0,0,.04);pointer-events:none}
+    .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:50mm;position:relative;z-index:1}
+    .brand{min-height:36px;display:flex;align-items:center}
+    .brand img{height:34px;width:auto;display:block}
+    .brand img[src=""],.brand img:not([src]){display:none}
+    .tag{border:1px solid var(--line);padding:13px 18px;font-size:11px;letter-spacing:1.5px;color:#999;text-transform:uppercase;background:#faf9f5;font-weight:400}
+    .meta{position:absolute;right:18mm;top:28mm;text-align:right;color:#aaa;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:400;line-height:1.8}
+    .bottom-accent{position:absolute;right:18mm;bottom:15mm;width:46px;height:3px;background:var(--accent)}
+    .section-id{font-size:11px;letter-spacing:1.5px;color:#aaa;text-transform:uppercase;font-weight:400;margin-bottom:18px}
+    .eyebrow{font-size:12px;letter-spacing:1.3px;color:var(--gold);text-transform:uppercase;font-weight:400;margin-bottom:18px}
+    h1{font-size:58px;line-height:1.03;letter-spacing:-2.5px;margin:0 0 20px;font-weight:400}
+    h2{font-size:40px;line-height:1.08;letter-spacing:-1.7px;margin:0 0 18px;font-weight:400}
+    h3{margin:0 0 10px;font-size:18px;line-height:1.18;font-weight:400}
+    .accent{color:var(--accent);font-weight:400}
+    p{font-size:16px;color:var(--muted);margin:0 0 16px;font-weight:400}
+    .lead{font-size:18px;max-width:690px;color:#68655f;line-height:1.6}
+    .rule{width:44px;height:3px;background:var(--accent);margin:22px 0 28px}
+    .price-hero{margin-top:32px;background:#111;color:#fff;padding:24px 28px;display:flex;justify-content:space-between;align-items:center;min-height:95px}
+    .price-hero small{display:block;color:#989898;text-transform:uppercase;font-size:11px;letter-spacing:1.1px;margin-bottom:10px;font-weight:400}
+    .amount{font-size:44px;letter-spacing:1px;font-weight:400}
+    .price-hero .right{text-align:right;color:#9a9a9a;font-size:12px;letter-spacing:1px;text-transform:uppercase;line-height:1.9}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:28px 0}
+    .card{border:1px solid var(--line);padding:22px;background:#fffdf9}
+    .card p{font-size:14px;line-height:1.55}
+    .chips{display:flex;flex-wrap:wrap;gap:9px;margin:20px 0 30px}
+    .chip{border:1px solid var(--line);padding:10px 13px;color:#777;background:#fff;font-size:12px;font-weight:400}
+    .abc{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:24px}
+    .abc .item{border-top:1px solid var(--line);padding-top:18px}
+    .abc .n{color:var(--gold);font-size:12px;font-weight:400;letter-spacing:1.2px;margin-bottom:20px}
+    .abc p{font-size:14px}
+    .options{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:24px;align-items:stretch;width:100%}
+    .option{border:1px solid var(--line);background:#fffdf9;padding:22px 20px;min-height:635px;display:grid;grid-template-rows:22px 112px 84px 98px auto;row-gap:0;min-width:0;overflow:hidden}
+    .label{font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:1.3px;font-weight:400;margin:0}
+    .option-head{display:grid;grid-template-columns:minmax(0,1fr);align-content:start;gap:9px;min-width:0}
+    .option h3{font-size:27px;letter-spacing:-.8px;margin:0;font-weight:400;line-height:1.1;max-width:100%}
+    .option-kind{font-size:11px;color:var(--accent);white-space:normal;text-transform:uppercase;letter-spacing:1px;font-weight:400;line-height:1.25}
+    .subtitle{font-size:14px;color:#777;margin:0;line-height:1.45;max-width:100%}
+    .price{background:#111;color:#fff;padding:18px;margin:0;align-self:start;width:100%}
+    .price small{display:block;color:#9b9b9b;text-transform:uppercase;letter-spacing:1px;font-size:10px;margin-bottom:6px;font-weight:400}
+    .price .amount{font-size:30px;font-weight:400;line-height:1}
+    ul{padding-left:0;margin:16px 0 0;list-style:none}
+    li{font-size:13.5px;color:#666;margin:8px 0;padding-left:18px;position:relative;font-weight:400}
+    li:before{content:"+";position:absolute;left:0;color:var(--accent);font-weight:400}
+    li.no:before{content:"-";color:#999}
+    .table{border-top:1px solid var(--line);margin-top:22px}
+    .row{display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,auto);gap:20px;border-bottom:1px solid var(--line);padding:15px 0;align-items:center;min-width:0}
+    .name{font-weight:400;font-size:15px;color:#222}
+    .desc{color:#777;font-size:13px;margin-top:4px;font-weight:400}
+    .value{font-weight:400;font-size:15px;text-align:right;color:#222;max-width:240px;overflow-wrap:anywhere}
+    .row.dark{background:#111;color:white;padding:18px 16px}
+    .row.dark .name,.row.dark .value{color:#fff}
+    .row.dark .desc{color:#aaa}
+    .row.dark .value{font-size:20px;font-weight:400}
+    .note{background:var(--soft);border-left:4px solid var(--accent);padding:18px 20px;margin-top:24px;color:#68655f;font-size:14px;line-height:1.55;font-weight:400}
+    .note .note-title{display:block;color:#222;margin-bottom:5px;font-weight:500}
+    .timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:48px;border:1px solid var(--line)}
+    .step{padding:18px 16px;border-right:1px solid var(--line);min-height:185px}
+    .step:last-child{border-right:0}
+    .num{font-size:12px;color:var(--gold);font-weight:400;letter-spacing:1px;margin-bottom:18px}
+    .small{color:#aaa;font-size:13px;margin-bottom:14px;font-weight:400}
+    .step h3{font-size:17px}
+    .step p{font-size:13px}
+    .checkgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin-top:22px}
+    .check{border:1px solid var(--line);padding:12px 14px;background:#fff;font-size:13.5px;font-weight:400;color:#555}
+    .check:before{content:"✓";color:var(--accent);margin-right:12px}
+    .conditions{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+    .sign{display:grid;grid-template-columns:1fr 1fr;gap:42px;margin-top:54px}
+    .signline{border-top:1px solid #bbb;padding-top:12px;color:#888;text-transform:uppercase;font-size:11px;letter-spacing:1px;font-weight:400}
+    .sign-name{display:block;color:#222;font-size:15px;margin-bottom:26px;letter-spacing:1.4px;font-weight:400}
+    .cta{border:1px solid #edd3a8;background:#fffaf0;padding:20px;margin-top:36px;border-radius:8px}
+    .cta h3{font-size:19px}
+    .cta p{font-size:14px;margin:0}
+    .compact .top{margin-bottom:26mm}
+    .compact h2{font-size:36px}
+    .compact p.lead{font-size:16px}
+    @media print{body{padding:0;background:white}.page{margin:0;border:0;width:210mm;height:297mm;page-break-after:always}}
+  </style>
+</head>
+<body>
+
+<section class="page">
+  <div class="top">
+    <div class="brand"><img src="" alt="Runia Web" onerror="this.style.display='none'"></div>
+    <div class="tag">Propuesta económica</div>
+  </div>
+  <div class="eyebrow">Preparado para RB Distribuidora</div>
+  <h1>Catálogo mayorista <br><span class="accent">con carrito de pedidos</span></h1>
+  <p class="lead">Una solución digital para modernizar la toma de pedidos, ordenar el catálogo y permitir que los clientes armen su compra desde el celular, sin depender de PDFs ni mensajes manuales por WhatsApp.</p>
+  <div class="price-hero">
+    <div><small>Inversión inicial desde</small><div class="amount">$ 650.000</div></div>
+    <div class="right">2 caminos posibles<br>Plataforma existente / Sistema propio</div>
+  </div>
+  <div class="meta">RB-20260617-DIST<br>2026-06-17<br>Mayorista</div>
+  <div class="bottom-accent"></div>
+</section>
+
+<section class="page compact">
+  <div class="brand"><img src="" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="meta">01 / Contexto<br>RB-20260617-DIST</div>
+  <div style="margin-top:38mm"></div>
+  <div class="section-id">01 / Contexto</div>
+  <h2>El proyecto, <span class="accent">en una página</span></h2>
+  <div class="rule"></div>
+  <p class="lead">RB Distribuidora está en una etapa de crecimiento y mudanza a un nuevo local. El objetivo no es solo tener una web, sino empezar a trabajar con una herramienta comercial más moderna: un catálogo digital mayorista donde los clientes puedan ver productos, cargar cantidades y enviar el pedido por WhatsApp.</p>
+  <div class="grid-2">
+    <div class="card"><h3>Qué resolvemos</h3><p>Pasar de un catálogo PDF y pedidos manuales a una experiencia ordenada, mobile y fácil de usar para clientes mayoristas.</p></div>
+    <div class="card"><h3>Cómo cuidamos la inversión</h3><p>Proponemos dos caminos: uno sobre plataforma existente para salir rápido y otro propio, más flexible, para construir una base escalable.</p></div>
+  </div>
+  <div class="chips"><div class="chip">Catálogo digital</div><div class="chip">Carrito</div><div class="chip">WhatsApp</div><div class="chip">Mobile</div><div class="chip">Base escalable</div></div>
+  <div class="abc"><div class="item"><div class="n">A.</div><h3>Orden comercial</h3><p>Productos, categorías y pedidos organizados en un solo lugar.</p></div><div class="item"><div class="n">B.</div><h3>Menos fricción</h3><p>El cliente arma el pedido solo y lo envía listo para confirmar.</p></div><div class="item"><div class="n">C.</div><h3>Escalabilidad</h3><p>La solución queda preparada para sumar automatizaciones futuras.</p></div></div>
+  <div class="bottom-accent"></div>
+</section>
+
+<section class="page compact">
+  <div class="brand"><img src="" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="meta">02 / Caminos<br>RB-20260617-DIST</div>
+  <div style="margin-top:28mm"></div>
+  <div class="section-id">02 / Dos caminos posibles</div>
+  <h2>Dos formas de avanzar, <span class="accent">con objetivos claros</span></h2>
+  <div class="rule"></div>
+  <p class="lead">Ambas opciones permiten modernizar la toma de pedidos. La diferencia está en el tipo de plataforma, el nivel de personalización y la escalabilidad futura.</p>
+  <div class="options">
+    <div class="option">
+      <div class="label">Opción 01</div>
+      <div class="option-head"><h3>Tienda Nube implementada por Runia</h3><div class="option-kind">Plataforma existente</div></div>
+      <p class="subtitle">Camino rápido, estable y administrable por el cliente. Ideal para empezar sin desarrollo a medida y con operación simple.</p>
+      <div class="price"><small>Inversión inicial</small><div class="amount">$ 650.000</div></div>
+      <div>
+        <h3 style="font-size:17px">Incluye</h3>
+        <ul><li>Configuración inicial de Tienda Nube</li><li>Diseño visual base adaptado a RB</li><li>Categorías principales del catálogo</li><li>Carrito de compras</li><li>Pedido por WhatsApp</li><li>Configuración mobile</li><li>Capacitación para cargar productos</li><li>Guía básica de uso</li></ul>
+        <h3 style="font-size:17px;margin-top:18px">Beneficio principal</h3><p style="font-size:13.5px">Salida más rápida, plataforma conocida y autonomía para operar el catálogo sin depender del desarrollo técnico.</p>
+      </div>
+    </div>
+    <div class="option">
+      <div class="label">Opción 02</div>
+      <div class="option-head"><h3>Sistema Mayorista Runia</h3><div class="option-kind">Desarrollo propio</div></div>
+      <p class="subtitle">Camino propio y flexible. Ideal si buscan una experiencia diferencial y preparada para crecer con funciones comerciales a futuro.</p>
+      <div class="price"><small>Inversión inicial</small><div class="amount">$ 1.050.000</div></div>
+      <div>
+        <h3 style="font-size:17px">Incluye</h3>
+        <ul><li>Catálogo mayorista personalizado</li><li>Categorías y buscador</li><li>Carrito de pedidos</li><li>Resumen para WhatsApp</li><li>Panel administrador</li><li>Alta, baja y edición de productos</li><li>Diseño personalizado Runia</li><li>Base preparada para automatizaciones</li></ul>
+        <h3 style="font-size:17px;margin-top:18px">Beneficio principal</h3><p style="font-size:13.5px">Más control sobre la experiencia, más personalización y una base propia para evolucionar el sistema.</p>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-accent"></div>
+</section>
+
+<section class="page compact">
+  <div class="brand"><img src="" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="meta">03 / Comparativa<br>RB-20260617-DIST</div>
+  <div style="margin-top:30mm"></div>
+  <div class="section-id">03 / Comparativa</div>
+  <h2>Qué cambia <span class="accent">entre una opción y otra</span></h2>
+  <div class="rule"></div>
+  <div class="table">
+    <div class="row"><div><div class="name">Velocidad de salida</div><div class="desc">Tiempo estimado para estar online.</div></div><div class="value">7 a 10 días / 15 a 25 días</div></div>
+    <div class="row"><div><div class="name">Personalización</div><div class="desc">Nivel de diseño, experiencia y lógica propia.</div></div><div class="value">Media / Alta</div></div>
+    <div class="row"><div><div class="name">Autonomía operativa</div><div class="desc">Posibilidad de administrar productos y pedidos sin asistencia diaria.</div></div><div class="value">Alta en ambas</div></div>
+    <div class="row"><div><div class="name">Administración de productos</div><div class="desc">Alta, baja, precios y edición del catálogo.</div></div><div class="value">Incluida en ambas</div></div>
+    <div class="row"><div><div class="name">Escalabilidad futura</div><div class="desc">Automatización WhatsApp, clientes, historial y lógica mayorista avanzada.</div></div><div class="value">Buena / Muy alta</div></div>
+    <div class="row"><div><div class="name">Costo inicial</div><div class="desc">Inversión de entrada sin carga completa de productos.</div></div><div class="value">$650.000 / $1.050.000</div></div>
+  </div>
+  <div class="note"><span class="note-title">Criterio Runia</span>No presentamos una opción como mejor universal. Tienda Nube es conveniente si la prioridad es salir rápido con una plataforma conocida. Sistema Runia es conveniente si la prioridad es construir una herramienta propia, más flexible y escalable a futuro.</div>
+  <div class="bottom-accent"></div>
+</section>
+
+<section class="page compact">
+  <div class="brand"><img src="" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="meta">04 / Inversión<br>RB-20260617-DIST</div>
+  <div style="margin-top:27mm"></div>
+  <div class="section-id">04 / Resumen de inversión</div>
+  <h2>Inversión inicial <span class="accent">según camino elegido</span></h2>
+  <div class="rule"></div>
+  <div class="table">
+    <div class="row dark"><div><div class="name">Opción 01 — Tienda Nube implementada por Runia</div><div class="desc">Configuración, diseño base, estructura, carrito, WhatsApp y capacitación.</div></div><div class="value">$650.000</div></div>
+    <div class="row"><div><div class="name">Carga inicial incluida</div><div class="desc">Hasta 20 productos base para dejar la tienda lista como modelo de carga.</div></div><div class="value">Incluido</div></div>
+    <div class="row dark"><div><div class="name">Opción 02 — Sistema Mayorista Runia</div><div class="desc">Desarrollo propio, catálogo, buscador, carrito, WhatsApp, panel administrador y diseño personalizado.</div></div><div class="value">$1.050.000</div></div>
+    <div class="row"><div><div class="name">Carga inicial incluida</div><div class="desc">Hasta 30 productos base para validar categorías, formato y funcionamiento del panel.</div></div><div class="value">Incluido</div></div>
+    <div class="row"><div><div class="name">Carga completa del catálogo por Runia</div><div class="desc">Ordenamiento, carga, revisión de categorías, precios, aromas o variantes simples e imágenes disponibles.</div></div><div class="value">$850.000</div></div>
+  </div>
+  <div class="note"><span class="note-title">Carga de productos</span>La carga completa no está incluida en la inversión inicial. RB puede hacerla internamente con capacitación de Runia, o contratar a Runia para absorber ese trabajo. La carga completa se cotiza alta porque requiere ordenar un catálogo amplio y validar productos, precios, categorías, aromas y material visual.</div>
+  <div class="grid-2" style="margin-top:20px">
+    <div class="card"><h3>Forma de pago</h3><p>50% para comenzar y 50% contra entrega inicial o según acuerdo.</p></div>
+    <div class="card"><h3>Servicios externos</h3><p>Dominio, plan de Tienda Nube, hosting, apps pagas o integraciones externas no incluidos salvo indicación expresa.</p></div>
+  </div>
+  <div class="bottom-accent"></div>
+</section>
+
+<section class="page compact">
+  <div class="brand"><img src="" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="meta">05 / Mensualidad<br>RB-20260617-DIST</div>
+  <div style="margin-top:30mm"></div>
+  <div class="section-id">05 / Mensualidad y soporte</div>
+  <h2>Soporte claro, <span class="accent">sin sorpresas</span></h2>
+  <div class="rule"></div>
+  <p class="lead">La inversión inicial cubre la implementación o desarrollo del proyecto. La operación mensual depende del camino elegido y se deja definida desde el inicio.</p>
+  <div class="table">
+    <div class="row dark"><div><div class="name">Opción 01 — Tienda Nube</div><div class="desc">Runia implementa. La plataforma y su plan mensual quedan a cargo de RB.</div></div><div class="value">Sin mensualidad obligatoria Runia</div></div>
+    <div class="row"><div><div class="name">Soporte Runia opcional</div><div class="desc">Consultas, asistencia, cambios menores y acompañamiento operativo.</div></div><div class="value">$50.000 / mes</div></div>
+    <div class="row dark"><div><div class="name">Opción 02 — Sistema Mayorista Runia</div><div class="desc">Incluye operación técnica, hosting, backups, monitoreo y mantenimiento menor.</div></div><div class="value">$80.000 / mes</div></div>
+    <div class="row"><div><div class="name">Propiedad de la información</div><div class="desc">RB conserva catálogo, contenido, pedidos y datos generados por la operación.</div></div><div class="value">Incluido</div></div>
+  </div>
+  <div class="note"><span class="note-title">Importante</span>El mantenimiento no reemplaza nuevas funcionalidades. Automatizaciones, login de clientes, listas de precios, pagos online, stock avanzado o integraciones se cotizan como etapas adicionales.</div>
+  <div class="bottom-accent"></div>
+</section>
+
+<section class="page compact">
+  <div class="brand"><img src="" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="meta">06 / Entrega<br>RB-20260617-DIST</div>
+  <div style="margin-top:35mm"></div>
+  <div class="section-id">06 / Plan de entrega</div>
+  <h2>Cómo lo entregamos, <span class="accent">por etapas</span></h2>
+  <div class="rule"></div>
+  <p class="lead">Trabajamos con entregas concretas para que el proyecto avance sin quedar abierto indefinidamente. Cada etapa se valida antes de pasar a la siguiente.</p>
+  <div class="timeline"><div class="step"><div class="num">01</div><div class="small">Inicio</div><h3>Definición del camino</h3><p>Elegimos plataforma, confirmamos alcance, accesos, material y prioridad de categorías.</p></div><div class="step"><div class="num">02</div><div class="small">Estructura</div><h3>Catálogo y experiencia</h3><p>Ordenamos categorías, flujo de compra, carrito y mensaje de pedido por WhatsApp.</p></div><div class="step"><div class="num">03</div><div class="small">Producción</div><h3>Web funcional</h3><p>Implementamos tienda o sistema, diseño mobile, panel y productos modelo.</p></div><div class="step"><div class="num">04</div><div class="small">Entrega</div><h3>Capacitación y salida</h3><p>Ajustes finales, prueba de pedidos, capacitación y publicación.</p></div></div>
+  <div class="note"><span class="note-title">Tiempos estimados</span>Tienda Nube: 7 a 10 días hábiles. Sistema Mayorista Runia: 15 a 25 días hábiles. La carga completa del catálogo puede sumar 10 a 20 días hábiles adicionales según cantidad final de productos y calidad del material.</div>
+  <div class="bottom-accent"></div>
+</section>
+
+<section class="page compact">
+  <div class="brand"><img src="" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="meta">07 / Estándar<br>RB-20260617-DIST</div>
+  <div style="margin-top:30mm"></div>
+  <div class="section-id">07 / Estándar Runia Web</div>
+  <h2>No es solo diseño. <span class="accent">Es una base para crecer.</span></h2>
+  <div class="rule"></div>
+  <p class="lead">La entrega se piensa para que RB pueda operar hoy, pero también para evolucionar cuando el canal digital empiece a generar pedidos.</p>
+  <div class="checkgrid"><div class="check">Diseño responsive</div><div class="check">Catálogo ordenado</div><div class="check">Carrito de pedidos</div><div class="check">WhatsApp integrado</div><div class="check">Capacitación</div><div class="check">Buenas prácticas mobile</div><div class="check">Estructura escalable</div><div class="check">Base para automatización futura</div><div class="check">SEO técnico inicial</div><div class="check">Open Graph para redes</div><div class="check">Preparación para Google</div><div class="check">Entrega documentada</div></div>
+  <div class="note"><span class="note-title">Escalabilidad futura</span>Automatización de WhatsApp, historial de pedidos, clientes registrados, listas de precios, campañas de captación mayorista, stock y pagos online pueden incorporarse en etapas posteriores.</div>
+  <div class="bottom-accent"></div>
+</section>
+
+<section class="page compact">
+  <div class="brand"><img src="" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="meta">08 / Condiciones<br>RB-20260617-DIST</div>
+  <div style="margin-top:30mm"></div>
+  <div class="section-id">08 / Alcance y condiciones</div>
+  <h2>Qué incluye, qué no, <span class="accent">y cómo trabajamos</span></h2>
+  <div class="rule"></div>
+  <div class="conditions"><div class="card"><h3>Incluye</h3><ul><li>Desarrollo o implementación según opción elegida</li><li>Diseño responsive para desktop y mobile</li><li>Catálogo, categorías, carrito y WhatsApp</li><li>Configuración inicial y prueba de pedidos</li><li>Productos modelo incluidos según opción</li><li>Capacitación para administrar el catálogo</li></ul></div><div class="card"><h3>No incluye</h3><ul><li class="no">Carga completa del catálogo salvo contratación aparte</li><li class="no">Producción de fotos, videos o branding completo</li><li class="no">Automatización avanzada de WhatsApp</li><li class="no">Pagos online, facturación o stock avanzado</li><li class="no">Campañas publicitarias o gestión de redes</li><li class="no">Costos mensuales de plataformas externas</li></ul></div></div>
+  <div class="card" style="margin-top:16px"><h3>Condiciones comerciales</h3><div class="grid-2" style="margin:0"><p>→ 50% para comenzar y 50% contra entrega inicial o según acuerdo.</p><p>→ Validez de la propuesta: 7 días.</p><p>→ Entrega sujeta al material recibido y accesos disponibles.</p><p>→ Cambios fuera de alcance se cotizan aparte.</p></div></div>
+  <div class="bottom-accent"></div>
+</section>
+
+<section class="page compact">
+  <div class="brand"><img src="" alt="Runia Web" onerror="this.style.display='none'"></div>
+  <div class="meta">09 / Aceptación<br>RB-20260617-DIST</div>
+  <div style="margin-top:40mm"></div>
+  <div class="section-id">09 / Supuestos y aceptación</div>
+  <h2>Lo que necesitamos <span class="accent">confirmar</span></h2>
+  <div class="rule"></div>
+  <p class="lead">Esta inversión asume las siguientes definiciones. Confirmarlas antes de iniciar permite sostener precio, alcance y tiempos.</p>
+  <div class="table"><div class="row"><div><div class="name">01</div></div><div class="desc" style="text-align:left;max-width:520px">RB entrega logo, datos de contacto, catálogo base, imágenes disponibles y accesos necesarios antes de iniciar.</div></div><div class="row"><div><div class="name">02</div></div><div class="desc" style="text-align:left;max-width:520px">La carga completa del catálogo se cotiza aparte y requiere material ordenado para poder sostener tiempos.</div></div><div class="row"><div><div class="name">03</div></div><div class="desc" style="text-align:left;max-width:520px">La entrega queda sujeta al camino elegido: Tienda Nube o Sistema Mayorista Runia.</div></div><div class="row"><div><div class="name">04</div></div><div class="desc" style="text-align:left;max-width:520px">Automatizaciones, pagos online, login de clientes o funciones mayoristas avanzadas se definen en una etapa posterior.</div></div></div>
+  <div class="sign"><div class="signline"><span class="sign-name">Alex Santillán</span>Runia Web</div><div class="signline"><span class="sign-name">RB Distribuidora</span>Firma y aclaración del cliente</div></div>
+  <div class="cta"><h3>Para avanzar</h3><p>Si la propuesta está alineada, coordinamos una breve reunión para elegir camino, cerrar alcance, materiales y fecha de inicio.</p><p style="margin-top:10px">Contacto: WhatsApp / Runia Web</p></div>
+  <div class="bottom-accent"></div>
+</section>
+
+</body>
+</html>
