@@ -5368,3 +5368,320 @@
   text-shadow: none !important;
   filter: none !important;
 }
+
+/* Presupuestador UX polish v8 */
+.budget-page .tool-hero {
+  padding-top: clamp(4.25rem, 7vw, 6.2rem);
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.budget-page .tool-hero-grid {
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  align-items: end;
+}
+
+.budget-page .eyebrow {
+  margin-bottom: 1rem;
+}
+
+.budget-page .tool-title {
+  max-width: 52rem;
+  font-size: clamp(3.9rem, 8.8vw, 7.4rem);
+  line-height: 0.94;
+  letter-spacing: 0;
+}
+
+.budget-page .tool-title .muted {
+  color: rgba(27, 25, 22, 0.46);
+}
+
+.budget-page .tool-title .accent {
+  color: #f16f16;
+}
+
+.budget-page .tool-lead {
+  max-width: 44rem;
+  margin-top: 1.2rem;
+  color: rgba(27, 25, 22, 0.68);
+  font-size: clamp(1rem, 1.45vw, 1.18rem);
+  line-height: 1.6;
+}
+
+.budget-page .tool-status-card {
+  max-width: 27rem;
+  padding: clamp(1.15rem, 2vw, 1.45rem);
+  border-color: rgba(27, 25, 22, 0.13);
+  background: rgba(255, 253, 249, 0.9);
+}
+
+.budget-page .tool-status-card strong {
+  display: block;
+  margin-top: 0.25rem;
+  color: #1b1916;
+  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+  font-weight: 430;
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.budget-page .tool-section {
+  padding-top: 0.75rem;
+}
+
+.budget-page .tool-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(330px, 390px);
+  gap: clamp(1.15rem, 2.4vw, 2rem);
+}
+
+.budget-page .tool-panel,
+.budget-page .budget-result {
+  background: rgba(255, 253, 249, 0.92);
+}
+
+.budget-wizard-top {
+  align-items: flex-start;
+  padding-bottom: 1rem;
+}
+
+.budget-wizard-top h2 {
+  font-size: clamp(1.85rem, 3vw, 2.6rem);
+}
+
+.budget-change-mode {
+  min-height: 2.7rem;
+  margin-top: 0.12rem;
+  padding-inline: 1.1rem;
+}
+
+.budget-page .budget-progress {
+  display: grid;
+  grid-template-columns: repeat(var(--budget-step-count, 6), minmax(0, 1fr));
+  gap: 0.35rem;
+  padding: 0.2rem 0 0.75rem;
+}
+
+.budget-page .budget-progress button {
+  justify-content: center;
+  min-height: 2.2rem;
+  border: 1px solid rgba(27, 25, 22, 0.1);
+  background: rgba(255, 253, 249, 0.7);
+  color: rgba(27, 25, 22, 0.6);
+  font-size: clamp(0.62rem, 0.8vw, 0.74rem);
+}
+
+.budget-page .budget-progress button.is-done {
+  border-color: rgba(241, 111, 22, 0.24);
+  color: rgba(27, 25, 22, 0.74);
+}
+
+.budget-page .budget-progress button.is-active {
+  border-color: #1b1916;
+  background: #1b1916;
+  color: #fffdf9;
+}
+
+.budget-page .budget-progress button.is-active span {
+  color: #f16f16;
+}
+
+.budget-page .budget-step {
+  min-height: 20rem;
+  padding: clamp(1.45rem, 2.8vw, 2.1rem);
+  border-color: rgba(27, 25, 22, 0.1);
+  background: rgba(255, 253, 249, 0.94);
+}
+
+.budget-step h3 {
+  max-width: 42rem;
+  margin-bottom: 1.65rem;
+  font-size: clamp(1.65rem, 3vw, 2.55rem);
+  line-height: 1.02;
+}
+
+.budget-page .tool-options {
+  gap: 0.85rem;
+}
+
+.budget-page .tool-field span,
+.budget-page .tool-fieldset legend {
+  margin-bottom: 0.12rem;
+  color: rgba(27, 25, 22, 0.5);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+}
+
+.budget-page .tool-field input,
+.budget-page .tool-field select,
+.budget-page .tool-field textarea,
+.budget-page .budget-extra-row input[type="number"] {
+  min-height: 3.35rem;
+  padding-inline: 1rem;
+  border-color: rgba(27, 25, 22, 0.13);
+  background: #fffdf9;
+  font-size: 0.98rem;
+}
+
+.budget-page .tool-field input:hover,
+.budget-page .tool-field select:hover,
+.budget-page .tool-field textarea:hover,
+.budget-page .budget-extra-row input[type="number"]:hover {
+  border-color: rgba(27, 25, 22, 0.22);
+}
+
+.budget-page .tool-option {
+  position: relative;
+  min-height: 6.1rem;
+  padding: 1.15rem;
+  border-color: rgba(27, 25, 22, 0.12);
+  background: #fffdf9;
+}
+
+.budget-page .tool-option input[type="radio"],
+.budget-page .tool-option input[type="checkbox"] {
+  margin-top: 0.22rem;
+  accent-color: #f16f16;
+}
+
+.budget-page .tool-option:has(input:checked) {
+  border-color: rgba(241, 111, 22, 0.72);
+  background: rgba(241, 111, 22, 0.075);
+}
+
+.budget-page .tool-option:has(input:checked)::after,
+.budget-page .budget-extra-row:has(input[type="checkbox"]:checked)::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: #f16f16;
+}
+
+.budget-page .tool-option span {
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.budget-page .tool-option small {
+  max-width: 28rem;
+  color: rgba(27, 25, 22, 0.58);
+}
+
+.budget-extra-row {
+  position: relative;
+  min-height: 4.75rem;
+  padding: 0.85rem 0.95rem;
+  background: #fffdf9;
+}
+
+.budget-extra-row > span {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-weight: 650;
+}
+
+.budget-extra-row input[type="checkbox"] {
+  accent-color: #f16f16;
+}
+
+.partner-price-panel,
+.partner-internal-summary,
+.budget-wizard-summary {
+  gap: 0.85rem;
+}
+
+.partner-price-panel > div,
+.partner-price-panel .tool-field,
+.budget-wizard-summary > div,
+.partner-internal-summary > div {
+  min-height: 5.1rem;
+  background: #fffdf9;
+}
+
+.budget-page .budget-wizard-nav {
+  padding-top: 0.25rem;
+}
+
+.budget-page .budget-wizard-nav .button-dark,
+.budget-page .budget-wizard-nav .button-light {
+  min-height: 3.15rem;
+  min-width: 10.5rem;
+}
+
+.budget-page .budget-result {
+  top: 5.25rem;
+  padding: clamp(1.15rem, 2vw, 1.45rem);
+}
+
+.budget-result h2 {
+  margin-top: 0.2rem;
+  font-size: clamp(2.75rem, 5vw, 4.1rem);
+  line-height: 0.95;
+}
+
+.budget-result .catalog-price {
+  margin-top: 0.25rem;
+  font-size: 1rem;
+}
+
+.budget-page .budget-client-card {
+  padding: 1rem;
+  background: #1b1916;
+}
+
+.budget-page .budget-client-card span,
+.budget-page .budget-client-card p {
+  color: rgba(255, 253, 249, 0.58);
+}
+
+.budget-page .budget-client-card strong {
+  color: #fffdf9;
+  font-size: 1.15rem;
+}
+
+.budget-page .budget-summary-grid {
+  gap: 0.55rem;
+}
+
+.budget-page .budget-summary-grid > div,
+.budget-page .lead-management-strip > div {
+  padding: 0.82rem;
+  background: #fffdf9;
+}
+
+.budget-page .budget-summary-grid span,
+.budget-page .lead-management-strip span {
+  color: rgba(27, 25, 22, 0.48);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+}
+
+.budget-print-summary {
+  min-height: 3rem;
+}
+
+@media (max-width: 980px) {
+  .budget-page .tool-hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .budget-page .tool-status-card {
+    max-width: none;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .budget-page .budget-progress {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .budget-page .budget-progress button {
+    justify-content: flex-start;
+    padding-inline: 0.7rem;
+  }
+
+  .budget-page .tool-title {
+    font-size: clamp(3.25rem, 16vw, 5rem);
+  }
+}

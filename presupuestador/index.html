@@ -25,7 +25,7 @@
     <meta name="twitter:description" content="Lo lanzamos en 48hs, o no pagás. Sitios comerciales pensados para generar consultas, mostrar profesionalismo y ayudar a vender más." />
     <meta name="twitter:image" content="https://web.runia.ar/assets/og-runia-web-preview.png" />
     <link rel="stylesheet" href="../styles.css" />
-    <link rel="stylesheet" href="../tools.css?v=budget-wizard-7" />
+    <link rel="stylesheet" href="../tools.css?v=budget-wizard-8" />
   </head>
   <body class="tool-page budget-page">
     <header class="header">
@@ -50,10 +50,10 @@
             <h1 class="tool-title">
               <span>Presupuestos</span>
               <span class="muted">claros, rápidos</span>
-              <span class="accent">y listos para PDF.</span>
+              <span class="accent">y listos para vender.</span>
             </h1>
             <p class="tool-lead">
-              Genera propuestas profesionales para Runia o partners con precio protegido, resumen interno y PDF premium.
+              Armá presupuestos comerciales para Runia o partners, con precios protegidos, resumen interno y propuesta final lista para enviar.
             </p>
           </div>
           <aside class="tool-status-card">
@@ -72,13 +72,13 @@
                 <p class="tool-label">Presupuestador</p>
                 <h2 data-wizard-title>Crear propuesta</h2>
               </div>
-              <button class="budget-change-mode" type="button" data-budget-change-mode>Cambiar modo</button>
+              <button class="budget-change-mode" type="button" data-budget-change-mode>Cambiar tipo</button>
             </div>
             <div class="budget-progress" data-budget-progress aria-label="Progreso del presupuestador"></div>
 
             <section class="budget-step is-active" data-budget-step="mode">
-              <p class="tool-label">Primera decision</p>
-              <h3>Quien genera esta propuesta?</h3>
+              <p class="tool-label">Inicio</p>
+              <h3>Elegí el tipo de propuesta</h3>
             <fieldset class="tool-fieldset budget-mode-box">
               <legend>Modo de presupuesto</legend>
               <div class="budget-mode-options">
@@ -89,8 +89,8 @@
             </section>
 
             <section class="budget-step" data-budget-step="client" hidden>
-            <p class="tool-label">Paso cliente</p>
-            <h3>Datos comerciales del cliente</h3>
+            <p class="tool-label">Cliente</p>
+            <h3>Datos de la propuesta</h3>
             <div class="tool-options">
               <label class="tool-field"><span>Cliente</span><input name="client" placeholder="Nombre del cliente" /></label>
               <label class="tool-field"><span>Empresa</span><input name="company" placeholder="Empresa / marca" /></label>
@@ -106,8 +106,8 @@
             </section>
 
             <section class="budget-step" data-budget-step="service" hidden>
-            <p class="tool-label">Paso servicio</p>
-            <h3>Elegir el tipo de web</h3>
+            <p class="tool-label">Servicio</p>
+            <h3>Elegí el alcance principal</h3>
             <div class="tool-options">
               <label class="tool-field">
                 <span>Tipo de web</span>
@@ -117,13 +117,13 @@
                   <option value="sistema">Web + Sistema - mínimo USD 1.500</option>
                 </select>
               </label>
-              <label class="tool-field"><span>Precio cliente USD</span><input name="basePrice" type="number" min="0" value="850" /></label>
+              <label class="tool-field"><span>Precio final cliente USD</span><input name="basePrice" type="number" min="0" value="850" /></label>
             </div>
 
-            <p class="tool-label">Costos adicionales</p>
+            <p class="tool-label">Costos de publicación</p>
             <div class="tool-options">
-              <label class="tool-field"><span>Dominio ARS</span><input name="domainCost" type="number" min="0" value="0" /></label>
-              <label class="tool-field"><span>SSL / seguridad ARS</span><input name="sslCost" type="number" min="0" value="0" /></label>
+              <label class="tool-field"><span>Dominio en ARS</span><input name="domainCost" type="number" min="0" value="0" /></label>
+              <label class="tool-field"><span>SSL / seguridad en ARS</span><input name="sslCost" type="number" min="0" value="0" /></label>
             </div>
             <div class="partner-price-panel" data-budget-modes="partner">
               <div><span>Precio partner</span><strong data-partner-base-price>USD 620</strong></div>
@@ -137,8 +137,8 @@
 
             <section class="budget-step" data-budget-step="partner" data-budget-modes="partner" hidden>
             <div class="partner-budget-fields" data-partner-fields hidden>
-              <p class="tool-label">Paso partner</p>
-              <h3>Datos internos partner</h3>
+            <p class="tool-label">Partner</p>
+              <h3>Marca y datos internos</h3>
               <div class="tool-options">
                 <label class="tool-field"><span>Nombre partner</span><input name="partnerName" placeholder="Nombre del partner" /></label>
                 <label class="tool-field"><span>Logo partner</span><input name="partnerLogo" type="file" accept="image/*" /></label>
@@ -147,8 +147,8 @@
             </section>
 
             <section class="budget-step" data-budget-step="extras" hidden>
-            <p class="tool-label">Paso extras</p>
-            <h3>Sumar alcance adicional</h3>
+            <p class="tool-label">Extras</p>
+            <h3>Sumá trabajos puntuales</h3>
             <fieldset class="tool-fieldset">
               <legend>Extras</legend>
               <div class="budget-extra-editor">
@@ -182,8 +182,8 @@
             </section>
 
             <section class="budget-step" data-budget-step="maintenance" data-budget-modes="partner" hidden>
-            <p class="tool-label">Paso mantenimiento</p>
-            <h3>Definir continuidad mensual</h3>
+            <p class="tool-label">Mantenimiento</p>
+            <h3>Definí la continuidad mensual</h3>
             <div class="budget-maintenance-options">
               <label class="tool-option"><input type="radio" name="maintenanceMode" value="none" checked /> Sin mantenimiento</label>
               <label class="tool-option"><input type="radio" name="maintenanceMode" value="optional" /> Mantenimiento mensual opcional</label>
@@ -200,10 +200,10 @@
             </section>
 
             <section class="budget-step" data-budget-step="summary" hidden>
-            <p class="tool-label">Paso resumen</p>
+            <p class="tool-label">Resumen</p>
             <h3 data-summary-title>Revisar propuesta</h3>
             <div class="budget-wizard-summary" data-budget-wizard-summary></div>
-            <p class="tool-label">Descuentos</p>
+            <p class="tool-label">Ajustes comerciales</p>
             <div class="tool-options">
               <label class="tool-field"><span>Descuento USD</span><input name="discount" type="number" min="0" value="0" /></label>
               <label class="tool-field"><span>Descuento %</span><input name="discountPercent" type="number" min="0" max="100" value="0" /></label>
@@ -211,8 +211,8 @@
             </section>
 
             <section class="budget-step" data-budget-step="generate" hidden>
-            <p class="tool-label">Generar propuesta</p>
-            <h3>Listo para abrir el presupuesto</h3>
+            <p class="tool-label">Final</p>
+            <h3>Generar presupuesto</h3>
             <div class="tool-options">
               <label class="tool-field"><span>Tiempo estimado</span><input name="time" value="Desde 48hs según alcance" /></label>
               <label class="tool-field"><span>Validez del presupuesto</span><input name="validity" value="7 días" /></label>
@@ -243,7 +243,7 @@
             <h2 data-total-usd>USD 0</h2>
             <p class="catalog-price" data-total-ars>$ 0</p>
             <div class="budget-summary" data-budget-summary></div>
-            <button class="button button-dark budget-print-summary" type="button" data-print-budget-summary>Imprimir comanda</button>
+            <button class="button button-dark budget-print-summary" type="button" data-print-budget-summary>Imprimir comanda interna</button>
             <div class="proposal-export-source" data-proposal-preview aria-hidden="true"></div>
           </aside>
         </div>
@@ -267,6 +267,6 @@
     <script src="../vendor/html2canvas.min.js"></script>
     <script src="../vendor/jspdf.umd.min.js"></script>
     <script src="../script.js"></script>
-    <script src="../tools.js?v=budget-wizard-7"></script>
+    <script src="../tools.js?v=budget-wizard-8"></script>
   </body>
 </html>

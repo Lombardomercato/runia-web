@@ -2164,7 +2164,7 @@ const initBudget = () => {
   const getShareUrl = () => {
     const url = new URL(window.location.href);
     url.search = "";
-    url.searchParams.set("v", "budget-wizard-7");
+    url.searchParams.set("v", "budget-wizard-8");
     url.searchParams.set("share", "presupuesto");
     url.hash = `data=${encodeBudgetState()}`;
     return url.toString();
@@ -2217,7 +2217,7 @@ const initBudget = () => {
         return;
       }
       const stylesHref = new URL("styles.css", window.location.origin + "/").href;
-      const toolsHref = new URL("tools.css?v=budget-wizard-7", window.location.origin + "/").href;
+      const toolsHref = new URL("tools.css?v=budget-wizard-8", window.location.origin + "/").href;
       printWindow.document.open();
       printWindow.document.write(`<!doctype html>
 <html lang="es">
@@ -3156,6 +3156,7 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
     if (wizardChangeMode) wizardChangeMode.hidden = activeKey === "mode";
     if (wizardTitle) wizardTitle.textContent = getMode() === "partner" ? "Propuesta Partner" : "Propuesta Runia Web";
     if (wizardProgress) {
+      wizardProgress.style.setProperty("--budget-step-count", String(steps.length));
       wizardProgress.innerHTML = steps.map((stepKey, stepIndex) => `
         <button type="button" class="${stepIndex === currentWizardStep ? "is-active" : stepIndex < currentWizardStep ? "is-done" : ""}" data-budget-progress-step="${stepIndex}">
           <span>${String(stepIndex + 1).padStart(2, "0")}</span>
