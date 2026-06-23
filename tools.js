@@ -2164,7 +2164,7 @@ const initBudget = () => {
   const getShareUrl = () => {
     const url = new URL(window.location.href);
     url.search = "";
-    url.searchParams.set("v", "budget-wizard-8");
+    url.searchParams.set("v", "budget-wizard-10");
     url.searchParams.set("share", "presupuesto");
     url.hash = `data=${encodeBudgetState()}`;
     return url.toString();
@@ -2217,7 +2217,7 @@ const initBudget = () => {
         return;
       }
       const stylesHref = new URL("styles.css", window.location.origin + "/").href;
-      const toolsHref = new URL("tools.css?v=budget-wizard-8", window.location.origin + "/").href;
+      const toolsHref = new URL("tools.css?v=budget-wizard-10", window.location.origin + "/").href;
       printWindow.document.open();
       printWindow.document.write(`<!doctype html>
 <html lang="es">
@@ -3143,6 +3143,7 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
     const steps = getVisibleWizardSteps();
     currentWizardStep = Math.min(Math.max(index, 0), steps.length - 1);
     const activeKey = steps[currentWizardStep];
+    document.body.dataset.budgetActiveStep = activeKey;
     wizardSteps.forEach((step) => {
       const isActive = step.dataset.budgetStep === activeKey;
       step.hidden = !isActive;
@@ -3295,32 +3296,44 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
       * { box-sizing: border-box; }
       @page { size: A4; margin: 10mm; }
       body { margin: 0; background: #f7f4ef; color: #191716; font-family: Inter, Arial, sans-serif; font-size: 11px; }
-      main { width: 100%; max-width: 780px; margin: 0 auto; padding: 24px; }
-      header { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: start; padding-bottom: 14px; border-bottom: 1px solid rgba(25, 23, 22, .18); }
-      h1 { margin: 4px 0 0; font-size: 32px; line-height: .96; font-weight: 430; letter-spacing: 0; }
-      p { margin: 6px 0 0; color: rgba(25, 23, 22, .62); line-height: 1.35; }
-      .tag { color: #f16f16; font-size: 9px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
-      section { margin-top: 14px; break-inside: avoid; page-break-inside: avoid; }
-      h2 { margin: 0 0 7px; font-size: 13px; font-weight: 680; }
-      .layout { display: grid; grid-template-columns: 1.1fr .9fr; gap: 14px; align-items: start; }
-      .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid rgba(25, 23, 22, .14); }
-      .grid div { min-height: 47px; padding: 9px 10px; border-right: 1px solid rgba(25, 23, 22, .1); border-bottom: 1px solid rgba(25, 23, 22, .1); background: rgba(255, 253, 249, .72); }
-      .grid span { display: block; color: rgba(25, 23, 22, .48); font-size: 8px; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; }
-      .grid strong { display: block; margin-top: 5px; font-size: 12px; font-weight: 560; line-height: 1.2; }
-      .total { background: #191716 !important; color: #fffdf9; }
-      .total span { color: rgba(255, 253, 249, .56); }
-      .total strong { font-size: 20px; font-weight: 440; }
-      table { width: 100%; border-collapse: collapse; border: 1px solid rgba(25, 23, 22, .14); background: rgba(255, 253, 249, .72); }
-      th, td { padding: 7px 9px; border-bottom: 1px solid rgba(25, 23, 22, .1); text-align: left; font-size: 10px; line-height: 1.25; }
-      th { background: #191716; color: rgba(255, 253, 249, .78); font-size: 8px; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; }
-      .amounts { grid-template-columns: 1fr; }
-      .amounts div { min-height: 42px; }
+      main { width: 100%; max-width: 820px; margin: 0 auto; padding: 28px; }
+      header { display: grid; grid-template-columns: 1fr auto; gap: 22px; align-items: start; padding-bottom: 18px; border-bottom: 2px solid #191716; }
+      h1 { margin: 5px 0 0; font-size: 34px; line-height: .96; font-weight: 440; letter-spacing: 0; }
+      p { margin: 7px 0 0; color: rgba(25, 23, 22, .62); line-height: 1.42; }
+      .tag { color: #f16f16; font-size: 9px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+      .meta { text-align: right; color: rgba(25, 23, 22, .58); }
+      .meta strong { display: block; color: #191716; font-size: 12px; }
+      section { margin-top: 16px; break-inside: avoid; page-break-inside: avoid; }
+      h2 { display: flex; align-items: center; gap: 9px; margin: 0 0 8px; font-size: 12px; font-weight: 780; letter-spacing: .04em; text-transform: uppercase; }
+      h2::before { content: ""; width: 20px; height: 1px; background: #f16f16; }
+      .amount-strip { display: grid; grid-template-columns: 1.1fr repeat(3, .75fr); border: 1px solid #191716; background: #fffdf9; }
+      .amount-strip div { min-height: 68px; padding: 12px 13px; border-right: 1px solid rgba(25, 23, 22, .16); }
+      .amount-strip div:last-child { border-right: 0; }
+      .amount-strip .total { background: #191716; color: #fffdf9; }
+      .amount-strip span,
+      .grid span { display: block; color: rgba(25, 23, 22, .5); font-size: 8px; font-weight: 800; letter-spacing: .1em; line-height: 1.25; text-transform: uppercase; }
+      .amount-strip strong { display: block; margin-top: 7px; font-size: 15px; font-weight: 600; line-height: 1.1; }
+      .amount-strip .total span { color: rgba(255, 253, 249, .58); }
+      .amount-strip .total strong { color: #fffdf9; font-size: 26px; font-weight: 460; }
+      .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid rgba(25, 23, 22, .14); background: #fffdf9; }
+      .grid div { min-height: 50px; padding: 10px 11px; border-right: 1px solid rgba(25, 23, 22, .1); border-bottom: 1px solid rgba(25, 23, 22, .1); }
+      .grid strong { display: block; margin-top: 6px; font-size: 12px; font-weight: 620; line-height: 1.25; }
+      .partner-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+      .project-layout { grid-template-columns: 1fr; }
+      .project-layout section:nth-child(2) { order: -1; }
+      .project-layout .amount-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .project-layout .amount-strip .total { grid-column: span 3; }
+      table { width: 100%; border-collapse: collapse; border: 1px solid rgba(25, 23, 22, .14); background: #fffdf9; }
+      th, td { padding: 8px 10px; border-bottom: 1px solid rgba(25, 23, 22, .1); text-align: left; font-size: 10px; line-height: 1.3; }
+      th { background: #191716; color: rgba(255, 253, 249, .78); font-size: 8px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+      .tables { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
       .actions { position: sticky; top: 0; display: flex; justify-content: flex-end; gap: 10px; margin: -24px -24px 16px; padding: 10px; background: #f7f4ef; border-bottom: 1px solid rgba(25, 23, 22, .1); }
       button { border: 1px solid #191716; border-radius: 999px; padding: 9px 14px; background: #191716; color: #fffdf9; font: inherit; font-weight: 700; cursor: pointer; }
       @media print {
         .actions { display: none; }
         body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         main { max-width: none; padding: 0; }
+        .tables { gap: 10px; }
       }
     </style>
   </head>
@@ -3333,9 +3346,9 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
           <h1>${escapeHtml(values.company || values.client || "Presupuesto")}</h1>
           <p>Resumen operativo para producción, cobro y margen interno.</p>
         </div>
-        <p><strong>${escapeHtml(data.reference)}</strong><br />${escapeHtml(data.proposalDate)}</p>
+        <p class="meta"><strong>${escapeHtml(data.reference)}</strong>${escapeHtml(data.proposalDate)}</p>
       </header>
-      <div class="layout">
+      <div class="layout project-layout">
         <section>
           <h2>Datos del proyecto</h2>
           <div class="grid">
@@ -3344,13 +3357,13 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
         </section>
         <section>
           <h2>Importes</h2>
-          <div class="grid amounts">
+          <div class="amount-strip">
             ${projectRows.map(([label, value]) => `<div class="${label === "Total pago único" ? "total" : ""}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("")}
           </div>
         </section>
       </div>
-      ${partnerRows.length ? `<section><h2>Resumen Partner</h2><div class="grid">${partnerRows.map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("")}</div></section>` : ""}
-      <div class="layout">
+      ${partnerRows.length ? `<section><h2>Resumen Partner</h2><div class="grid partner-grid">${partnerRows.map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("")}</div></section>` : ""}
+      <div class="tables">
         <section>
           <h2>Extras únicos</h2>
           <table>

@@ -5685,3 +5685,113 @@
     font-size: clamp(3.25rem, 16vw, 5rem);
   }
 }
+
+/* Presupuestador UX polish v9: foco por paso */
+.budget-page .tool-hero {
+  padding-top: clamp(3.6rem, 6vw, 5.1rem);
+  padding-bottom: clamp(1.55rem, 3vw, 2.35rem);
+}
+
+.budget-page .tool-title {
+  max-width: 45rem;
+  font-size: clamp(3.05rem, 6.6vw, 5.55rem);
+  line-height: 0.98;
+}
+
+.budget-page .tool-lead {
+  max-width: 39rem;
+  margin-top: 0.95rem;
+}
+
+.budget-page .tool-status-card strong {
+  font-size: clamp(1.18rem, 1.8vw, 1.48rem);
+}
+
+.budget-page:not([data-budget-active-step="generate"]) .tool-grid {
+  grid-template-columns: minmax(0, 940px);
+  justify-content: center;
+}
+
+.budget-page:not([data-budget-active-step="generate"]) .budget-result {
+  display: none;
+}
+
+.budget-page[data-budget-active-step="generate"] .tool-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(330px, 390px);
+}
+
+.budget-page .budget-step {
+  min-height: 17rem;
+  padding: clamp(1.25rem, 2.4vw, 1.8rem);
+}
+
+.budget-step h3 {
+  max-width: 36rem;
+  margin-bottom: 1.35rem;
+  font-size: clamp(1.35rem, 2.25vw, 1.95rem);
+  line-height: 1.08;
+}
+
+.budget-wizard-top h2 {
+  font-size: clamp(1.45rem, 2.3vw, 2.05rem);
+}
+
+.budget-page .budget-progress {
+  margin-top: -0.15rem;
+  padding-bottom: 0.5rem;
+}
+
+.budget-page .budget-progress button {
+  min-height: 2rem;
+  padding: 0.38rem 0.45rem;
+}
+
+.budget-page .tool-option {
+  min-height: 5.3rem;
+}
+
+.budget-page .budget-wizard-summary {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.budget-page .budget-wizard-summary > div:nth-child(5) {
+  grid-column: span 2;
+}
+
+.budget-page .budget-wizard-nav {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+@media (max-width: 760px) {
+  .budget-page:not([data-budget-active-step="generate"]) .tool-grid,
+  .budget-page[data-budget-active-step="generate"] .tool-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .budget-page[data-budget-active-step="generate"] .budget-result {
+    display: block;
+  }
+
+  .budget-page .budget-wizard-summary,
+  .budget-page .budget-wizard-summary > div:nth-child(5) {
+    grid-template-columns: 1fr;
+    grid-column: auto;
+  }
+}
+
+/* Presupuestador UX polish v10: resumen inferior y comanda legible */
+.budget-page[data-budget-active-step="generate"] .tool-grid {
+  grid-template-columns: minmax(0, 940px);
+  justify-content: center;
+}
+
+.budget-page[data-budget-active-step="generate"] .budget-result {
+  position: static;
+  width: 100%;
+  max-width: 940px;
+}
+
+.budget-page[data-budget-active-step="generate"] .budget-result {
+  display: block;
+}
