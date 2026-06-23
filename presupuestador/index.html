@@ -25,7 +25,7 @@
     <meta name="twitter:description" content="Lo lanzamos en 48hs, o no pagás. Sitios comerciales pensados para generar consultas, mostrar profesionalismo y ayudar a vender más." />
     <meta name="twitter:image" content="https://web.runia.ar/assets/og-runia-web-preview.png" />
     <link rel="stylesheet" href="../styles.css" />
-    <link rel="stylesheet" href="../tools.css?v=budget-wizard-10" />
+    <link rel="stylesheet" href="../tools.css?v=ecommerce-1" />
   </head>
   <body class="tool-page budget-page">
     <header class="header">
@@ -115,12 +115,59 @@
                   <option value="web48">Web 48hs - mínimo USD 450</option>
                   <option value="comercial" selected>Web Comercial - mínimo USD 850</option>
                   <option value="sistema">Web + Sistema - mínimo USD 1.500</option>
+                  <option value="ecommerce">E-commerce - desde USD 1.200</option>
                 </select>
               </label>
               <label class="tool-field"><span>Precio final cliente USD</span><input name="basePrice" type="number" min="0" value="850" /></label>
             </div>
 
-            <p class="tool-label">Costos de publicación</p>
+            <div class="budget-ecommerce-fields" data-ecommerce-fields hidden>
+              <p class="tool-label">Configuracion E-commerce</p>
+              <div class="tool-options">
+                <label class="tool-field">
+                  <span>Plataforma</span>
+                  <select name="ecommercePlatform">
+                    <option value="tiendaNube">Tienda Nube</option>
+                    <option value="runiaSystem">Runia System</option>
+                  </select>
+                </label>
+                <label class="tool-field">
+                  <span>Carga de productos</span>
+                  <select name="productLoadMode">
+                    <option value="client">La carga la realiza el cliente</option>
+                    <option value="runia">La carga la realiza Runia</option>
+                  </select>
+                </label>
+              </div>
+              <div class="ecommerce-product-pricing" data-product-load-pricing hidden>
+                <div class="tool-options">
+                  <label class="tool-field">
+                    <span>Cantidad de productos</span>
+                    <select name="productLoadQuantity">
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                      <option value="250">250</option>
+                      <option value="500">500</option>
+                      <option value="1000">1000</option>
+                    </select>
+                  </label>
+                  <label class="tool-field"><span>Precio tramo seleccionado USD</span><input name="productLoadSelectedPrice" type="number" min="0" value="120" readonly /></label>
+                </div>
+                <div class="ecommerce-tier-grid">
+                  <label class="tool-field"><span>50 productos USD</span><input name="productLoadPrice_50" type="number" min="0" value="120" /></label>
+                  <label class="tool-field"><span>100 productos USD</span><input name="productLoadPrice_100" type="number" min="0" value="220" /></label>
+                  <label class="tool-field"><span>250 productos USD</span><input name="productLoadPrice_250" type="number" min="0" value="480" /></label>
+                  <label class="tool-field"><span>500 productos USD</span><input name="productLoadPrice_500" type="number" min="0" value="850" /></label>
+                  <label class="tool-field"><span>1000 productos USD</span><input name="productLoadPrice_1000" type="number" min="0" value="1500" /></label>
+                </div>
+              </div>
+              <div class="tool-options ecommerce-photo-row">
+                <label class="tool-option"><input type="checkbox" name="photoLoadEnabled" value="yes" /> <span>Carga de fotografias<small>Se cotiza separado de la carga de productos.</small></span></label>
+                <label class="tool-field"><span>Cantidad de fotos</span><input name="photoLoadQuantity" type="number" min="0" value="0" /></label>
+                <label class="tool-field"><span>Precio fotos USD</span><input name="photoLoadPrice" type="number" min="0" value="0" /></label>
+              </div>
+            </div>
+            <p class="tool-label">Costos de publicacion</p>
             <div class="tool-options">
               <label class="tool-field"><span>Dominio en ARS</span><input name="domainCost" type="number" min="0" value="0" /></label>
               <label class="tool-field"><span>SSL / seguridad en ARS</span><input name="sslCost" type="number" min="0" value="0" /></label>
@@ -175,6 +222,26 @@
                 <label class="budget-extra-row" data-extra-key="automationAI">
                   <span><input type="checkbox" name="budgetExtras" value="automationAI" /> Automatización / IA</span>
                   <input name="extraPrice_automationAI" type="number" min="0" value="0" aria-label="Precio automatización o IA" />
+                </label>
+                <label class="budget-extra-row" data-extra-key="ecommerceWholesaleLogin" data-ecommerce-extra hidden>
+                  <span><input type="checkbox" name="budgetExtras" value="ecommerceWholesaleLogin" /> Login mayoristas</span>
+                  <input name="extraPrice_ecommerceWholesaleLogin" type="number" min="0" value="250" aria-label="Precio login mayoristas" />
+                </label>
+                <label class="budget-extra-row" data-extra-key="ecommercePriceLists" data-ecommerce-extra hidden>
+                  <span><input type="checkbox" name="budgetExtras" value="ecommercePriceLists" /> Listas de precios multiples</span>
+                  <input name="extraPrice_ecommercePriceLists" type="number" min="0" value="220" aria-label="Precio listas de precios multiples" />
+                </label>
+                <label class="budget-extra-row" data-extra-key="ecommerceExcelImport" data-ecommerce-extra hidden>
+                  <span><input type="checkbox" name="budgetExtras" value="ecommerceExcelImport" /> Importacion Excel</span>
+                  <input name="extraPrice_ecommerceExcelImport" type="number" min="0" value="180" aria-label="Precio importacion Excel" />
+                </label>
+                <label class="budget-extra-row" data-extra-key="ecommerceOrderManagement" data-ecommerce-extra hidden>
+                  <span><input type="checkbox" name="budgetExtras" value="ecommerceOrderManagement" /> Gestion de pedidos</span>
+                  <input name="extraPrice_ecommerceOrderManagement" type="number" min="0" value="260" aria-label="Precio gestion de pedidos" />
+                </label>
+                <label class="budget-extra-row" data-extra-key="ecommerceFutureAutomation" data-ecommerce-extra hidden>
+                  <span><input type="checkbox" name="budgetExtras" value="ecommerceFutureAutomation" /> Automatizacion futura</span>
+                  <input name="extraPrice_ecommerceFutureAutomation" type="number" min="0" value="0" aria-label="Precio automatizacion futura" />
                 </label>
               </div>
             </fieldset>
@@ -267,6 +334,6 @@
     <script src="../vendor/html2canvas.min.js"></script>
     <script src="../vendor/jspdf.umd.min.js"></script>
     <script src="../script.js"></script>
-    <script src="../tools.js?v=budget-wizard-10"></script>
+    <script src="../tools.js?v=ecommerce-1"></script>
   </body>
 </html>

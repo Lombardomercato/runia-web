@@ -5795,3 +5795,75 @@
 .budget-page[data-budget-active-step="generate"] .budget-result {
   display: block;
 }
+
+/* Presupuestador E-commerce */
+.budget-page .budget-ecommerce-fields {
+  margin: 1rem 0 1.25rem;
+  padding: clamp(1rem, 2vw, 1.25rem);
+  border: 1px solid rgba(27, 25, 22, 0.12);
+  background: rgba(255, 253, 249, 0.76);
+}
+
+.budget-page .ecommerce-product-pricing {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(27, 25, 22, 0.1);
+}
+
+.budget-page .ecommerce-tier-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-top: 0.75rem;
+}
+
+.budget-page .ecommerce-photo-row {
+  margin-top: 0.85rem;
+  align-items: stretch;
+}
+
+.budget-page .ecommerce-photo-row .tool-option small {
+  display: block;
+  margin-top: 0.3rem;
+  color: rgba(27, 25, 22, 0.52);
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.budget-page .ecommerce-summary-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin: 0.75rem 0 0.9rem;
+}
+
+.budget-page .ecommerce-summary-strip > div {
+  min-height: 4.65rem;
+  padding: 0.82rem;
+  border: 1px solid rgba(27, 25, 22, 0.1);
+  background: #fffdf9;
+}
+
+.budget-page .ecommerce-summary-strip span {
+  display: block;
+  color: rgba(27, 25, 22, 0.48);
+  font-size: 0.62rem;
+  font-weight: 780;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.budget-page .ecommerce-summary-strip strong {
+  display: block;
+  margin-top: 0.45rem;
+  color: #1b1916;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+@media (max-width: 860px) {
+  .budget-page .ecommerce-tier-grid,
+  .budget-page .ecommerce-summary-strip {
+    grid-template-columns: 1fr;
+  }
+}

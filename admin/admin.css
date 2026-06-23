@@ -896,13 +896,13 @@ td {
 }
 
 .checklist li::before {
-  content: "•";
+  content: "â€¢";
   margin-right: 0.55rem;
   color: var(--orange);
 }
 
 .checklist li.is-ok::before {
-  content: "✓";
+  content: "âœ“";
   color: var(--green);
 }
 
@@ -912,7 +912,7 @@ td {
 }
 
 .checklist li.is-warn::before {
-  content: "•";
+  content: "â€¢";
   color: var(--yellow);
 }
 
@@ -973,4 +973,73 @@ pre {
   h1 {
     font-size: clamp(2.35rem, 13vw, 3.8rem);
   }
+}
+.budget-table-card table select,
+.budget-status-select {
+  width: 100%;
+  min-width: 9rem;
+  border: 1px solid var(--line);
+  background: rgba(17, 17, 15, 0.96);
+  color: var(--text);
+  padding: 0.62rem 0.7rem;
+  outline: none;
+}
+
+.budget-table-card table strong {
+  color: var(--text);
+}
+
+.lead-budget-count {
+  width: fit-content;
+  padding: 0.32rem 0.48rem;
+  border: 1px solid rgba(237, 154, 38, 0.36);
+  background: rgba(237, 154, 38, 0.08);
+  color: #ffd39c;
+}
+
+.lead-brief-panel {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.lead-brief-panel label {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.lead-brief-panel label span {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
+.lead-brief-panel select {
+  width: 100%;
+  border: 1px solid rgba(237, 154, 38, 0.34);
+  background: rgba(17, 17, 15, 0.96);
+  color: var(--text);
+  padding: 0.65rem 0.7rem;
+  outline: none;
+}
+
+
+.brief-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.brief-row-actions .button {
+  white-space: nowrap;
+}
+
+.muted-inline {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.project-table-card table strong {
+  color: var(--text);
 }

@@ -47,6 +47,8 @@
 
         <nav class="admin-tabs" aria-label="Secciones internas">
           <button class="admin-tab is-active" type="button" data-admin-tab="crm">CRM</button>
+          <button class="admin-tab" type="button" data-admin-tab="budgets">Presupuestos</button>
+          <button class="admin-tab" type="button" data-admin-tab="production">Producción</button>
           <button class="admin-tab" type="button" data-admin-tab="briefs">Briefs Postventa</button>
         </nav>
 
@@ -111,6 +113,115 @@
           </section>
         </section>
 
+
+        <section class="admin-section" data-admin-section="budgets">
+          <section class="admin-hero">
+            <div>
+              <p class="eyebrow"><span></span> Presupuestos Runia Web</p>
+              <h1>Propuestas asociadas al CRM.</h1>
+              <p class="muted">Cada presupuesto queda vinculado a un lead único mediante lead_id para evitar duplicar clientes y ordenar el seguimiento comercial.</p>
+            </div>
+            <aside class="connection-card" data-budget-connection-card>
+              <span>Presupuestos</span>
+              <strong data-budget-connection-title>Sin cargar</strong>
+              <p data-budget-connection-message>Los presupuestos se guardan en la hoja Presupuestos.</p>
+            </aside>
+          </section>
+
+          <section class="metric-grid" aria-label="Resumen de presupuestos">
+            <article class="metric-card"><span>Total presupuestos</span><strong data-budget-metric="total">0</strong></article>
+            <article class="metric-card"><span>Borradores</span><strong data-budget-metric="borrador">0</strong></article>
+            <article class="metric-card"><span>Enviados</span><strong data-budget-metric="enviado">0</strong></article>
+            <article class="metric-card"><span>Aprobados</span><strong data-budget-metric="aprobado">0</strong></article>
+            <article class="metric-card"><span>Rechazados</span><strong data-budget-metric="rechazado">0</strong></article>
+          </section>
+
+          <section class="brief-table-card budget-table-card">
+            <div class="table-head">
+              <div>
+                <p class="eyebrow"><span></span> Bandeja comercial</p>
+                <h2>Presupuestos generados</h2>
+              </div>
+              <p data-budget-status>Esperando presupuestos.</p>
+            </div>
+            <div class="empty-state" data-budget-empty>
+              <strong>Sin presupuestos cargados.</strong>
+              <span>Guardá un presupuesto desde /presupuestador para verlo asociado al CRM.</span>
+            </div>
+            <div class="table-wrap" data-budget-table-wrap hidden>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Referencia</th>
+                    <th>Cliente</th>
+                    <th>Empresa</th>
+                    <th>Plan</th>
+                    <th>Total inicial</th>
+                    <th>Total mensual</th>
+                    <th>Modo</th>
+                    <th>Partner</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody data-budget-rows></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="admin-section" data-admin-section="production">
+          <section class="admin-hero">
+            <div>
+              <p class="eyebrow"><span></span> Producción Runia Web</p>
+              <h1>Proyectos en marcha.</h1>
+              <p class="muted">Convertí briefs recibidos en proyectos de producción con trazabilidad de lead, presupuesto y brief.</p>
+            </div>
+            <aside class="connection-card" data-project-connection-card>
+              <span>Proyectos</span>
+              <strong data-project-connection-title>Sin cargar</strong>
+              <p data-project-connection-message>Los proyectos se guardan en la hoja Proyectos.</p>
+            </aside>
+          </section>
+
+          <section class="metric-grid" aria-label="Resumen de producción">
+            <article class="metric-card"><span>Total proyectos</span><strong data-project-metric="total">0</strong></article>
+            <article class="metric-card"><span>Pendientes</span><strong data-project-metric="pendiente">0</strong></article>
+            <article class="metric-card"><span>En producción</span><strong data-project-metric="produccion">0</strong></article>
+            <article class="metric-card"><span>En revisión</span><strong data-project-metric="revision">0</strong></article>
+            <article class="metric-card"><span>Entregados</span><strong data-project-metric="entregado">0</strong></article>
+          </section>
+
+          <section class="brief-table-card project-table-card">
+            <div class="table-head">
+              <div>
+                <p class="eyebrow"><span></span> Proyectos</p>
+                <h2>Producción</h2>
+              </div>
+              <p data-project-status>Esperando proyectos.</p>
+            </div>
+            <div class="empty-state" data-project-empty>
+              <strong>Sin proyectos creados.</strong>
+              <span>Creá un proyecto desde un brief recibido para verlo en producción.</span>
+            </div>
+            <div class="table-wrap" data-project-table-wrap hidden>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Empresa</th>
+                    <th>Cliente</th>
+                    <th>Tipo</th>
+                    <th>Presupuesto</th>
+                    <th>Estado</th>
+                    <th>Responsable</th>
+                    <th>Entrega estimada</th>
+                  </tr>
+                </thead>
+                <tbody data-project-rows></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
         <section class="admin-section" data-admin-section="briefs">
 
         <section class="admin-hero">

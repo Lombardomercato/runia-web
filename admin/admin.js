@@ -8,6 +8,8 @@ const STATUS_KEY = "runia_admin_brief_statuses";
 const STATES = ["Nuevo", "Revisado", "Falta info", "En producción", "Enviado a cliente", "Entregado", "Archivado"];
 const CRM_STATES = ["Nuevo", "Contactado", "Reunión", "Propuesta", "Negociación", "Ganado", "Perdido"];
 const CRM_ORIGINS = ["WhatsApp directo", "Instagram", "Meta Ads", "Google", "Referido", "Partner", "Municipalidad", "Networking", "Cotizador", "Otro"];
+const BUDGET_STATES = ["Borrador", "Enviado", "Aprobado", "Rechazado", "En producción"];
+const PROJECT_STATES = ["Pendiente de inicio", "En producción", "En revisión", "Entregado", "Pausado"];
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
@@ -481,6 +483,8 @@ const buildSections = (brief) => {
 const app = {
   briefs: [],
   crmLeads: [],
+  budgets: [],
+  projects: [],
   selectedId: null,
   activeSection: "crm",
   statuses: readStorage(STATUS_KEY, {})
@@ -494,6 +498,8 @@ const renderLoginState = () => {
     renderAdminSection(app.activeSection);
     loadBriefs();
     loadCrmLeads();
+    loadBudgets();
+    loadProjects();
     renderOriginOptions();
   }
 };
@@ -521,6 +527,22 @@ const setCrmConnection = (state, title, message) => {
   $("[data-crm-connection-message]").textContent = message;
 };
 
+const setBudgetConnection = (state, title, message) => {
+  const card = $("[data-budget-connection-card]");
+  if (!card) return;
+  card.classList.toggle("is-ready", state === "ready");
+  card.classList.toggle("is-error", state === "error");
+  $("[data-budget-connection-title]").textContent = title;
+  $("[data-budget-connection-message]").textContent = message;
+};
+const setProjectConnection = (state, title, message) => {
+  const card = $("[data-project-connection-card]");
+  if (!card) return;
+  card.classList.toggle("is-ready", state === "ready");
+  card.classList.toggle("is-error", state === "error");
+  $("[data-project-connection-title]").textContent = title;
+  $("[data-project-connection-message]").textContent = message;
+};
 const getStatus = (brief) => app.statuses[brief.id] || brief.status || "Nuevo";
 
 const setStatus = (briefId, status) => {
@@ -582,6 +604,10 @@ const normalizeCrmLead = (raw, index) => ({
   estimatedValue: getFirst(raw, ["valor_estimado", "estimatedValue"], ""),
   notes: getFirst(raw, ["notas", "notes"], ""),
   status: getFirst(raw, ["estado", "status"], "Nuevo"),
+  briefStatus: getFirst(raw, ["brief_status"], ""),
+  briefBudgetId: getFirst(raw, ["brief_budget_id"], ""),
+  productionStatus: getFirst(raw, ["production_status"], ""),
+  projectId: getFirst(raw, ["project_id"], ""),
   createdAt: getFirst(raw, ["created_at"], ""),
   updatedAt: getFirst(raw, ["updated_at"], "")
 });
@@ -618,6 +644,297 @@ const updateCrmLeadStatus = async (leadId, nextStatus) => {
   renderCrm();
 };
 
+const normalizeBudget = (raw, index) => ({
+  id: String(getFirst(raw, ["budget_id", "id"], `budget-${index}`)),
+  leadId: String(getFirst(raw, ["lead_id", "leadId"], "")),
+  reference: getFirst(raw, ["referencia", "reference"], ""),
+  date: getFirst(raw, ["created_at", "timestamp"], ""),
+  updatedAt: getFirst(raw, ["updated_at"], ""),
+  mode: getFirst(raw, ["modo", "budgetMode"], ""),
+  client: getFirst(raw, ["cliente", "client"], ""),
+  company: getFirst(raw, ["empresa", "company"], ""),
+  industry: getFirst(raw, ["rubro", "industry"], ""),
+  partner: getFirst(raw, ["partner_name", "vendedor_partner", "seller"], ""),
+  brand: getFirst(raw, ["marca_pdf"], ""),
+  plan: getFirst(raw, ["plan"], ""),
+  totalInitial: getFirst(raw, ["total_inicial", "inversion_inicial_usd"], ""),
+  totalMonthly: getFirst(raw, ["total_mensual", "mensual_usd"], ""),
+  partnerPrice: getFirst(raw, ["precio_partner"], ""),
+  partnerMargin: getFirst(raw, ["margen_partner"], ""),
+  status: getFirst(raw, ["estado", "status"], "Borrador"),
+  shareUrl: getFirst(raw, ["share_url"], ""),
+  payload: parseMaybeJson(getFirst(raw, ["payload_json"], "")) || {}
+});
+
+const formatUsd = (value) => {
+  const number = Number(value || 0);
+  if (!Number.isFinite(number) || number <= 0) return "-";
+  return `USD ${number.toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
+};
+
+const fetchBudgets = async () => {
+  if (!hasConfiguredApi()) {
+    setBudgetConnection("error", "Sin configurar", "Conectá Apps Script para cargar presupuestos.");
+    return [];
+  }
+  const data = await adminApiGet("listBudgets");
+  if (!data.success) throw new Error(data.error || "No se pudieron cargar presupuestos");
+  return (data.budgets || []).map(normalizeBudget);
+};
+
+const loadBudgets = async () => {
+  const status = $("[data-budget-status]");
+  if (status) status.textContent = "Cargando presupuestos...";
+  try {
+    app.budgets = await fetchBudgets();
+    setBudgetConnection("ready", "Conectado", `${app.budgets.length} presupuestos cargados.`);
+  } catch (error) {
+    console.error(error);
+    app.budgets = [];
+    setBudgetConnection("error", "Error", "No se pudieron cargar presupuestos desde Apps Script.");
+  }
+  renderBudgets();
+  renderCrm();
+};
+
+const renderBudgetMetrics = () => {
+  const counts = app.budgets.reduce((acc, budget) => {
+    acc.total += 1;
+    if (budget.status === "Borrador") acc.borrador += 1;
+    if (budget.status === "Enviado") acc.enviado += 1;
+    if (budget.status === "Aprobado") acc.aprobado += 1;
+    if (budget.status === "Rechazado") acc.rechazado += 1;
+    return acc;
+  }, { total: 0, borrador: 0, enviado: 0, aprobado: 0, rechazado: 0 });
+
+  Object.entries(counts).forEach(([key, value]) => {
+    const element = $(`[data-budget-metric='${key}']`);
+    if (element) element.textContent = value;
+  });
+};
+
+const renderBudgets = () => {
+  renderBudgetMetrics();
+  const rows = $("[data-budget-rows]");
+  const empty = $("[data-budget-empty]");
+  const tableWrap = $("[data-budget-table-wrap]");
+  const status = $("[data-budget-status]");
+  if (!rows || !empty || !tableWrap) return;
+
+  if (!app.budgets.length) {
+    rows.innerHTML = "";
+    empty.hidden = false;
+    tableWrap.hidden = true;
+    if (status) status.textContent = "Sin presupuestos cargados.";
+    return;
+  }
+
+  empty.hidden = true;
+  tableWrap.hidden = false;
+  if (status) status.textContent = `${app.budgets.length} presupuestos cargados.`;
+  rows.innerHTML = app.budgets.map((budget) => `
+    <tr>
+      <td>${escapeHtml(formatDate(budget.date))}</td>
+      <td><strong>${escapeHtml(budget.reference || budget.id)}</strong></td>
+      <td>${escapeHtml(budget.client || "-")}</td>
+      <td>${escapeHtml(budget.company || "-")}</td>
+      <td>${escapeHtml(budget.plan || "-")}</td>
+      <td>${escapeHtml(formatUsd(budget.totalInitial))}</td>
+      <td>${escapeHtml(budget.totalMonthly ? `${formatUsd(budget.totalMonthly)}/mes` : "-")}</td>
+      <td>${escapeHtml(budget.mode || "-")}</td>
+      <td>${escapeHtml(budget.partner || "-")}</td>
+      <td>
+        <select class="budget-status-select" data-budget-status-select data-budget-id="${escapeHtml(budget.id)}">
+          ${BUDGET_STATES.map((state) => `<option value="${escapeHtml(state)}" ${state === budget.status ? "selected" : ""}>${escapeHtml(state)}</option>`).join("")}
+        </select>
+      </td>
+    </tr>
+  `).join("");
+};
+
+const updateBudgetStatus = async (budgetId, nextStatus) => {
+  const result = await adminApiGet("updateBudgetStatus", { budget_id: budgetId, estado: nextStatus });
+  if (!result.success) throw new Error(result.error || "No se pudo actualizar presupuesto");
+  const budget = app.budgets.find((item) => item.id === budgetId);
+  if (budget) budget.status = nextStatus;
+  renderBudgets();
+};
+const normalizeProject = (raw, index) => ({
+  id: String(getFirst(raw, ["project_id", "id"], "project-" + index)),
+  leadId: String(getFirst(raw, ["lead_id", "leadId"], "")),
+  budgetId: String(getFirst(raw, ["budget_id", "budgetId"], "")),
+  briefId: String(getFirst(raw, ["brief_id", "briefId"], "")),
+  reference: getFirst(raw, ["referencia_presupuesto", "referencia"], ""),
+  client: getFirst(raw, ["cliente", "client"], ""),
+  company: getFirst(raw, ["empresa", "company"], ""),
+  industry: getFirst(raw, ["rubro", "industry"], ""),
+  type: getFirst(raw, ["tipo_proyecto", "plan"], ""),
+  status: getFirst(raw, ["estado_produccion", "status"], "Pendiente de inicio"),
+  owner: getFirst(raw, ["responsable"], ""),
+  priority: getFirst(raw, ["prioridad"], ""),
+  startDate: getFirst(raw, ["fecha_inicio"], ""),
+  dueDate: getFirst(raw, ["fecha_entrega_estimada"], ""),
+  createdAt: getFirst(raw, ["created_at"], ""),
+  updatedAt: getFirst(raw, ["updated_at"], "")
+});
+
+const fetchProjects = async () => {
+  if (!hasConfiguredApi()) {
+    setProjectConnection("error", "Sin configurar", "Conectá Apps Script para cargar proyectos.");
+    return [];
+  }
+  const data = await adminApiGet("listProjects");
+  if (!data.success) throw new Error(data.error || "No se pudieron cargar proyectos");
+  return (data.projects || []).map(normalizeProject);
+};
+
+const loadProjects = async () => {
+  const status = $("[data-project-status]");
+  if (status) status.textContent = "Cargando proyectos...";
+  try {
+    app.projects = await fetchProjects();
+    setProjectConnection("ready", "Conectado", app.projects.length + " proyectos cargados.");
+  } catch (error) {
+    console.error(error);
+    app.projects = [];
+    setProjectConnection("error", "Error", "No se pudieron cargar proyectos desde Apps Script.");
+  }
+  renderProjects();
+  renderDashboard();
+};
+
+const getProjectByBriefId = (briefId) => app.projects.find((project) => project.briefId === briefId);
+
+const renderProjectMetrics = () => {
+  const counts = app.projects.reduce((acc, project) => {
+    acc.total += 1;
+    if (project.status === "Pendiente de inicio") acc.pendiente += 1;
+    if (project.status === "En producción") acc.produccion += 1;
+    if (project.status === "En revisión") acc.revision += 1;
+    if (project.status === "Entregado") acc.entregado += 1;
+    return acc;
+  }, { total: 0, pendiente: 0, produccion: 0, revision: 0, entregado: 0 });
+
+  Object.entries(counts).forEach(([key, value]) => {
+    const element = $(`[data-project-metric='${key}']`);
+    if (element) element.textContent = value;
+  });
+};
+
+const renderProjects = () => {
+  renderProjectMetrics();
+  const rows = $("[data-project-rows]");
+  const empty = $("[data-project-empty]");
+  const tableWrap = $("[data-project-table-wrap]");
+  const status = $("[data-project-status]");
+  if (!rows || !empty || !tableWrap) return;
+
+  if (!app.projects.length) {
+    rows.innerHTML = "";
+    empty.hidden = false;
+    tableWrap.hidden = true;
+    if (status) status.textContent = "Sin proyectos cargados.";
+    return;
+  }
+
+  empty.hidden = true;
+  tableWrap.hidden = false;
+  if (status) status.textContent = app.projects.length + " proyectos cargados.";
+  rows.innerHTML = app.projects.map((project) => `
+    <tr>
+      <td><strong>${escapeHtml(project.company || "-")}</strong></td>
+      <td>${escapeHtml(project.client || "-")}</td>
+      <td>${escapeHtml(project.type || "-")}</td>
+      <td>${escapeHtml(project.reference || project.budgetId || "-")}</td>
+      <td>
+        <select class="budget-status-select" data-project-status-select data-project-id="${escapeHtml(project.id)}">
+          ${PROJECT_STATES.map((state) => `<option value="${escapeHtml(state)}" ${state === project.status ? "selected" : ""}>${escapeHtml(state)}</option>`).join("")}
+        </select>
+      </td>
+      <td>${escapeHtml(project.owner || "-")}</td>
+      <td>${escapeHtml(formatDate(project.dueDate))}</td>
+    </tr>
+  `).join("");
+};
+
+const updateProjectStatus = async (projectId, nextStatus) => {
+  const result = await adminApiGet("updateProjectStatus", { project_id: projectId, estado_produccion: nextStatus });
+  if (!result.success) throw new Error(result.error || "No se pudo actualizar proyecto");
+  const project = app.projects.find((item) => item.id === projectId);
+  if (project) project.status = nextStatus;
+  renderProjects();
+};
+
+const createProjectFromBrief = async (briefId) => {
+  const result = await adminApiGet("createProjectFromBrief", { brief_id: briefId });
+  if (!result.success) throw new Error(result.error || "No se pudo crear proyecto");
+  await loadProjects();
+  return result;
+};
+const getLeadBudgets = (leadId) => app.budgets.filter((budget) => budget.leadId === leadId);
+
+const getDefaultBriefBudget = (leadId) => {
+  const budgets = getLeadBudgets(leadId);
+  if (budgets.length === 1) return budgets[0];
+  const approved = budgets.filter((budget) => budget.status === "Aprobado");
+  if (approved.length === 1) return approved[0];
+  return null;
+};
+
+const buildBriefUrl = (leadId, budgetId = "") => {
+  const url = new URL("../brief/", window.location.href);
+  url.searchParams.set("lead_id", leadId);
+  if (budgetId) url.searchParams.set("budget_id", budgetId);
+  return url.toString();
+};
+
+const renderBriefAction = (lead) => {
+  if (!["ganado", "ganada", "won"].includes(slugStatus(lead.status || ""))) return "";
+  const budgets = getLeadBudgets(lead.id);
+  const defaultBudget = getDefaultBriefBudget(lead.id);
+  const needsSelector = budgets.length > 1 && !defaultBudget;
+  const options = budgets.map((budget) => {
+    const label = [budget.reference || budget.id, budget.plan, formatUsd(budget.totalInitial), budget.status].filter(Boolean).join(" · ");
+    return '<option value="' + escapeHtml(budget.id) + '">' + escapeHtml(label) + '</option>';
+  }).join("");
+  const selectedBudgetId = defaultBudget?.id || budgets[0]?.id || "";
+  return [
+    '<div class="lead-brief-panel" data-brief-panel>',
+    needsSelector ? '<label><span>Presupuesto</span><select data-brief-budget-select>' + options + '</select></label>' : "",
+    '<button class="button button-light brief-button" type="button" data-generate-brief data-budget-id="' + escapeHtml(selectedBudgetId) + '">Enviar Brief</button>',
+    '<p class="lead-save-message" data-brief-link-message></p>',
+    '</div>'
+  ].join("");
+};
+const sendBriefLinkForLead = async (leadId, budgetId, card) => {
+  const lead = app.crmLeads.find((item) => item.id === leadId);
+  const budget = app.budgets.find((item) => item.id === budgetId);
+  const url = buildBriefUrl(leadId, budgetId);
+  const message = $("[data-brief-link-message]", card);
+  const reference = budget?.reference || budget?.id || "";
+  if (message) message.textContent = "Generando link...";
+
+  try { await navigator.clipboard.writeText(url); } catch (error) { console.warn("No se pudo copiar el link de brief", error); }
+
+  try {
+    const note = "Brief enviado al cliente" + (reference ? " con presupuesto " + reference : "") + ". Link: " + url;
+    await adminApiGet("addCrmLeadNote", { id: leadId, nota: note });
+    await adminApiGet("updateCrmLeadBriefStatus", { lead_id: leadId, budget_id: budgetId || "", brief_status: "enviado", referencia: reference });
+    if (lead) {
+      lead.briefStatus = "enviado";
+      lead.notes = (lead.notes || "") + (lead.notes ? "\n" : "") + new Date().toISOString() + " - " + note;
+    }
+  } catch (error) {
+    console.error(error);
+    if (message) message.textContent = "Link copiado, pero no se pudo guardar la nota.";
+    window.open(url, "_blank", "noopener,noreferrer");
+    return;
+  }
+
+  if (message) message.textContent = "Link copiado y abierto.";
+  window.open(url, "_blank", "noopener,noreferrer");
+  await loadCrmLeads();
+};
 const loadBriefs = async () => {
   $("[data-table-status]").textContent = "Cargando briefs...";
   try {
@@ -647,6 +964,30 @@ const renderMetrics = () => {
   $("[data-metric='entregado']").textContent = counts.entregado;
 };
 
+const canCreateProjectFromBrief = (brief) => {
+  if (!brief) return false;
+  return hasAnyText(
+    brief.company,
+    brief.client,
+    brief.whatsapp,
+    brief.email,
+    brief.industry,
+    getFirst(brief.source || {}, ["lead_id", "budget_id", "referencia_presupuesto"])
+  );
+};
+
+const renderBriefProjectAction = (brief) => {
+  const project = getProjectByBriefId(brief.id);
+  const openButton = '<button class="button button-soft" type="button" data-open-brief="' + escapeHtml(brief.id) + '">Ver brief</button>';
+  if (project) {
+    return '<div class="brief-row-actions">' + openButton + '<span class="status-pill is-entregado">Proyecto creado</span></div>';
+  }
+  if (!canCreateProjectFromBrief(brief)) {
+    return '<div class="brief-row-actions">' + openButton + '<span class="muted-inline">Faltan datos</span></div>';
+  }
+  return '<div class="brief-row-actions">' + openButton + '<button class="button button-light" type="button" data-create-project="' + escapeHtml(brief.id) + '">Crear proyecto</button></div>';
+};
+
 const renderDashboard = () => {
   renderMetrics();
   const rows = $("[data-brief-rows]");
@@ -674,7 +1015,7 @@ const renderDashboard = () => {
         <td>${escapeHtml(brief.industry || "-")}</td>
         <td>${escapeHtml(brief.whatsapp || "-")}</td>
         <td><span class="status-pill is-${escapeHtml(slugStatus(status))}">${escapeHtml(status)}</span></td>
-        <td><button class="button button-soft" type="button" data-open-brief="${escapeHtml(brief.id)}">Ver brief</button></td>
+        <td>${renderBriefProjectAction(brief)}</td>
       </tr>
     `;
   }).join("");
@@ -741,6 +1082,8 @@ const renderLeadCard = (lead) => {
         <span>${escapeHtml(lead.whatsapp || "Sin WhatsApp")}</span>
         <span>${escapeHtml(lead.email || "Sin email")}</span>
         <span>Valor: ${escapeHtml(lead.estimatedValue || "sin estimar")}</span>
+        <span class="lead-budget-count">Presupuestos: ${app.budgets.filter((budget) => budget.leadId === lead.id).length}</span>
+        ${lead.productionStatus ? `<span class="lead-budget-count">Producción: ${escapeHtml(lead.productionStatus)}</span>` : ""}
       </div>
       <select data-lead-status>
         ${CRM_STATES.map((state) => `<option value="${escapeHtml(state)}" ${state === lead.status ? "selected" : ""}>${escapeHtml(state)}</option>`).join("")}
@@ -752,7 +1095,7 @@ const renderLeadCard = (lead) => {
         <textarea name="note" placeholder="Agregar nota"></textarea>
         <button class="button button-soft small-copy" type="submit">Agregar nota</button>
       </form>
-      <button class="button button-light brief-button" type="button">Enviar Brief</button>
+      ${renderBriefAction(lead)}
       <p class="lead-save-message" data-lead-message></p>
     </article>
   `;
@@ -849,6 +1192,26 @@ document.addEventListener("click", async (event) => {
     renderDetail(app.briefs.find((brief) => brief.id === openButton.dataset.openBrief));
     return;
   }
+  const createProjectButton = event.target.closest("[data-create-project]");
+  if (createProjectButton) {
+    const briefId = createProjectButton.dataset.createProject;
+    const originalText = createProjectButton.textContent;
+    createProjectButton.disabled = true;
+    createProjectButton.textContent = "Creando...";
+    try {
+      await createProjectFromBrief(briefId);
+      await loadBriefs();
+      renderAdminSection("production");
+    } catch (error) {
+      console.error(error);
+      createProjectButton.textContent = "Error";
+      window.setTimeout(() => { createProjectButton.textContent = originalText; }, 1600);
+    } finally {
+      createProjectButton.disabled = false;
+    }
+    return;
+  }
+
 
   if (event.target.closest("[data-logout]")) {
     localStorage.removeItem(SESSION_KEY);
@@ -860,6 +1223,24 @@ document.addEventListener("click", async (event) => {
   if (event.target.closest("[data-refresh]")) {
     await loadBriefs();
     await loadCrmLeads();
+    await loadBudgets();
+    await loadProjects();
+    return;
+  }
+
+  const briefButton = event.target.closest("[data-generate-brief]");
+  if (briefButton) {
+    const card = briefButton.closest("[data-lead-id]");
+    const leadId = card?.dataset.leadId || "";
+    const select = card?.querySelector("[data-brief-budget-select]");
+    const budgetId = select?.value || briefButton.dataset.budgetId || "";
+    if (!leadId) return;
+    briefButton.disabled = true;
+    try {
+      await sendBriefLinkForLead(leadId, budgetId, card);
+    } finally {
+      briefButton.disabled = false;
+    }
     return;
   }
 
@@ -888,6 +1269,41 @@ document.addEventListener("click", async (event) => {
 });
 
 document.addEventListener("change", async (event) => {
+  const projectStatusSelect = event.target.closest("[data-project-status-select]");
+  if (projectStatusSelect) {
+    const projectId = projectStatusSelect.dataset.projectId;
+    const nextStatus = projectStatusSelect.value;
+    projectStatusSelect.disabled = true;
+    try {
+      await updateProjectStatus(projectId, nextStatus);
+      await loadCrmLeads();
+    } catch (error) {
+      console.error(error);
+      const status = $("[data-project-status]");
+      if (status) status.textContent = "No se pudo guardar el estado del proyecto.";
+    } finally {
+      projectStatusSelect.disabled = false;
+    }
+    return;
+  }
+
+  const budgetStatusSelect = event.target.closest("[data-budget-status-select]");
+  if (budgetStatusSelect) {
+    const budgetId = budgetStatusSelect.dataset.budgetId;
+    const nextStatus = budgetStatusSelect.value;
+    budgetStatusSelect.disabled = true;
+    try {
+      await updateBudgetStatus(budgetId, nextStatus);
+    } catch (error) {
+      console.error(error);
+      const status = $("[data-budget-status]");
+      if (status) status.textContent = "No se pudo guardar el estado del presupuesto.";
+    } finally {
+      budgetStatusSelect.disabled = false;
+    }
+    return;
+  }
+
   const leadStatusSelect = event.target.closest("[data-lead-status]");
   if (leadStatusSelect) {
     const card = leadStatusSelect.closest("[data-lead-id]");

@@ -1,6 +1,7 @@
 const MONEY_USD = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 const MONEY_ARS = new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 });
 const GOOGLE_SHEETS_ENDPOINT = window.RUNIA_SHEETS_ENDPOINT || "https://script.google.com/macros/s/AKfycbwPLx1eoiamVc_WR4JL7oUWsMnNFQ7LCFfgTJd8D5ZnKVWTIEtmC2dZXZMzMmvtg6YC8Q/exec";
+const GOOGLE_SHEETS_ADMIN_TOKEN = window.RUNIA_SHEETS_ADMIN_TOKEN || "runia_admin_2026";
 
 const PACKS = {
   "48hs": {
@@ -69,6 +70,92 @@ const priceText = (price) => `desde USD ${Number(price || 0).toLocaleString("en-
 const usdLabel = (price) => `USD ${Number(price || 0).toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
 const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]);
 
+const normalizeBudgetIdentity = (value) => String(value || "")
+  .toLowerCase()
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, "")
+  .replace(/[^a-z0-9]+/g, "")
+  .trim();
+
+const hashBudgetIdentity = (value) => {
+  const source = normalizeBudgetIdentity(value) || String(Date.now());
+  let hash = 0;
+  for (let index = 0; index < source.length; index += 1) {
+    hash = ((hash << 5) - hash) + source.charCodeAt(index);
+    hash |= 0;
+  }
+  return Math.abs(hash).toString(36);
+};
+
+const generateBudgetId = () => {
+  const date = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+  const random = Math.random().toString(36).slice(2, 8);
+  return `budget-${date}-${random}`;
+};
+
+const resolveBudgetLeadId = (values = {}) => {
+  const params = new URLSearchParams(window.location.search);
+  const fromUrl = params.get("lead_id") || params.get("leadId") || "";
+  if (fromUrl) return fromUrl;
+  try {
+    const stored = JSON.parse(localStorage.getItem("runia_budget_identity") || "{}");
+    const identity = normalizeBudgetIdentity(values.whatsapp || values.email || values.company || values.client || "");
+    if (stored.identity && stored.identity === identity && stored.lead_id) return stored.lead_id;
+  } catch {}
+  const identitySource = values.whatsapp || values.email || values.company || values.client || Date.now();
+  return `lead-local-${hashBudgetIdentity(identitySource)}`;
+};
+
+const rememberBudgetIdentity = (values = {}, budgetId, leadId) => {
+  try {
+    const identity = normalizeBudgetIdentity(values.whatsapp || values.email || values.company || values.client || "");
+    localStorage.setItem("runia_budget_identity", JSON.stringify({ identity, budget_id: budgetId, lead_id: leadId }));
+    localStorage.setItem("runia_last_budget_id", budgetId || "");
+    localStorage.setItem("runia_last_lead_id", leadId || "");
+  } catch {}
+};
+
+const sendBudgetToAdminApi = async (payload) => {
+  if (!GOOGLE_SHEETS_ENDPOINT || !GOOGLE_SHEETS_ADMIN_TOKEN) return false;
+  const search = new URLSearchParams({
+    action: "createBudget",
+    token: GOOGLE_SHEETS_ADMIN_TOKEN,
+    budget_id: payload.budget_id || "",
+    lead_id: payload.lead_id || "",
+    referencia: payload.referencia || "",
+    cliente: payload.cliente || "",
+    empresa: payload.empresa || "",
+    rubro: payload.rubro || "",
+    whatsapp: payload.whatsapp || "",
+    email: payload.email || "",
+    modo: payload.modo || "",
+    plan: payload.plan || "",
+    total_inicial: payload.inversion_inicial_usd || payload.total_inicial || "",
+    total_mensual: payload.mensual_usd || payload.total_mensual || "",
+    estado: payload.estado_budget || "Borrador",
+    share_url: payload.share_url || "",
+    payload_json: JSON.stringify(payload)
+  });
+
+  try {
+    await fetch(`${GOOGLE_SHEETS_ENDPOINT}?${search.toString()}`, {
+      method: "GET",
+      mode: "no-cors",
+      keepalive: true
+    });
+    return true;
+  } catch (error) {
+    console.error("Error guardando presupuesto formal", error);
+    return false;
+  }
+};
+const fetchAdminApi = async (action, params = {}) => {
+  if (!GOOGLE_SHEETS_ENDPOINT || !GOOGLE_SHEETS_ADMIN_TOKEN) return null;
+  const search = new URLSearchParams({ action, token: GOOGLE_SHEETS_ADMIN_TOKEN, ...params });
+  const response = await fetch(`${GOOGLE_SHEETS_ENDPOINT}?${search.toString()}`, { cache: "no-store" });
+  if (!response.ok) throw new Error(`Apps Script respondió ${response.status}`);
+  return response.json();
+};
 const sendToGoogleSheets = async (payload, context = "Runia Web") => {
   console.log(`Enviando ${context} a Google Sheets`);
   console.log("payload completo", payload);
@@ -2136,6 +2223,8 @@ const initBudget = () => {
   const maintenanceNote = document.querySelector("[data-maintenance-note]");
   let partnerLogoData = "";
   let lastSavedReference = "";
+  let currentBudgetId = "";
+  let currentLeadId = "";
   let budgetIsLocked = false;
   let currentWizardStep = 0;
 
@@ -2164,7 +2253,7 @@ const initBudget = () => {
   const getShareUrl = () => {
     const url = new URL(window.location.href);
     url.search = "";
-    url.searchParams.set("v", "budget-wizard-10");
+    url.searchParams.set("v", "ecommerce-1");
     url.searchParams.set("share", "presupuesto");
     url.hash = `data=${encodeBudgetState()}`;
     return url.toString();
@@ -2217,7 +2306,7 @@ const initBudget = () => {
         return;
       }
       const stylesHref = new URL("styles.css", window.location.origin + "/").href;
-      const toolsHref = new URL("tools.css?v=budget-wizard-10", window.location.origin + "/").href;
+      const toolsHref = new URL("tools.css?v=ecommerce-1", window.location.origin + "/").href;
       printWindow.document.open();
       printWindow.document.write(`<!doctype html>
 <html lang="es">
@@ -2290,11 +2379,20 @@ const initBudget = () => {
       partnerPrice: 1100,
       detail: "Web comercial preparada para conectar seguimiento, CRM o automatización.",
       scope: ["Web comercial", "CRM o pipeline simple", "Automatización inicial", "Seguimiento de consultas", "Dashboards básicos", "Integración futura con Runia"]
+    },
+    ecommerce: {
+      name: "E-commerce",
+      price: 1200,
+      min: 1200,
+      partnerPrice: 900,
+      detail: "Tienda online preparada para vender productos, ordenar pedidos y escalar la operacion comercial.",
+      scope: ["E-commerce", "Plataforma elegida", "Catalogo y categorias", "Gestion de pedidos", "Carga de productos segun alcance", "Mobile commerce", "SEO tecnico inicial", "Analytics y Search Console", "Open Graph para redes"]
     }
   };
 
   webTypes.comercial.scope = ["Web con estructura comercial", "Secciones estrategicas", "Copy base", "WhatsApp y formularios", "SEO tecnico inicial", "Analytics y Search Console", "Open Graph para redes", "Base lista para Google"];
   webTypes.sistema.scope = ["Web comercial", "CRM o pipeline simple", "Automatizacion inicial", "Seguimiento de consultas", "Dashboards basicos", "SEO tecnico inicial", "Analytics y Search Console", "Integracion futura con Runia"];
+  webTypes.ecommerce.scope = ["E-commerce", "Plataforma elegida", "Catalogo y categorias", "Gestion de pedidos", "Carga de productos segun alcance", "Mobile commerce", "SEO tecnico inicial", "Analytics y Search Console", "Open Graph para redes"];
 
   const budgetExtras = {
     brandingBasic: { name: "Branding básico", price: 250, detail: "Logo simple, paleta, tipografías sugeridas y guía visual básica." },
@@ -2302,7 +2400,12 @@ const initBudget = () => {
     copywriting: { name: "Copywriting avanzado", price: 250, detail: "Textos comerciales más trabajados para explicar mejor la propuesta." },
     productsLoad: { name: "Carga de productos o servicios", price: 150, detail: "Organización y carga inicial de contenido." },
     maintenance: { name: "Mantenimiento mensual", price: 80, displayPrice: "desde USD 80/mes", recurring: true, detail: "Acompañamiento mensual para ajustes y continuidad." },
-    automationAI: { name: "Automatización / IA", price: 0, displayPrice: "a cotizar", detail: "Conexión futura con herramientas comerciales, seguimiento o atención automatizada." }
+    automationAI: { name: "Automatización / IA", price: 0, displayPrice: "a cotizar", detail: "Conexión futura con herramientas comerciales, seguimiento o atención automatizada." },
+    ecommerceWholesaleLogin: { name: "Login mayoristas", price: 250, detail: "Acceso diferenciado para clientes mayoristas o compradores especiales." },
+    ecommercePriceLists: { name: "Listas de precios multiples", price: 220, detail: "Configuracion de listas de precios por tipo de cliente o condicion comercial." },
+    ecommerceExcelImport: { name: "Importacion Excel", price: 180, detail: "Preparacion para carga o actualizacion masiva de productos desde planilla." },
+    ecommerceOrderManagement: { name: "Gestion de pedidos", price: 260, detail: "Flujo operativo para revisar, ordenar y administrar pedidos recibidos." },
+    ecommerceFutureAutomation: { name: "Automatizacion futura", price: 0, displayPrice: "a cotizar", detail: "Base preparada para automatizaciones comerciales o integraciones futuras." }
   };
 
   budgetExtras.brandingBasic.partnerPrice = 180;
@@ -2315,8 +2418,16 @@ const initBudget = () => {
   const getBudget = () => {
     const values = getFormObject(form);
     const selectedType = webTypes[values.webType] || webTypes.comercial;
+    const isEcommerce = values.webType === "ecommerce";
+    const ecommercePlatformLabel = values.ecommercePlatform === "runiaSystem" ? "Runia System" : "Tienda Nube";
+    const productLoadMode = values.productLoadMode === "runia" ? "runia" : "client";
+    const productQuantity = Math.max(Number(values.productLoadQuantity || 0), 0);
+    const productLoadPrice = Math.max(Number(values["productLoadPrice_" + productQuantity] || values.productLoadSelectedPrice || 0), 0);
+    const photoLoadEnabled = values.photoLoadEnabled === "yes" || values.photoLoadEnabled === true;
+    const photoQuantity = Math.max(Number(values.photoLoadQuantity || 0), 0);
+    const photoLoadPrice = Math.max(Number(values.photoLoadPrice || 0), 0);
     const mode = getMode();
-    const extras = getCheckedValues(form, "budgetExtras").map((key) => {
+    let extras = getCheckedValues(form, "budgetExtras").map((key) => {
       const item = budgetExtras[key];
       if (!item) return null;
       const customPrice = Number(values[`extraPrice_${key}`]);
@@ -2335,6 +2446,38 @@ const initBudget = () => {
         : price;
       return { ...item, key, price, publicPrice, internalPrice, displayPrice };
     }).filter(Boolean);
+    if (isEcommerce && productLoadMode === "runia" && productQuantity > 0) {
+      extras.push({
+        key: "ecommerceProductLoad",
+        name: "Carga de productos (" + productQuantity + ")",
+        price: productLoadPrice,
+        publicPrice: productLoadPrice,
+        internalPrice: productLoadPrice,
+        displayPrice: productLoadPrice > 0 ? usdLabel(productLoadPrice) : "a definir",
+        detail: "Carga inicial de " + productQuantity + " productos realizada por Runia."
+      });
+    }
+    if (isEcommerce && photoLoadEnabled) {
+      extras.push({
+        key: "ecommercePhotoLoad",
+        name: "Carga de fotografias" + (photoQuantity > 0 ? " (" + photoQuantity + ")" : ""),
+        price: photoLoadPrice,
+        publicPrice: photoLoadPrice,
+        internalPrice: photoLoadPrice,
+        displayPrice: photoLoadPrice > 0 ? usdLabel(photoLoadPrice) : "a definir",
+        detail: photoQuantity > 0 ? "Carga de " + photoQuantity + " fotografias asociadas al catalogo." : "Carga de fotografias para catalogo ecommerce."
+      });
+    }
+    const ecommerceData = {
+      isEcommerce,
+      platform: ecommercePlatformLabel,
+      productLoadMode,
+      productQuantity: productLoadMode === "runia" ? productQuantity : 0,
+      productLoadPrice: productLoadMode === "runia" ? productLoadPrice : 0,
+      photoLoadEnabled,
+      photoQuantity: photoLoadEnabled ? photoQuantity : 0,
+      photoLoadPrice: photoLoadEnabled ? photoLoadPrice : 0
+    };
     const oneTimeExtras = extras.filter((item) => !item.recurring);
     const recurringExtras = extras.filter((item) => item.recurring);
     const clientPrice = mode === "partner"
@@ -2380,6 +2523,7 @@ const initBudget = () => {
     return {
       values,
       selectedType,
+      ecommerceData,
       extras,
       oneTimeExtras,
       recurringExtras,
@@ -2465,6 +2609,8 @@ const initBudget = () => {
       reference
     } = data;
 
+    const isEcommerce = Boolean(ecommerceData?.isEcommerce);
+
     const clientLabel = values.company || values.client || "Cliente sin empresa";
     const isPartner = mode === "partner";
     const belowPartnerCost = isPartner && discountedProjectSubtotal < partnerProjectCost;
@@ -2479,6 +2625,8 @@ const initBudget = () => {
     ].filter(Boolean).join(" + ") || MONEY_USD.format(0);
     const discountScopeNote = "El descuento aplica sobre base web + extras. No descuenta dominio, SSL ni mensualidad.";
     const projectCostsNote = "Dominio y SSL se cargan en pesos y se suman al pago unico convertidos a USD segun el dolar de referencia.";
+    const ecommerceSummaryHtml = isEcommerce ? `<div class="ecommerce-summary-strip"><div><span>Plataforma</span><strong>${escapeHtml(ecommerceData.platform)}</strong></div><div><span>Productos</span><strong>${ecommerceData.productLoadMode === "runia" ? `${ecommerceData.productQuantity} cargados por Runia` : "Carga del cliente"}</strong></div><div><span>Fotos</span><strong>${ecommerceData.photoLoadEnabled ? `${ecommerceData.photoQuantity || "A definir"} fotos` : "No incluido"}</strong></div></div>` : "";
+    const ecommerceWhatsappLines = isEcommerce ? `\nPlataforma E-commerce: ${ecommerceData.platform}\nCarga de productos: ${ecommerceData.productLoadMode === "runia" ? `${ecommerceData.productQuantity} productos a cargo de Runia` : "a cargo del cliente"}\nCarga de fotos: ${ecommerceData.photoLoadEnabled ? `${ecommerceData.photoQuantity || "A definir"} fotos` : "no incluida"}` : "";
     const nextSteps = ["Confirmación del proyecto", "Envío del brief", "Producción", "Entrega inicial"];
     const conditionItems = [
       "50% para comenzar y 50% contra entrega inicial o según acuerdo.",
@@ -2498,7 +2646,7 @@ Inversión inicial: ${usdLabel(total)}
 Referencia ARS: ${MONEY_ARS.format(total * rate)}
 Dólar tomado: ${MONEY_ARS.format(rate)} ARS
 Extras iniciales: ${oneTimeExtrasLabel || "-"}
-Mensual opcional: ${monthlyLabel || "-"}
+Mensual opcional: ${monthlyLabel || "-"}${ecommerceWhatsappLines}
 Validez: ${validity}
 Tiempo estimado: ${values.time || "Según alcance"}`;
 
@@ -2523,6 +2671,7 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
         <p>${escapeHtml(clientLabel)} - ${escapeHtml(values.industry || "Rubro pendiente")}</p>
       </div>
       ${belowPartnerCost ? `<div class="pricing-warning is-visible">Precio final por debajo del costo partner</div>` : belowMin ? `<div class="pricing-warning is-visible">${isPartner ? `Precio final cliente por debajo del precio publico sugerido: ${usdLabel(suggestedResaleSubtotal)}` : `Precio por debajo del minimo protegido: ${usdLabel(selectedType.min)}`}</div>` : ""}
+      ${ecommerceSummaryHtml}
       <div class="budget-summary-grid">
         <div><span>${isPartner ? "Precio final cliente" : "Precio cliente"}</span><strong>${MONEY_USD.format(base)}</strong></div>
         ${isPartner ? `<div><span>Precio de reventa sugerido</span><strong>${MONEY_USD.format(suggestedResaleSubtotal)}</strong></div>` : ""}
@@ -2555,12 +2704,20 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
     const headerMeta = (sectionLabel) => `<div class="proposal-pdf-meta"><span>${escapeHtml(sectionLabel)}</span><span>${escapeHtml(reference)}</span><span>${escapeHtml(proposalDate)}</span></div>`;
     const hasExtras = Boolean(oneTimeExtras.length || recurringExtras.length || projectCosts.length);
     const projectTitle = `${selectedType.name} para ${values.company || values.client || "tu empresa"}`;
-    const contextText = `${values.company || values.client || "El negocio"} necesita una presencia digital clara para explicar que ofrece, transmitir confianza y convertir visitas en consultas. La propuesta combina estructura comercial, contacto visible y una base preparada para crecer.`;
+    const contextText = isEcommerce
+      ? `${values.company || values.client || "El negocio"} necesita una tienda online clara para presentar productos, ordenar pedidos y vender con una experiencia confiable. La propuesta contempla plataforma ${ecommerceData.platform}, alcance de catalogo y una base preparada para crecer.`
+      : `${values.company || values.client || "El negocio"} necesita una presencia digital clara para explicar que ofrece, transmitir confianza y convertir visitas en consultas. La propuesta combina estructura comercial, contacto visible y una base preparada para crecer.`;
+    const ecommerceScopeModules = isEcommerce ? [
+      { number: "E1", title: `Plataforma ${ecommerceData.platform}`, price: "Incluido", body: `La propuesta se plantea sobre ${ecommerceData.platform}, con estructura de catalogo, carrito/pedidos y experiencia mobile commerce.` },
+      { number: "E2", title: "Carga de productos", price: ecommerceData.productLoadMode === "runia" ? usdLabel(ecommerceData.productLoadPrice) : "A cargo del cliente", body: ecommerceData.productLoadMode === "runia" ? `${ecommerceData.productQuantity} productos cargados por Runia segun el material entregado.` : "La carga inicial de productos queda a cargo del cliente." },
+      { number: "E3", title: "Carga de fotografias", price: ecommerceData.photoLoadEnabled ? usdLabel(ecommerceData.photoLoadPrice) : "No incluido", body: ecommerceData.photoLoadEnabled ? `${ecommerceData.photoQuantity || "Cantidad a definir"} fotografias asociadas al catalogo.` : "La carga de fotografias queda fuera del alcance inicial." }
+    ] : [];
     const scopeModules = [
       { number: "01", title: "Estrategia y estructura comercial", price: "Incluido", body: "Definicion del recorrido principal, secciones necesarias y llamados a la accion para que la web ayude a vender." },
       { number: "02", title: "Diseno responsive Runia Web", price: "Incluido", body: "Adaptacion visual de la plantilla base, jerarquia, espaciado y version mobile para una experiencia clara." },
       { number: "03", title: "Contenido y secciones principales", price: "Incluido", body: selectedType.scope.slice(0, 4).join(" / ") || "Hero, servicios, diferenciales, proceso y contacto." },
       { number: "04", title: "Implementacion y puesta online", price: MONEY_USD.format(base), body: "Maquetacion, ajustes finales, formularios, WhatsApp y preparacion para publicar la web." },
+      ...ecommerceScopeModules,
       ...oneTimeExtras.map((item, index) => ({ number: String(index + 5).padStart(2, "0"), title: item.name, price: item.displayPrice || usdLabel(item.price), body: item.detail })),
       ...projectCosts.map((item, index) => ({ number: String(index + oneTimeExtras.length + 5).padStart(2, "0"), title: item.name, price: item.displayPrice, body: item.detail }))
     ];
@@ -2568,6 +2725,11 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
       { title: "Base web", detail: selectedType.name, price: MONEY_USD.format(base) },
       { title: "Extras unicos", detail: oneTimeExtrasLabel || "Sin extras unicos seleccionados", price: MONEY_USD.format(extrasTotal) },
       { title: "Dominio + SSL", detail: projectCostsLabel || "No cargado", price: projectCostsTotal ? `${MONEY_USD.format(projectCostsTotal)} equiv.` : MONEY_USD.format(0) },
+      ...(isEcommerce ? [
+        { title: "Plataforma E-commerce", detail: ecommerceData.platform, price: "Incluido" },
+        { title: "Carga de productos", detail: ecommerceData.productLoadMode === "runia" ? `${ecommerceData.productQuantity} productos` : "La carga la realiza el cliente", price: ecommerceData.productLoadMode === "runia" ? usdLabel(ecommerceData.productLoadPrice) : "Sin cargo" },
+        { title: "Carga de fotografias", detail: ecommerceData.photoLoadEnabled ? `${ecommerceData.photoQuantity || "A definir"} fotos` : "No incluida", price: ecommerceData.photoLoadEnabled ? usdLabel(ecommerceData.photoLoadPrice) : "No aplica" }
+      ] : []),
       { title: "Descuento aplicado", detail: discountScopeNote, price: discountLabel },
       { title: "Inversion inicial - pago unico", detail: "Desarrollo completo segun alcance indicado", price: MONEY_USD.format(total), featured: true }
     ];
@@ -2611,6 +2773,11 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
       "La entrega queda sujeta al alcance elegido y a la disponibilidad del material.",
       "Si aparecen integraciones nuevas, se definen y cotizan por separado."
     ];
+    if (isEcommerce) {
+      assumptions.push(`Plataforma E-commerce definida: ${ecommerceData.platform}.`);
+      assumptions.push(ecommerceData.productLoadMode === "runia" ? `La carga inicial contempla ${ecommerceData.productQuantity} productos segun el material recibido.` : "La carga inicial de productos queda a cargo del cliente.");
+      if (ecommerceData.photoLoadEnabled) assumptions.push(`La carga de fotografias contempla ${ecommerceData.photoQuantity || "cantidad a definir"} fotos.`);
+    }
 
     preview.innerHTML = `
       <div class="proposal-master proposal-master-commercial" id="proposalDocument">
@@ -2935,17 +3102,25 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
       brandName,
       reference
     } = data;
+    currentBudgetId = currentBudgetId || generateBudgetId();
+    currentLeadId = currentLeadId || resolveBudgetLeadId(values);
     const payload = {
       timestamp: new Date().toISOString(),
       origen: "Presupuestador Runia Web",
       estado_lead: "Presupuesto guardado",
       accion: "Guardar presupuesto",
+      budget_id: currentBudgetId,
+      lead_id: currentLeadId,
       referencia: reference,
       modo: data.mode,
       cliente: values.client || "",
       empresa: values.company || "",
       rubro: values.industry || "",
+      email: values.email || "",
+      whatsapp: values.whatsapp || "",
       vendedor_partner: values.seller || values.partnerName || "",
+      partner_name: values.partnerName || "",
+      partner_code: values.partnerCode || "",
       marca_pdf: brandName,
       plan: selectedType.name,
       precio_base_usd: base,
@@ -2975,14 +3150,19 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
       tiempo_estimado: values.time || "",
       validez: validity,
       fecha_presupuesto: proposalDate,
-      condiciones: values.terms || ""
+      condiciones: values.terms || "",
+      estado_budget: "Borrador",
+      share_url: getShareUrl()
     };
     saveButtons.forEach((button) => {
       button.disabled = true;
       button.textContent = "Guardando...";
     });
     if (saveStatus) saveStatus.textContent = "Guardando presupuesto...";
-    const saved = await sendToGoogleSheets(payload, "Presupuestador Runia Web");
+    const legacySaved = await sendToGoogleSheets(payload, "Presupuestador Runia Web");
+    const budgetSaved = await sendBudgetToAdminApi(payload);
+    const saved = legacySaved || budgetSaved;
+    rememberBudgetIdentity(values, currentBudgetId, currentLeadId);
     let stored = [];
     try {
       stored = JSON.parse(localStorage.getItem("runia_presupuestos") || "[]");
@@ -3068,6 +3248,28 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
     const maintenancePrice = form.elements.extraPrice_maintenance;
     const monthlyClientPrice = form.elements.monthlyClientPrice;
     if (maintenancePrice && monthlyClientPrice) maintenancePrice.value = monthlyClientPrice.value || "0";
+  };
+
+  const syncEcommerceFields = () => {
+    const isEcommerce = form.elements.webType?.value === "ecommerce";
+    form.querySelectorAll("[data-ecommerce-fields]").forEach((element) => {
+      element.hidden = !isEcommerce;
+    });
+    form.querySelectorAll("[data-ecommerce-extra]").forEach((element) => {
+      element.hidden = !isEcommerce;
+      if (!isEcommerce) {
+        const input = element.querySelector('input[type="checkbox"]');
+        if (input) input.checked = false;
+      }
+    });
+    const productPricing = form.querySelector("[data-product-load-pricing]");
+    const productMode = form.elements.productLoadMode?.value || "client";
+    if (productPricing) productPricing.hidden = !isEcommerce || productMode !== "runia";
+    const quantity = form.elements.productLoadQuantity?.value || "50";
+    const tierInput = form.elements["productLoadPrice_" + quantity];
+    if (form.elements.productLoadSelectedPrice) {
+      form.elements.productLoadSelectedPrice.value = tierInput?.value || "0";
+    }
   };
 
   const renderPartnerPricingPanels = () => {
@@ -3176,6 +3378,7 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
 
   form.addEventListener("input", (event) => {
     if (event.target?.name === "monthlyClientPrice") syncMaintenancePricing();
+    if (event.target?.name === "productLoadMode" || event.target?.name === "productLoadQuantity" || event.target?.name?.startsWith("productLoadPrice_")) syncEcommerceFields();
     renderBudget();
     renderPartnerPricingPanels();
     renderWizardSummary();
@@ -3212,9 +3415,13 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
       syncBasePrice(true);
       resetWizardForMode();
     }
-    if (event.target?.name === "webType") syncBasePrice(true);
+    if (event.target?.name === "webType") {
+      syncBasePrice(true);
+      syncEcommerceFields();
+    }
     if (event.target?.name === "maintenanceMode") syncMaintenanceMode();
     if (event.target?.name === "monthlyClientPrice") syncMaintenancePricing();
+    if (event.target?.name === "productLoadMode" || event.target?.name === "productLoadQuantity" || event.target?.name?.startsWith("productLoadPrice_")) syncEcommerceFields();
     renderBudget();
     renderPartnerPricingPanels();
     renderWizardSummary();
@@ -3246,6 +3453,11 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
     const isPartner = data.mode === "partner";
     const oneTimeExtrasLabel = data.oneTimeExtras.length ? data.oneTimeExtras.map((item) => item.name).join(", ") : "Sin extras";
     const monthlyLabel = data.monthlyTotal ? `${MONEY_USD.format(data.monthlyTotal)}/mes` : "Sin mantenimiento";
+    const ecommerceRows = data.ecommerceData?.isEcommerce ? [
+      ["Plataforma", data.ecommerceData.platform || "-"],
+      ["Carga de productos", data.ecommerceData.productLoadMode === "runia" ? `${data.ecommerceData.productQuantity} productos por Runia` : "La realiza el cliente"],
+      ["Carga de fotos", data.ecommerceData.photoLoadEnabled ? `${data.ecommerceData.photoQuantity || "A definir"} fotos` : "No incluida"]
+    ] : [];
     const rows = [
       ["Modo", isPartner ? "Partner" : "Runia Web"],
       ["Cliente", values.client || "-"],
@@ -3269,6 +3481,10 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
       ["Extras únicos", MONEY_USD.format(data.extrasTotal || 0)],
       ["Dominio", data.domainCostArs ? `${MONEY_ARS.format(data.domainCostArs)} / ${MONEY_USD.format(data.domainCost || 0)}` : "No cargado"],
       ["SSL", data.sslCostArs ? `${MONEY_ARS.format(data.sslCostArs)} / ${MONEY_USD.format(data.sslCost || 0)}` : "No cargado"],
+      ...(data.ecommerceData?.isEcommerce ? [
+        ["Productos", data.ecommerceData.productLoadMode === "runia" ? `${data.ecommerceData.productQuantity} / ${MONEY_USD.format(data.ecommerceData.productLoadPrice || 0)}` : "Cliente / USD 0"],
+        ["Fotografias", data.ecommerceData.photoLoadEnabled ? `${data.ecommerceData.photoQuantity || "A definir"} / ${MONEY_USD.format(data.ecommerceData.photoLoadPrice || 0)}` : "No aplica"]
+      ] : []),
       ["Descuento", MONEY_USD.format(data.discount || 0)],
       ["Total pago único", MONEY_USD.format(data.total || 0)]
     ];
@@ -3402,6 +3618,7 @@ Tiempo estimado: ${values.time || "Según alcance"}`;
   if (form.elements.date && !form.elements.date.value) form.elements.date.value = new Date().toISOString().slice(0, 10);
   syncBasePrice();
   if (!isSharedProposal) syncMaintenanceMode();
+  syncEcommerceFields();
   renderBudget();
   if (isSharedProposal) {
     mountSharedProposalView();
@@ -3429,6 +3646,9 @@ const initBrief = () => {
   const params = new URLSearchParams(window.location.search);
   const adminParam = params.get("admin");
   const isAdmin = adminParam === "true";
+  const briefLeadId = params.get("lead_id") || params.get("leadId") || "";
+  const briefBudgetId = params.get("budget_id") || params.get("budgetId") || "";
+  const briefContext = { leadId: briefLeadId, budgetId: briefBudgetId, reference: "", lead: null, budget: null };
 
   if (!isAdmin && adminPanel) {
     adminPanel.remove();
@@ -3437,6 +3657,57 @@ const initBrief = () => {
   if (params.get("negocio") && form.querySelector('[name="business"]')) form.querySelector('[name="business"]').value = params.get("negocio");
   if (params.get("whatsapp") && form.querySelector('[name="whatsapp"]')) form.querySelector('[name="whatsapp"]').value = params.get("whatsapp");
 
+  const ensureHiddenField = (name, value = "") => {
+    let field = form.querySelector(`[name="${name}"]`);
+    if (!field) {
+      field = document.createElement("input");
+      field.type = "hidden";
+      field.name = name;
+      form.appendChild(field);
+    }
+    field.value = value || "";
+    return field;
+  };
+
+  const setBriefField = (name, value) => {
+    const field = form.querySelector(`[name="${name}"]`);
+    if (!field || !value || String(field.value || "").trim()) return;
+    field.value = value;
+  };
+
+  const preloadBriefContext = async () => {
+    if (!briefLeadId && !briefBudgetId) return;
+    ensureHiddenField("lead_id", briefLeadId);
+    ensureHiddenField("budget_id", briefBudgetId);
+
+    try {
+      if (briefLeadId) {
+        const leadData = await fetchAdminApi("getCrmLeadById", { id: briefLeadId });
+        if (leadData?.success && leadData.lead) briefContext.lead = leadData.lead;
+      }
+      if (briefBudgetId) {
+        const budgetData = await fetchAdminApi("getBudgetById", { budget_id: briefBudgetId });
+        if (budgetData?.success && budgetData.budget) briefContext.budget = budgetData.budget;
+      }
+    } catch (error) {
+      console.warn("No se pudo precargar el brief desde CRM", error);
+    }
+
+    const lead = briefContext.lead || {};
+    const budget = briefContext.budget || {};
+    briefContext.reference = budget.referencia || budget.reference || "";
+    ensureHiddenField("referencia_presupuesto", briefContext.reference);
+    ensureHiddenField("projectType", budget.plan || "");
+    ensureHiddenField("clientName", lead.nombre || budget.cliente || "");
+
+    setBriefField("business", lead.empresa || budget.empresa || "");
+    setBriefField("industry", budget.rubro || lead.rubro || "");
+    setBriefField("whatsapp", lead.whatsapp || budget.whatsapp || "");
+    setBriefField("email", lead.email || budget.email || "");
+    setBriefField("primaryCta", lead.whatsapp ? "Consultar por WhatsApp" : "Contactar");
+
+    renderAdminOutput();
+  };
   const listText = (items) => items.length ? items.join(", ") : "-";
   const hasAnyText = (...items) => items.some((item) => String(item || "").trim().length > 0);
 
@@ -3709,6 +3980,8 @@ const initBrief = () => {
     }
   });
 
+  preloadBriefContext();
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (submitButton?.disabled) return;
@@ -3718,7 +3991,10 @@ const initBrief = () => {
     const payload = {
       type: "brief",
       fecha: new Date().toISOString(),
-      nombre: values.contactName || values.name || values.business || "",
+      lead_id: briefContext.leadId || values.lead_id || "",
+      budget_id: briefContext.budgetId || values.budget_id || "",
+      referencia_presupuesto: briefContext.reference || values.referencia_presupuesto || "",
+      nombre: values.contactName || values.clientName || values.name || values.business || "",
       empresa: values.business || "",
       whatsapp: values.whatsapp || "",
       email: values.email || "",
@@ -3730,9 +4006,9 @@ const initBrief = () => {
         funcionalidades: features
       },
       resumen: summary,
-      origen: "Brief Runia Web",
+      origen: briefContext.leadId ? "CRM" : "Brief Runia Web",
       estado_lead: "Brief recibido",
-      presupuesto_generado: "Postventa",
+      presupuesto_generado: briefContext.reference || "Postventa",
       seguimiento: "Revisar materiales e iniciar producción",
       email_automatico: "pendiente",
       confirmacion_recepcion: "pendiente"
@@ -3744,6 +4020,19 @@ const initBrief = () => {
     }
 
     await sendToGoogleSheets(payload, "brief");
+
+    if (payload.lead_id) {
+      try {
+        await fetchAdminApi("updateCrmLeadBriefStatus", {
+          lead_id: payload.lead_id,
+          budget_id: payload.budget_id || "",
+          brief_status: "recibido",
+          referencia: payload.referencia_presupuesto || ""
+        });
+      } catch (error) {
+        console.warn("No se pudo actualizar estado de brief en CRM", error);
+      }
+    }
 
     if (confirmation) {
       form.hidden = true;
