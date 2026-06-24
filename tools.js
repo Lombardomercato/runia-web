@@ -1,6 +1,6 @@
 const MONEY_USD = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 const MONEY_ARS = new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 });
-const GOOGLE_SHEETS_ENDPOINT = window.RUNIA_SHEETS_ENDPOINT || "https://script.google.com/macros/s/AKfycbwPLx1eoiamVc_WR4JL7oUWsMnNFQ7LCFfgTJd8D5ZnKVWTIEtmC2dZXZMzMmvtg6YC8Q/exec";
+const GOOGLE_SHEETS_ENDPOINT = window.RUNIA_SHEETS_ENDPOINT || "https://script.google.com/macros/s/AKfycbzC3x53JdT5hzF7pPHbNd4LRSBf8nG1vAaYe7trQt3zT_RWsblav3k2xrvhv6lkDtc-0Q/exec";
 const GOOGLE_SHEETS_ADMIN_TOKEN = window.RUNIA_SHEETS_ADMIN_TOKEN || "runia_admin_2026";
 
 const PACKS = {

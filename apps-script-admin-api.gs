@@ -12,6 +12,7 @@
 
 const ADMIN_API_TOKEN = "runia_admin_2026";
 const CRM_SHEET_NAME = "CRM Leads";
+const BRIEF_SHEET_NAME = "Briefs Postventa";
 const BUDGETS_SHEET_NAME = "Presupuestos";
 const BUDGET_STATES = ["Borrador", "Enviado", "Aprobado", "Rechazado", "En produccion"];
 const PROJECTS_SHEET_NAME = "Proyectos";
@@ -238,20 +239,16 @@ function listBriefsForAdmin_() {
 }
 
 function getBriefSheetForAdmin_() {
-  if (typeof SHEETS === "undefined" || !SHEETS.brief) {
-    throw new Error("No existe SHEETS.brief en el Apps Script actual");
-  }
-
+  const sheetName = typeof SHEETS !== "undefined" && SHEETS.brief ? SHEETS.brief : BRIEF_SHEET_NAME;
   const spreadsheet = getSpreadsheetForAdmin_();
-  const sheet = spreadsheet.getSheetByName(SHEETS.brief);
+  const sheet = spreadsheet.getSheetByName(sheetName);
 
   if (!sheet) {
-    throw new Error('No existe la hoja "' + SHEETS.brief + '"');
+    throw new Error('No existe la hoja "' + sheetName + '"');
   }
 
   return sheet;
 }
-
 function getCrmSheetForAdmin_() {
   const spreadsheet = getSpreadsheetForAdmin_();
   let sheet = spreadsheet.getSheetByName(CRM_SHEET_NAME);

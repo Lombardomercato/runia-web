@@ -1,5 +1,5 @@
 const ADMIN_PASSWORD = "RuniaWeb1_.";
-const ADMIN_API_URL = "https://script.google.com/macros/s/AKfycbwPLx1eoiamVc_WR4JL7oUWsMnNFQ7LCFfgTJd8D5ZnKVWTIEtmC2dZXZMzMmvtg6YC8Q/exec";
+const ADMIN_API_URL = "https://script.google.com/macros/s/AKfycbzC3x53JdT5hzF7pPHbNd4LRSBf8nG1vAaYe7trQt3zT_RWsblav3k2xrvhv6lkDtc-0Q/exec";
 const ADMIN_API_TOKEN = "runia_admin_2026";
 
 const SESSION_KEY = "runia_admin_session";
