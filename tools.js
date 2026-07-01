@@ -2571,6 +2571,7 @@ const initBudget = () => {
     const {
       values,
       selectedType,
+      ecommerceData,
       oneTimeExtras,
       recurringExtras,
       mode,
